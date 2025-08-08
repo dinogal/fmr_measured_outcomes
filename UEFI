@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEFI - Upper Extremity Functional Index</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f7f7f7;
+    -webkit-overflow-scrolling: touch;
+  }
+  h1 { color: #003366; }
+  .card {
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  label.field {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  input[type="text"], input[type="date"] {
+    width: 100%;
+    max-width: 700px;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .question {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .scale {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    align-items: center;
+  }
+  label.choice {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .guide {
+    font-size: 0.85em;
+    color: #555;
+    margin: 4px 0;
+    width: 100%;
+  }
+  .results {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+</style>
+</head>
+<body>
+
+<h1>Upper Extremity Functional Index (UEFI)</h1>
+<p>We are interested in knowing whether you are having any difficulty at all with the activities listed below because of your upper limb problem. Please answer each question.</p>
+
+<div class="card">
+  <label class="field">Name:
+    <input type="text" id="name" name="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+  </label>
+  <label class="field">Date of assessment:
+    <input type="date" id="date" name="date">
+  </label>
+</div>
+
+<form id="uefi-form">
+  <div id="questions-container"></div>
+
+  <div class="results">
+    Total Score: <span id="total">0</span> / 80<br>
+    Percentage: <span id="percentage">0</span>%
+  </div>
+</form>
+
+<script>
+const questions = [
+  "Any of your usual work, housework, or school activities",
+  "Your usual hobbies, recreational or sporting activities",
+  "Lifting a bag of groceries to waist level",
+  "Lifting a bag of groceries above your head",
+  "Grooming your hair",
+  "Pushing up on your hands (eg, from bathtub or chair)",
+  "Preparing food (eg, peeling, cutting)",
+  "Driving",
+  "Vacuuming, sweeping or raking",
+  "Dressing",
+  "Doing up buttons",
+  "Using tools or appliances",
+  "Opening doors",
+  "Cleaning",
+  "Tying or lacing shoes",
+  "Sleeping",
+  "Laundering clothes (eg, washing, ironing, folding)",
+  "Opening a jar",
+  "Throwing a ball",
+  "Carrying a small suitcase with your affected limb"
+];
+
+const container = document.getElementById('questions-container');
+
+questions.forEach((q, idx) => {
+  const qDiv = document.createElement('div');
+  qDiv.className = 'question';
+  qDiv.innerHTML = `
+    <strong>${idx + 1}.</strong> ${q}
+    <div class="guide">0 = Extreme difficulty or unable to perform activity &nbsp;&nbsp;|&nbsp;&nbsp; 4 = No difficulty</div>
+    <div class="scale">
+      <label class="choice"><input type="radio" name="q${idx}" value="0">0</label>
+      <label class="choice"><input type="radio" name="q${idx}" value="1">1</label>
+      <label class="choice"><input type="radio" name="q${idx}" value="2">2</label>
+      <label class="choice"><input type="radio" name="q${idx}" value="3">3</label>
+      <label class="choice"><input type="radio" name="q${idx}" value="4">4</label>
+    </div>`;
+  container.appendChild(qDiv);
+});
+
+const form = document.getElementById('uefi-form');
+form.addEventListener('change', () => {
+  let sum = 0;
+  questions.forEach((_, idx) => {
+    const selected = form.querySelector(`input[name="q${idx}"]:checked`);
+    if (selected) {
+      sum += parseInt(selected.value);
+    }
+  });
+  document.getElementById('total').textContent = sum;
+  document.getElementById('percentage').textContent = ((sum / 80) * 100).toFixed(1);
+});
+</script>
+
+</body>
+</html>
+
+
