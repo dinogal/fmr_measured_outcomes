@@ -5,7 +5,47 @@ Measured outcomes
 <head>
   <meta charset="UTF-8">
   <title>Select Questionnaire</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">   }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .btn-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 20px;
+    }
+    a.button {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 1.1em;
+      border-radius: 6px;
+      background: #2a5d9f;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-weight: bold;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    a.button:hover {
+      background: #1d3e6b;}
   </style>
 </head>
 <body>
