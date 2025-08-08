@@ -9,6 +9,21 @@
       margin: 40px auto;
       text-align: center;
     }
+    .logo {
+      width: 200px;
+      margin-bottom: 24px;
+    }
+    .main-title,
+    .subtitle {
+      font-size: 22pt; /* 2pt smaller than default h1 */
+      margin-bottom: 0.5em;
+      font-weight: bold;
+      font-family: inherit;
+    }
+    .subtitle {
+      margin-top: 1.5em;
+      font-weight: bold;
+    }
     .btn-list {
       margin-top: 2em;
       display: flex;
@@ -32,8 +47,9 @@
 </head>
 <body>
   <div class="container">
-    <img src="fmrlogo.png" alt="Company Logo" style="width:200px; margin-bottom: 24px;">
-    <h1>Measured Outcomes</h1>
+    <img src="fmrlogo.png" alt="Company Logo" class="logo">
+    <div class="main-title">Measured Outcomes</div>
+    <div class="subtitle">Select a Questionnaire</div>
     <div class="btn-list">
       <a class="button" href="Orebro.html">1. Örebro Musculoskeletal Pain Questionnaire</a>
       <a class="button" href="QuickDash.html">2. QuickDASH Questionnaire</a>
