@@ -62,6 +62,11 @@
   .green { color: green; }
   .orange { color: darkorange; }
   .red { color: red; }
+  .disclaimer {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
@@ -73,8 +78,11 @@
   <label class="field">Name:
     <input type="text" id="name" name="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
   </label>
-  <label class="field">Date of assessment:
-    <input type="date" id="date" name="date">
+  <label class="field">Date of Birth:
+    <input type="date" id="dob" name="dob">
+  </label>
+  <label class="field">Date of Service:
+    <input type="date" id="dos" name="dos">
   </label>
 </div>
 
@@ -82,28 +90,31 @@
   <div id="questions-container"></div>
 
   <div class="results">
-    Subtotal Q1 Yes answers: <span id="subtotal">0</span>  
+    Subtotal Q1 Yes answers: <span id="subtotal">0</span>
     <div id="interpretation"></div>
     <br>
     Screening Result: <span id="screen-result" class="green">Negative</span>
+    <div class="disclaimer">
+      This screening is not a diagnosis. Results should be interpreted by a qualified healthcare provider.
+    </div>
   </div>
 </form>
 
 <script>
 const q1Items = [
-  "Has there ever been a period of time when you were not your usual self and you felt so good or so hyper that other people thought you were not your normal self or you were so hyper that you got into trouble?",
-  "You were so irritable that you shouted at people or started fights or arguments?",
-  "You felt much more self-confident than usual?",
-  "You got much less sleep than usual and found you didn’t really miss it?",
-  "You were more talkative or spoke much faster than usual?",
-  "Thoughts raced through your head or you couldn’t slow your mind down?",
-  "You were so easily distracted by things around you that you had trouble concentrating or staying on track?",
-  "You had much more energy than usual?",
-  "You were much more active or did many more things than usual?",
-  "You were much more social or outgoing than usual (for example, you telephoned friends in the middle of the night)?",
-  "You were much more interested in sex than usual?",
-  "You did things that were unusual for you or that other people might have thought were excessive, foolish, or risky?",
-  "Spending money got you or your family into trouble?"
+  "You felt <b>so good or so hyper</b> that other people thought you were not your normal self or you were so hyper that you got into trouble.",
+  "You were <b>so irritable</b> that you shouted at people or started fights or arguments.",
+  "You felt <b>much more self-confident</b> than usual.",
+  "You got <b>much less sleep</b> than usual and found you didn’t really miss it.",
+  "You were <b>more talkative</b> or spoke much faster than usual.",
+  "Thoughts <b>raced through your head</b> or you couldn’t slow your mind down.",
+  "You were <b>so easily distracted</b> by things around you that you had trouble concentrating or staying on track.",
+  "You had <b>much more energy</b> than usual.",
+  "You were <b>much more active</b> or did many more things than usual.",
+  "You were <b>much more social or outgoing</b> than usual (for example, you telephoned friends in the middle of the night).",
+  "You were <b>much more interested in sex</b> than usual.",
+  "You did things that were <b>unusual for you</b> or that other people might have thought were excessive, foolish, or risky.",
+  "Spending money <b>got you or your family into trouble</b>."
 ];
 
 const container = document.getElementById('questions-container');
@@ -120,7 +131,7 @@ q1Items.forEach((q, idx) => {
 q1HTML += `</div>`;
 container.innerHTML += q1HTML;
 
-// Question 2 (auto-filled)
+// Question 2
 container.innerHTML += `
 <div class="question">
   <strong>2. If you checked YES to 2 or more of the above, did several of these ever happen during the same period of time?</strong>
@@ -133,12 +144,12 @@ container.innerHTML += `
 // Question 3
 container.innerHTML += `
 <div class="question">
-  <strong>3. How much of a problem did any of these cause you (like being unable to work; having family, money, or legal troubles; getting into arguments or fights)?</strong>
+  <strong>3. How much of a problem did any of these cause you</strong> (like being unable to work; having family, money, or legal troubles; getting into arguments or fights)?
   <div class="options">
     <label class="choice"><input type="radio" name="q3" value="none">No problem</label>
     <label class="choice"><input type="radio" name="q3" value="minor">Minor problem</label>
-    <label class="choice"><input type="radio" name="q3" value="moderate">Moderate problem</label>
-    <label class="choice"><input type="radio" name="q3" value="serious">Serious problem</label>
+    <label class="choice"><input type="radio" name="q3" value="moderate"><b>Moderate</b> problem</label>
+    <label class="choice"><input type="radio" name="q3" value="serious"><b>Serious</b> problem</label>
   </div>
 </div>`;
 
@@ -147,7 +158,7 @@ container.innerHTML += `
 <div class="question">
   <strong>4. Have any of your blood relatives had manic-depressive illness or bipolar disorder?</strong>
   <div class="options">
-    <label class="choice"><input type="radio" name="q4" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q4" value="yes"><b>Yes</b></label>
     <label class="choice"><input type="radio" name="q4" value="no">No</label>
   </div>
 </div>`;
@@ -157,7 +168,7 @@ container.innerHTML += `
 <div class="question">
   <strong>5. Has a health professional ever told you that you have manic-depressive illness or bipolar disorder?</strong>
   <div class="options">
-    <label class="choice"><input type="radio" name="q5" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q5" value="yes"><b>Yes</b></label>
     <label class="choice"><input type="radio" name="q5" value="no">No</label>
   </div>
 </div>`;
@@ -182,4 +193,31 @@ form.addEventListener('change', () => {
   }
 
   // Show subtotal and interpretation
-  document.getE
+  document.getElementById('subtotal').textContent = q1YesCount;
+  let interp = "";
+  let interpClass = "";
+  if (q1YesCount >= 7) { interp = "Possible need for further evaluation for bipolar disorder."; interpClass = "red"; }
+  else if (q1YesCount >= 4) { interp = "May need additional monitoring or support."; interpClass = "orange"; }
+  else { interp = "Unlikely to indicate bipolar disorder."; interpClass = "green"; }
+  document.getElementById('interpretation').innerHTML = `<span class="${interpClass}">${interp}</span>`;
+
+  // Final screening
+  const q2Val = form.querySelector('input[name="q2"]:checked')?.value;
+  const q3Val = form.querySelector('input[name="q3"]:checked')?.value;
+  let positive = false;
+  if (q1YesCount >= 7 && q2Val === "yes" && (q3Val === "moderate" || q3Val === "serious")) {
+    positive = true;
+  }
+  const screenResultEl = document.getElementById('screen-result');
+  if (positive) {
+    screenResultEl.textContent = "Positive";
+    screenResultEl.className = "red";
+  } else {
+    screenResultEl.textContent = "Negative";
+    screenResultEl.className = "green";
+  }
+});
+</script>
+
+</body>
+</html>
