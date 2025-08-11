@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Disorder Questionnaire (MDQ)</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f7f7f7;
+    -webkit-overflow-scrolling: touch;
+  }
+  h1 { color: #003366; }
+  .card {
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  label.field {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  input[type="text"], input[type="date"] {
+    width: 100%;
+    max-width: 700px;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .question {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 5px;
+  }
+  label.choice {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .results {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .green { color: green; }
+  .orange { color: darkorange; }
+  .red { color: red; }
+</style>
+</head>
+<body>
+
+<h1>Mood Disorder Questionnaire (MDQ)</h1>
+<p>Please answer each question based on your experiences.</p>
+
+<div class="card">
+  <label class="field">Name:
+    <input type="text" id="name" name="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+  </label>
+  <label class="field">Date of assessment:
+    <input type="date" id="date" name="date">
+  </label>
+</div>
+
+<form id="mdq-form">
+  <div id="questions-container"></div>
+
+  <div class="results">
+    Subtotal Q1 Yes answers: <span id="subtotal">0</span>  
+    <div id="interpretation"></div>
+    <br>
+    Screening Result: <span id="screen-result" class="green">Negative</span>
+  </div>
+</form>
+
+<script>
+const q1Items = [
+  "Has there ever been a period of time when you were not your usual self and you felt so good or so hyper that other people thought you were not your normal self or you were so hyper that you got into trouble?",
+  "You were so irritable that you shouted at people or started fights or arguments?",
+  "You felt much more self-confident than usual?",
+  "You got much less sleep than usual and found you didn’t really miss it?",
+  "You were more talkative or spoke much faster than usual?",
+  "Thoughts raced through your head or you couldn’t slow your mind down?",
+  "You were so easily distracted by things around you that you had trouble concentrating or staying on track?",
+  "You had much more energy than usual?",
+  "You were much more active or did many more things than usual?",
+  "You were much more social or outgoing than usual (for example, you telephoned friends in the middle of the night)?",
+  "You were much more interested in sex than usual?",
+  "You did things that were unusual for you or that other people might have thought were excessive, foolish, or risky?",
+  "Spending money got you or your family into trouble?"
+];
+
+const container = document.getElementById('questions-container');
+
+// Question 1
+let q1HTML = `<div class="question"><strong>1. In your lifetime, have you ever had any of the following occur?</strong>`;
+q1Items.forEach((q, idx) => {
+  q1HTML += `<div>${idx+1}. ${q}</div>
+  <div class="options">
+    <label class="choice"><input type="radio" name="q1_${idx}" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q1_${idx}" value="no">No</label>
+  </div>`;
+});
+q1HTML += `</div>`;
+container.innerHTML += q1HTML;
+
+// Question 2 (auto-filled)
+container.innerHTML += `
+<div class="question">
+  <strong>2. If you checked YES to 2 or more of the above, did several of these ever happen during the same period of time?</strong>
+  <div class="options">
+    <label class="choice"><input type="radio" name="q2" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q2" value="no">No</label>
+  </div>
+</div>`;
+
+// Question 3
+container.innerHTML += `
+<div class="question">
+  <strong>3. How much of a problem did any of these cause you (like being unable to work; having family, money, or legal troubles; getting into arguments or fights)?</strong>
+  <div class="options">
+    <label class="choice"><input type="radio" name="q3" value="none">No problem</label>
+    <label class="choice"><input type="radio" name="q3" value="minor">Minor problem</label>
+    <label class="choice"><input type="radio" name="q3" value="moderate">Moderate problem</label>
+    <label class="choice"><input type="radio" name="q3" value="serious">Serious problem</label>
+  </div>
+</div>`;
+
+// Question 4
+container.innerHTML += `
+<div class="question">
+  <strong>4. Have any of your blood relatives had manic-depressive illness or bipolar disorder?</strong>
+  <div class="options">
+    <label class="choice"><input type="radio" name="q4" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q4" value="no">No</label>
+  </div>
+</div>`;
+
+// Question 5
+container.innerHTML += `
+<div class="question">
+  <strong>5. Has a health professional ever told you that you have manic-depressive illness or bipolar disorder?</strong>
+  <div class="options">
+    <label class="choice"><input type="radio" name="q5" value="yes">Yes</label>
+    <label class="choice"><input type="radio" name="q5" value="no">No</label>
+  </div>
+</div>`;
+
+const form = document.getElementById('mdq-form');
+
+form.addEventListener('change', () => {
+  // Count Q1 Yes answers
+  let q1YesCount = 0;
+  q1Items.forEach((_, idx) => {
+    const selected = form.querySelector(`input[name="q1_${idx}"]:checked`);
+    if (selected && selected.value === "yes") q1YesCount++;
+  });
+  
+  // Auto-fill Q2
+  const q2Yes = form.querySelector('input[name="q2"][value="yes"]');
+  const q2No = form.querySelector('input[name="q2"][value="no"]');
+  if (q1YesCount >= 2) {
+    q2Yes.checked = true;
+  } else {
+    q2No.checked = true;
+  }
+
+  // Show subtotal and interpretation
+  document.getE
