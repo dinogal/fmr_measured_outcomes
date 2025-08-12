@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GAD-7 — Generalized Anxiety Disorder Questionnaire</title>
+<style>
+  :root{
+    --bg:#f7f7f7;
+    --card:#fff;
+    --accent:#0b66c3;
+    --muted:#666;
+    --green:#1a8a3d;
+    --orange:#d46a00;
+    --red:#c53030;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg);
+    -webkit-overflow-scrolling:touch;
+    color:#111;
+  }
+  .container{ max-width:920px; margin:18px auto; padding:18px; }
+  h1{ margin:0 0 6px 0; color:var(--accent); font-size:1.35rem; }
+  p.lead { margin:6px 0 14px 0; color:var(--muted); }
+  .card{ background:var(--card); border-radius:8px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); margin-bottom:14px; }
+  label.field{ display:block; margin-bottom:10px; font-weight:700; }
+  input[type="text"], input[type="date"]{ width:100%; max-width:720px; padding:8px 10px; font-size:1rem; border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box; }
+  form { margin-bottom: 30px; }
+  .qcard{ background:#fff; border-radius:8px; padding:12px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .qtitle { font-weight:700; margin-bottom:8px; }
+  .scale { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .scale label { display:flex; align-items:center; gap:6px; cursor:pointer; background:#fafafa; padding:6px 8px; border-radius:6px; border:1px solid transparent; }
+  .results { margin-top:10px; padding:12px; border-radius:8px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700; }
+  .muted-note { font-size:0.92rem; color:var(--muted); margin-top:8px; }
+  .disclaimer { font-size:0.9rem; color:#555; margin-top:10px; }
+  .green{ color:var(--green); } .orange{ color:var(--orange); } .red{ color:var(--red); }
+  @media (max-width:720px){
+    .container{ padding:12px; }
+    .scale { gap:8px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generalized Anxiety Disorder Questionnaire (GAD-7)</h1>
+    <p class="lead">Over the last 2 weeks, how often have you been bothered by the following problems? (0 = Not at all, 1 = Several days, 2 = More than half the days, 3 = Nearly every day)</p>
+
+    <div class="card">
+      <label class="field">Name:
+        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+      </label>
+      <label class="field">Date of Birth:
+        <input type="date" id="dob">
+      </label>
+      <label class="field">Date of Service:
+        <input type="date" id="dos">
+      </label>
+    </div>
+
+    <form id="gad7-form" class="card" autocomplete="off">
+      <!-- 7 Questions -->
+      <div class="qcard">
+        <div class="qtitle">1. Feeling nervous, anxious, or on edge</div>
+        <div class="scale">
+          <label><input type="radio" name="q1" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q1" value="1">Several days (1)</label>
+          <label><input type="radio" name="q1" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q1" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">2. Not being able to stop or control worrying</div>
+        <div class="scale">
+          <label><input type="radio" name="q2" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q2" value="1">Several days (1)</label>
+          <label><input type="radio" name="q2" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q2" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">3. Worrying too much about different things</div>
+        <div class="scale">
+          <label><input type="radio" name="q3" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q3" value="1">Several days (1)</label>
+          <label><input type="radio" name="q3" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q3" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">4. Trouble relaxing</div>
+        <div class="scale">
+          <label><input type="radio" name="q4" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q4" value="1">Several days (1)</label>
+          <label><input type="radio" name="q4" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q4" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">5. Being so restless that it is hard to sit still</div>
+        <div class="scale">
+          <label><input type="radio" name="q5" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q5" value="1">Several days (1)</label>
+          <label><input type="radio" name="q5" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q5" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">6. Becoming easily annoyed or irritable</div>
+        <div class="scale">
+          <label><input type="radio" name="q6" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q6" value="1">Several days (1)</label>
+          <label><input type="radio" name="q6" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q6" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">7. Feeling afraid as if something awful might happen</div>
+        <div class="scale">
+          <label><input type="radio" name="q7" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q7" value="1">Several days (1)</label>
+          <label><input type="radio" name="q7" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q7" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <!-- Difficulty question -->
+      <div class="qcard">
+        <div class="qtitle">If you checked off any problems, how difficult have these made it for you to do your work, take care of things at home, or get along with other people?</div>
+        <div class="scale">
+          <label><input type="radio" name="difficulty" value="not">Not difficult at all</label>
+          <label><input type="radio" name="difficulty" value="somewhat">Somewhat difficult</label>
+          <label><input type="radio" name="difficulty" value="very">Very difficult</label>
+          <label><input type="radio" name="difficulty" value="extremely">Extremely difficult</label>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results" id="resultsBox">
+        Total Score: <span id="total">0</span> / 21<br>
+        Severity: <span id="severity" class="green">Minimal</span><br>
+        <div class="muted-note">Interpretation: 0–4 Minimal, 5–9 Mild, 10–14 Moderate, 15–21 Severe</div>
+        <div class="muted-note">Note: This screening is not a diagnosis and should be interpreted in context of clinical evaluation.</div>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function(){
+  const form = document.getElementById('gad7-form');
+  const totalEl = document.getElementById('total');
+  const severityEl = document.getElementById('severity');
+
+  function compute() {
+    let sum = 0;
+    for (let i=1;i<=7;i++){
+      const sel = form.querySelector(`input[name="q${i}"]:checked`);
+      if (sel){
+        sum += Number(sel.value);
+      }
+    }
+    totalEl.textContent = sum;
+
+    let sev = "";
+    let cls = "";
+    if (sum <= 4) { sev = "Minimal"; cls = "green"; }
+    else if (sum <= 9) { sev = "Mild"; cls = "orange"; }
+    else if (sum <= 14) { sev = "Moderate"; cls = "orange"; }
+    else { sev = "Severe"; cls = "red"; }
+    severityEl.textContent = sev;
+    severityEl.className = cls;
+  }
+
+  form.addEventListener('change', compute);
+  compute();
+})();
+</script>
+</body>
+</html>
