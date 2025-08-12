@@ -246,7 +246,12 @@
     severityEl.textContent = sev;
     severityEl.className = cls;
   }
-
+<div class="results" id="resultsBox">
+  Total Score: <span id="total">0</span> / 56<br>
+  Percentage: <span id="percent">0%</span><br>
+  Severity: <span id="severity" class="green">Mild</span><br>
+  <div class="muted-note">Interpretation: &lt;17 = Mild, 18–24 = Mild to moderate, 25–30 = Moderate to severe</div>
+</div>
   form.addEventListener('change', compute);
   compute();
 })();
