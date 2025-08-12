@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PHQ-9 — Patient Health Questionnaire (Depression)</title>
+<style>
+  :root{
+    --bg:#f7f7f7;
+    --card:#fff;
+    --accent:#0b66c3;
+    --muted:#666;
+    --green:#1a8a3d;
+    --orange:#d46a00;
+    --red:#c53030;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg);
+    -webkit-overflow-scrolling:touch;
+    color:#111;
+  }
+  .container{ max-width:920px; margin:18px auto; padding:18px; }
+  h1{ margin:0 0 6px 0; color:var(--accent); font-size:1.35rem; }
+  p.lead { margin:6px 0 14px 0; color:var(--muted); }
+  .card{ background:var(--card); border-radius:8px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); margin-bottom:14px; }
+  label.field{ display:block; margin-bottom:10px; font-weight:700; }
+  input[type="text"], input[type="date"]{ width:100%; max-width:720px; padding:8px 10px; font-size:1rem; border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box; }
+  form { margin-bottom: 30px; }
+  .qcard{ background:#fff; border-radius:8px; padding:12px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .qtitle { font-weight:700; margin-bottom:8px; }
+  .scale { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .scale label { display:flex; align-items:center; gap:6px; cursor:pointer; background:#fafafa; padding:6px 8px; border-radius:6px; border:1px solid transparent; }
+  .guide { font-size:0.92rem; color:var(--muted); margin-bottom:8px; }
+  .results { margin-top:10px; padding:12px; border-radius:8px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700; }
+  .muted-note { font-size:0.92rem; color:var(--muted); margin-top:8px; }
+  .disclaimer { font-size:0.9rem; color:#555; margin-top:10px; }
+  .green{ color:var(--green); } .orange{ color:var(--orange); } .red{ color:var(--red); }
+  @media (max-width:720px){
+    .container{ padding:12px; }
+    .scale { gap:8px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Patient Health Questionnaire (PHQ-9)</h1>
+    <p class="lead">Over the last 2 weeks, how often have you been bothered by any of the following problems? (0 = Not at all, 1 = Several days, 2 = More than half the days, 3 = Nearly every day)</p>
+
+    <div class="card">
+      <label class="field">Name:
+        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+      </label>
+      <label class="field">Date of Birth:
+        <input type="date" id="dob">
+      </label>
+      <label class="field">Date of Service:
+        <input type="date" id="dos">
+      </label>
+    </div>
+
+    <form id="phq9-form" class="card" autocomplete="off">
+      <!-- Q1 - Q9 -->
+      <div class="qcard">
+        <div class="qtitle">1. Little interest or pleasure in doing things</div>
+        <div class="scale">
+          <label><input type="radio" name="q1" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q1" value="1">Several days (1)</label>
+          <label><input type="radio" name="q1" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q1" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">2. Feeling down, depressed, or hopeless</div>
+        <div class="scale">
+          <label><input type="radio" name="q2" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q2" value="1">Several days (1)</label>
+          <label><input type="radio" name="q2" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q2" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">3. Trouble falling or staying asleep, or sleeping too much</div>
+        <div class="scale">
+          <label><input type="radio" name="q3" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q3" value="1">Several days (1)</label>
+          <label><input type="radio" name="q3" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q3" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">4. Feeling tired or having little energy</div>
+        <div class="scale">
+          <label><input type="radio" name="q4" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q4" value="1">Several days (1)</label>
+          <label><input type="radio" name="q4" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q4" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">5. Poor appetite or overeating</div>
+        <div class="scale">
+          <label><input type="radio" name="q5" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q5" value="1">Several days (1)</label>
+          <label><input type="radio" name="q5" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q5" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">6. Feeling bad about yourself — or that you are a failure or have let yourself or your family down</div>
+        <div class="scale">
+          <label><input type="radio" name="q6" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q6" value="1">Several days (1)</label>
+          <label><input type="radio" name="q6" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q6" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">7. Trouble concentrating on things, such as reading the newspaper or watching television</div>
+        <div class="scale">
+          <label><input type="radio" name="q7" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q7" value="1">Several days (1)</label>
+          <label><input type="radio" name="q7" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q7" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">8. Moving or speaking so slowly that other people could have noticed; or the opposite — being so fidgety or restless that you have been moving a lot more than usual</div>
+        <div class="scale">
+          <label><input type="radio" name="q8" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q8" value="1">Several days (1)</label>
+          <label><input type="radio" name="q8" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q8" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle">9. Thoughts that you would be better off dead or of hurting yourself in some way</div>
+        <div class="scale">
+          <label><input type="radio" name="q9" value="0">Not at all (0)</label>
+          <label><input type="radio" name="q9" value="1">Several days (1)</label>
+          <label><input type="radio" name="q9" value="2">More than half the days (2)</label>
+          <label><input type="radio" name="q9" value="3">Nearly every day (3)</label>
+        </div>
+      </div>
+
+      <!-- Difficulty question (not scored) -->
+      <div class="qcard">
+        <div class="qtitle">If you checked off any problems, how difficult have these made it for you to do your work, take care of things at home, or get along with other people?</div>
+        <div class="scale">
+          <label><input type="radio" name="difficulty" value="not">Not difficult at all</label>
+          <label><input type="radio" name="difficulty" value="somewhat">Somewhat difficult</label>
+          <label><input type="radio" name="difficulty" value="very">Very difficult</label>
+          <label><input type="radio" name="difficulty" value="extremely">Extremely difficult</label>
+        </div>
+      </div>
+
+      <div class="results" id="resultsBox">
+        Total Score: <span id="total">0</span> / 27<br>
+        Severity: <span id="severity" class="green">None-minimal</span><br>
+        <div id="syndrome" class="muted-note">Syndrome criteria: <span id="syndromeResult">None met</span></div>
+        <div class="muted-note">Note: PHQ-9 score ≥ 10 suggests possible major depression (sensitivity/specificity ~88%). This screening is not a diagnosis.</div>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function(){
+  const form = document.getElementById('phq9-form');
+  const totalEl = document.getElementById('total');
+  const severityEl = document.getElementById('severity');
+  const syndromeEl = document.getElementById('syndromeResult');
+
+  function compute() {
+    // sum score
+    let sum = 0;
+    let answered = 0;
+    for (let i=1;i<=9;i++){
+      const sel = form.querySelector(`input[name="q${i}"]:checked`);
+      if (sel){
+        sum += Number(sel.value);
+        answered++;
+      }
+    }
+    totalEl.textContent = sum;
+
+    // severity
+    let sev = "";
+    let cls = "";
+    if (sum <= 4) { sev = "None-minimal"; cls = "green"; }
+    else if (sum <= 9) { sev = "Mild"; cls = "orange"; }
+    else if (sum <= 14) { sev = "Moderate"; cls = "orange"; }
+    else if (sum <= 19) { sev = "Moderately severe"; cls = "red"; }
+    else { sev = "Severe"; cls = "red"; }
+    severityEl.textContent = sev;
+    severityEl.className = cls;
+
+    // MDD / Other Depressive Syndrome criteria:
+    // Count items with value >= 2 (i.e., "more than half the days" or "nearly every day")
+    let ge2count = 0;
+    for (let i=1;i<=9;i++){
+      const val = form.querySelector(`input[name="q${i}"]:checked`)?.value;
+      if (val !== undefined && Number(val) >= 2) ge2count++;
+    }
+    // check q1 or q2 >=2
+    const q1val = Number(form.querySelector('input[name="q1"]:checked')?.value ?? -1);
+    const q2val = Number(form.querySelector('input[name="q2"]:checked')?.value ?? -1);
+    const q1or2 = (q1val >= 2) || (q2val >= 2);
+
+    let syndromeText = "None met";
+    if (ge2count >= 5 && q1or2) {
+      syndromeText = "Meets MDD (Major Depressive Disorder) criteria (5+ symptoms ≥ 'more than half the days' and item 1 or 2 ≥ 'more than half the days').";
+      syndromeEl.className = "red";
+    } else if (ge2count >= 2 && ge2count <= 4 && q1or2) {
+      syndromeText = "Meets Other Depressive Syndrome criteria (2–4 symptoms ≥ 'more than half the days' and item 1 or 2 ≥ 'more than half the days').";
+      syndromeEl.className = "orange";
+    } else {
+      syndromeEl.className = "green";
+    }
+    syndromeEl.textContent = syndromeText;
+
+    // If not all items answered, still show score but note might be incomplete (optional)
+    // (we don't hide result even if incomplete; clinician should verify)
+  }
+
+  form.addEventListener('change', compute);
+  compute();
+})();
+</script>
+</body>
+</html>
