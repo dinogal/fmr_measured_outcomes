@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lower Extremity Functional Scale (LEFS)</title>
+<style>
+  :root{
+    --bg:#f7f7f7;
+    --card:#fff;
+    --accent:#0b66c3;
+    --muted:#666;
+    --green:#1a8a3d;
+    --orange:#d46a00;
+    --red:#c53030;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg);
+    -webkit-overflow-scrolling:touch;
+    color:#111;
+  }
+  .container{
+    max-width:980px;
+    margin:18px auto;
+    padding:18px;
+  }
+  h1{ margin:0 0 8px 0; color:var(--accent); font-size:1.4rem; }
+  p.lead { margin:6px 0 18px 0; color:var(--muted); }
+  .card{
+    background:var(--card);
+    border-radius:8px;
+    padding:14px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.06);
+    margin-bottom:14px;
+  }
+  label.field{ display:block; margin-bottom:10px; font-weight:700; }
+  input[type="text"], input[type="date"]{
+    width:100%; max-width:720px; padding:8px 10px; font-size:1rem;
+    border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box;
+  }
+  .question {
+    background:#fff;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  }
+  .qtitle { font-weight:700; margin-bottom:6px; }
+  .guide { font-size:0.92rem; color:var(--muted); margin-bottom:8px; }
+  .options { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  label.choice {
+    display:flex; align-items:center; gap:8px; padding:6px 8px;
+    border-radius:6px; cursor:pointer; background:#fafafa;
+    border:1px solid transparent;
+  }
+  label.choice input { transform:translateY(1px); }
+  .results {
+    margin-top:10px; padding:12px; border-radius:8px; background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700;
+  }
+  .note { font-size:0.95rem; color:var(--muted); margin-top:8px; }
+  .small { font-size:0.9rem; color:var(--muted); margin-top:6px; }
+  @media (max-width:720px){
+    .container{ padding:12px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lower Extremity Functional Scale (LEFS)</h1>
+    <p class="lead">Please indicate how much difficulty you have with each activity today because of your lower limb problem. Choose one box per item.</p>
+
+    <div class="card">
+      <label class="field">Name:
+        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+      </label>
+      <label class="field">Date of Birth:
+        <input type="date" id="dob">
+      </label>
+      <label class="field">Date of Service:
+        <input type="date" id="dos">
+      </label>
+    </div>
+
+    <form id="lefs-form">
+      <!-- 20 questions -->
+      <div class="question">
+        <div class="qtitle">1. Any of your usual work, housework or school activities</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q1" value="0">0</label>
+          <label class="choice"><input type="radio" name="q1" value="1">1</label>
+          <label class="choice"><input type="radio" name="q1" value="2">2</label>
+          <label class="choice"><input type="radio" name="q1" value="3">3</label>
+          <label class="choice"><input type="radio" name="q1" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">2. Your usual hobbies, recreational or sporting activities</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q2" value="0">0</label>
+          <label class="choice"><input type="radio" name="q2" value="1">1</label>
+          <label class="choice"><input type="radio" name="q2" value="2">2</label>
+          <label class="choice"><input type="radio" name="q2" value="3">3</label>
+          <label class="choice"><input type="radio" name="q2" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">3. Getting into or out of the bath</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q3" value="0">0</label>
+          <label class="choice"><input type="radio" name="q3" value="1">1</label>
+          <label class="choice"><input type="radio" name="q3" value="2">2</label>
+          <label class="choice"><input type="radio" name="q3" value="3">3</label>
+          <label class="choice"><input type="radio" name="q3" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">4. Walking between rooms</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q4" value="0">0</label>
+          <label class="choice"><input type="radio" name="q4" value="1">1</label>
+          <label class="choice"><input type="radio" name="q4" value="2">2</label>
+          <label class="choice"><input type="radio" name="q4" value="3">3</label>
+          <label class="choice"><input type="radio" name="q4" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">5. Putting on your shoes or socks</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q5" value="0">0</label>
+          <label class="choice"><input type="radio" name="q5" value="1">1</label>
+          <label class="choice"><input type="radio" name="q5" value="2">2</label>
+          <label class="choice"><input type="radio" name="q5" value="3">3</label>
+          <label class="choice"><input type="radio" name="q5" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">6. Squatting</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q6" value="0">0</label>
+          <label class="choice"><input type="radio" name="q6" value="1">1</label>
+          <label class="choice"><input type="radio" name="q6" value="2">2</label>
+          <label class="choice"><input type="radio" name="q6" value="3">3</label>
+          <label class="choice"><input type="radio" name="q6" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">7. Lifting an object, like a bag of groceries from the floor</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q7" value="0">0</label>
+          <label class="choice"><input type="radio" name="q7" value="1">1</label>
+          <label class="choice"><input type="radio" name="q7" value="2">2</label>
+          <label class="choice"><input type="radio" name="q7" value="3">3</label>
+          <label class="choice"><input type="radio" name="q7" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">8. Performing light activities around your home</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q8" value="0">0</label>
+          <label class="choice"><input type="radio" name="q8" value="1">1</label>
+          <label class="choice"><input type="radio" name="q8" value="2">2</label>
+          <label class="choice"><input type="radio" name="q8" value="3">3</label>
+          <label class="choice"><input type="radio" name="q8" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">9. Performing heavy activities around your home</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q9" value="0">0</label>
+          <label class="choice"><input type="radio" name="q9" value="1">1</label>
+          <label class="choice"><input type="radio" name="q9" value="2">2</label>
+          <label class="choice"><input type="radio" name="q9" value="3">3</label>
+          <label class="choice"><input type="radio" name="q9" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">10. Getting into or out of a car</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q10" value="0">0</label>
+          <label class="choice"><input type="radio" name="q10" value="1">1</label>
+          <label class="choice"><input type="radio" name="q10" value="2">2</label>
+          <label class="choice"><input type="radio" name="q10" value="3">3</label>
+          <label class="choice"><input type="radio" name="q10" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">11. Walking 2 blocks</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q11" value="0">0</label>
+          <label class="choice"><input type="radio" name="q11" value="1">1</label>
+          <label class="choice"><input type="radio" name="q11" value="2">2</label>
+          <label class="choice"><input type="radio" name="q11" value="3">3</label>
+          <label class="choice"><input type="radio" name="q11" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">12. Walking a mile</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q12" value="0">0</label>
+          <label class="choice"><input type="radio" name="q12" value="1">1</label>
+          <label class="choice"><input type="radio" name="q12" value="2">2</label>
+          <label class="choice"><input type="radio" name="q12" value="3">3</label>
+          <label class="choice"><input type="radio" name="q12" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">13. Going up or down 10 stairs (about 1 flight of stairs)</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q13" value="0">0</label>
+          <label class="choice"><input type="radio" name="q13" value="1">1</label>
+          <label class="choice"><input type="radio" name="q13" value="2">2</label>
+          <label class="choice"><input type="radio" name="q13" value="3">3</label>
+          <label class="choice"><input type="radio" name="q13" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">14. Standing for 1 hour</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q14" value="0">0</label>
+          <label class="choice"><input type="radio" name="q14" value="1">1</label>
+          <label class="choice"><input type="radio" name="q14" value="2">2</label>
+          <label class="choice"><input type="radio" name="q14" value="3">3</label>
+          <label class="choice"><input type="radio" name="q14" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">15. Sitting for 1 hour</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q15" value="0">0</label>
+          <label class="choice"><input type="radio" name="q15" value="1">1</label>
+          <label class="choice"><input type="radio" name="q15" value="2">2</label>
+          <label class="choice"><input type="radio" name="q15" value="3">3</label>
+          <label class="choice"><input type="radio" name="q15" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">16. Running on even ground</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q16" value="0">0</label>
+          <label class="choice"><input type="radio" name="q16" value="1">1</label>
+          <label class="choice"><input type="radio" name="q16" value="2">2</label>
+          <label class="choice"><input type="radio" name="q16" value="3">3</label>
+          <label class="choice"><input type="radio" name="q16" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">17. Running on uneven ground</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q17" value="0">0</label>
+          <label class="choice"><input type="radio" name="q17" value="1">1</label>
+          <label class="choice"><input type="radio" name="q17" value="2">2</label>
+          <label class="choice"><input type="radio" name="q17" value="3">3</label>
+          <label class="choice"><input type="radio" name="q17" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">18. Making sharp turns while running fast</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q18" value="0">0</label>
+          <label class="choice"><input type="radio" name="q18" value="1">1</label>
+          <label class="choice"><input type="radio" name="q18" value="2">2</label>
+          <label class="choice"><input type="radio" name="q18" value="3">3</label>
+          <label class="choice"><input type="radio" name="q18" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">19. Hopping</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q19" value="0">0</label>
+          <label class="choice"><input type="radio" name="q19" value="1">1</label>
+          <label class="choice"><input type="radio" name="q19" value="2">2</label>
+          <label class="choice"><input type="radio" name="q19" value="3">3</label>
+          <label class="choice"><input type="radio" name="q19" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtitle">20. Rolling over in bed</div>
+        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="q20" value="0">0</label>
+          <label class="choice"><input type="radio" name="q20" value="1">1</label>
+          <label class="choice"><input type="radio" name="q20" value="2">2</label>
+          <label class="choice"><input type="radio" name="q20" value="3">3</label>
+          <label class="choice"><input type="radio" name="q20" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="results" id="resultsBox">
+        Total Score: <span id="total">0</span> / 80<br>
+        % of maximal function: <span id="percent">0.0</span>%<br>
+        <div id="leinterp" class="small"></div>
+        <div class="note">Minimal detectable change (MDC) = 9 points. Minimal clinically important difference (MCID) = 9 points.</div>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function(){
+  const form = document.getElementById('lefs-form');
+  const totalEl = document.getElementById('total');
+  const pctEl = document.getElementById('percent');
+  const interpEl = document.getElementById('leinterp');
+
+  function calc() {
+    let sum = 0;
+    let answered = 0;
+    for (let i = 1; i <= 20; i++) {
+      const sel = form.querySelector(`input[name="q${i}"]:checked`);
+      if (sel) {
+        sum += parseInt(sel.value, 10);
+        answered++;
+      }
+    }
+
+    // denominator is always 80 (LEFS uses all 20 items; if unanswered we still show max 80 but also show answered note)
+    const max = 80;
+    const pct = max > 0 ? (sum / max) * 100 : 0;
+
+    totalEl.textContent = sum;
+    pctEl.textContent = pct.toFixed(1);
+
+    // interpretation guidance (higher percent = better function)
+    let txt = "";
+    let cls = "";
+    if (pct >= 70) {
+      txt = "Function: Mild to no disability (higher function).";
+      cls = "green";
+    } else if (pct >= 40) {
+      txt = "Function: Moderate disability — functional limitations present.";
+      cls = "orange";
+    } else {
+      txt = "Function: Severe disability — substantial functional limitation.";
+      cls = "red";
+    }
+    interpEl.innerHTML = `<span class="${cls}">${txt}</span>`;
+
+    // Note: also show if there are unanswered items
+    if (answered < 20) {
+      const missing = 20 - answered;
+      interpEl.innerHTML += `<div class="small" style="margin-top:6px;color:var(--muted)">Note: ${missing} item(s) unanswered — total and percent calculated from answered items may be incomplete. Complete all items for an accurate score.</div>`;
+    }
+  }
+
+  form.addEventListener('change', calc);
+  calc();
+})();
+</script>
+</body>
+</html>
