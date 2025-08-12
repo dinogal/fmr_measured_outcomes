@@ -175,21 +175,23 @@ container.innerHTML += `
 
 const form = document.getElementById('mdq-form');
 
-form.addEventListener('change', () => {
+form.addEventListener('change', (e) => {
   // Count Q1 Yes answers
   let q1YesCount = 0;
   q1Items.forEach((_, idx) => {
     const selected = form.querySelector(`input[name="q1_${idx}"]:checked`);
     if (selected && selected.value === "yes") q1YesCount++;
   });
-  
-  // Auto-fill Q2
-  const q2Yes = form.querySelector('input[name="q2"][value="yes"]');
-  const q2No = form.querySelector('input[name="q2"][value="no"]');
-  if (q1YesCount >= 2) {
-    q2Yes.checked = true;
-  } else {
-    q2No.checked = true;
+
+  // Auto-fill Q2 unless user just changed Q2
+  if (e.target.name !== 'q2') {
+    const q2Yes = form.querySelector('input[name="q2"][value="yes"]');
+    const q2No = form.querySelector('input[name="q2"][value="no"]');
+    if (q1YesCount >= 2) {
+      q2Yes.checked = true;
+    } else {
+      q2No.checked = true;
+    }
   }
 
   // Show subtotal and interpretation
