@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oswestry Low Back Disability Questionnaire</title>
+<style>
+  :root{
+    --bg:#f7f7f7;
+    --card:#fff;
+    --accent:#0b66c3;
+    --muted:#666;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg);
+    -webkit-overflow-scrolling:touch;
+  }
+  .container{
+    max-width:980px;
+    margin:18px auto;
+    padding:18px;
+  }
+  h1{ margin:0 0 8px 0; color:var(--accent); }
+  p.lead { margin:6px 0 18px 0; color:var(--muted); }
+  .card{
+    background:var(--card);
+    border-radius:8px;
+    padding:14px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.06);
+    margin-bottom:14px;
+  }
+  label.field{ display:block; margin-bottom:10px; font-weight:700; }
+  input[type="text"], input[type="date"]{
+    width:100%; max-width:720px; padding:8px 10px; font-size:1rem;
+    border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box;
+  }
+  .section {
+    background:#fff;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  }
+  .section-title { font-weight:700; margin-bottom:8px; }
+  .options { display:flex; flex-direction:column; gap:8px; }
+  label.choice {
+    display:flex; align-items:flex-start; gap:10px; padding:6px;
+    border-radius:6px; cursor:pointer;
+  }
+  label.choice input { transform:translateY(2px); margin-right:6px; }
+  .results{
+    margin-top:10px; padding:12px; border-radius:8px; background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700;
+  }
+  .interp { margin-top:8px; font-weight:700; }
+  .green{ color:green; } .orange{ color:darkorange; } .red{ color:red; }
+  .small { font-size:0.95rem; color:var(--muted); margin-top:8px; }
+  @media (max-width:720px){
+    .container{ padding:12px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Oswestry Low Back Disability Questionnaire (ODI)</h1>
+    <p class="lead">Please answer by selecting ONE box in each section that best applies to you.</p>
+
+    <div class="card">
+      <label class="field">Name:
+        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+      </label>
+      <label class="field">Date of Birth:
+        <input type="date" id="dob">
+      </label>
+      <label class="field">Date of Service:
+        <input type="date" id="dos">
+      </label>
+    </div>
+
+    <form id="odiform">
+      <!-- Section template: each option is value 0..5 (0 = first statement, 5 = last statement) -->
+
+      <!-- Section 1 Pain intensity -->
+      <div class="section">
+        <div class="section-title">1. Pain intensity</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s1" value="0">I have <b>no pain</b> at the moment</label>
+          <label class="choice"><input type="radio" name="s1" value="1">The pain is <b>very mild</b> at the moment</label>
+          <label class="choice"><input type="radio" name="s1" value="2">The pain is <b>moderate</b> at the moment</label>
+          <label class="choice"><input type="radio" name="s1" value="3">The pain is <b>fairly severe</b> at the moment</label>
+          <label class="choice"><input type="radio" name="s1" value="4">The pain is <b>very severe</b> at the moment</label>
+          <label class="choice"><input type="radio" name="s1" value="5">The pain is the <b>worst imaginable</b> at the moment</label>
+        </div>
+      </div>
+
+      <!-- Section 2 Personal care -->
+      <div class="section">
+        <div class="section-title">2. Personal care (washing, dressing, etc.)</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s2" value="0">I can look after myself normally <b>without causing extra pain</b></label>
+          <label class="choice"><input type="radio" name="s2" value="1">I can look after myself normally but it <b>causes extra pain</b></label>
+          <label class="choice"><input type="radio" name="s2" value="2">It is <b>painful to look after myself</b> and I am slow and careful</label>
+          <label class="choice"><input type="radio" name="s2" value="3">I need <b>some help</b> but manage most of my personal care</label>
+          <label class="choice"><input type="radio" name="s2" value="4">I need help every day in most aspects of <b>self-care</b></label>
+          <label class="choice"><input type="radio" name="s2" value="5">I do not get dressed, I <b>wash with difficulty</b> and stay in bed</label>
+        </div>
+      </div>
+
+      <!-- Section 3 Lifting -->
+      <div class="section">
+        <div class="section-title">3. Lifting</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s3" value="0">I can <b>lift heavy weights</b> without extra pain</label>
+          <label class="choice"><input type="radio" name="s3" value="1">I can lift heavy weights but it <b>gives extra pain</b></label>
+          <label class="choice"><input type="radio" name="s3" value="2">Pain prevents me lifting heavy weights off the floor, but I can manage if they are conveniently placed (eg on a table)</label>
+          <label class="choice"><input type="radio" name="s3" value="3">Pain prevents me from lifting heavy weights but I can manage <b>light to medium weights</b> if conveniently positioned</label>
+          <label class="choice"><input type="radio" name="s3" value="4">I can lift <b>very light weights</b></label>
+          <label class="choice"><input type="radio" name="s3" value="5">I <b>cannot lift or carry anything at all</b></label>
+        </div>
+      </div>
+
+      <!-- Section 4 Walking -->
+      <div class="section">
+        <div class="section-title">4. Walking</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s4" value="0">Pain does <b>not prevent</b> me walking any distance</label>
+          <label class="choice"><input type="radio" name="s4" value="1">Pain prevents me walking more than <b>2 kilometres</b></label>
+          <label class="choice"><input type="radio" name="s4" value="2">Pain prevents me walking more than <b>1 kilometre</b></label>
+          <label class="choice"><input type="radio" name="s4" value="3">Pain prevents me walking more than <b>500 metres</b></label>
+          <label class="choice"><input type="radio" name="s4" value="4">I can only walk using a <b>stick or crutches</b></label>
+          <label class="choice"><input type="radio" name="s4" value="5">I am <b>in bed most of the time</b></label>
+        </div>
+      </div>
+
+      <!-- Section 5 Sitting -->
+      <div class="section">
+        <div class="section-title">5. Sitting</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s5" value="0">I can <b>sit in any chair</b> as long as I like</label>
+          <label class="choice"><input type="radio" name="s5" value="1">I can only sit in my <b>favourite chair</b> as long as I like</label>
+          <label class="choice"><input type="radio" name="s5" value="2">Pain prevents me sitting more than <b>1 hour</b></label>
+          <label class="choice"><input type="radio" name="s5" value="3">Pain prevents me sitting more than <b>30 minutes</b></label>
+          <label class="choice"><input type="radio" name="s5" value="4">Pain prevents me sitting more than <b>10 minutes</b></label>
+          <label class="choice"><input type="radio" name="s5" value="5">Pain prevents me from <b>sitting at all</b></label>
+        </div>
+      </div>
+
+      <!-- Section 6 Standing -->
+      <div class="section">
+        <div class="section-title">6. Standing</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s6" value="0">I can <b>stand as long as I want</b> without extra pain</label>
+          <label class="choice"><input type="radio" name="s6" value="1">I can stand as long as I want but it <b>gives me extra pain</b></label>
+          <label class="choice"><input type="radio" name="s6" value="2">Pain prevents me from standing for more than <b>1 hour</b></label>
+          <label class="choice"><input type="radio" name="s6" value="3">Pain prevents me from standing for more than <b>30 minutes</b></label>
+          <label class="choice"><input type="radio" name="s6" value="4">Pain prevents me from standing more than <b>10 minutes</b></label>
+          <label class="choice"><input type="radio" name="s6" value="5">Pain prevents me from <b>standing at all</b></label>
+        </div>
+      </div>
+
+      <!-- Section 7 Sleeping -->
+      <div class="section">
+        <div class="section-title">7. Sleeping</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s7" value="0">My sleep is <b>never disturbed</b> by pain</label>
+          <label class="choice"><input type="radio" name="s7" value="1">My sleep is <b>occasionally disturbed</b> by pain</label>
+          <label class="choice"><input type="radio" name="s7" value="2">Because of pain I have <b>less than 6 hours</b> sleep</label>
+          <label class="choice"><input type="radio" name="s7" value="3">Because of pain I have <b>less than 4 hours</b> sleep</label>
+          <label class="choice"><input type="radio" name="s7" value="4">Because of pain I have <b>less than 2 hours</b> sleep</label>
+          <label class="choice"><input type="radio" name="s7" value="5">Pain prevents me from <b>sleeping at all</b></label>
+        </div>
+      </div>
+
+      <!-- Section 8 Sex life -->
+      <div class="section">
+        <div class="section-title">8. Sex life (if applicable)</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s8" value="0">My sex life is <b>normal</b> and causes no extra pain</label>
+          <label class="choice"><input type="radio" name="s8" value="1">My sex life is normal but causes <b>some extra pain</b></label>
+          <label class="choice"><input type="radio" name="s8" value="2">My sex life is nearly normal but is <b>very painful</b></label>
+          <label class="choice"><input type="radio" name="s8" value="3">My sex life is <b>severely restricted</b> by pain</label>
+          <label class="choice"><input type="radio" name="s8" value="4">My sex life is <b>nearly absent</b> because of pain</label>
+          <label class="choice"><input type="radio" name="s8" value="5">Pain prevents <b>any sex life</b> at all</label>
+        </div>
+      </div>
+
+      <!-- Section 9 Social life -->
+      <div class="section">
+        <div class="section-title">9. Social life</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s9" value="0">My social life is <b>normal</b> and gives me no extra pain</label>
+          <label class="choice"><input type="radio" name="s9" value="1">My social life is normal but <b>increases the degree of pain</b></label>
+          <label class="choice"><input type="radio" name="s9" value="2">Pain has no significant effect apart from limiting <b>more energetic interests</b></label>
+          <label class="choice"><input type="radio" name="s9" value="3">Pain has <b>restricted my social life</b> and I do not go out as often</label>
+          <label class="choice"><input type="radio" name="s9" value="4">Pain has restricted my social life to my <b>home</b></label>
+          <label class="choice"><input type="radio" name="s9" value="5">I have <b>no social life</b> because of pain</label>
+        </div>
+      </div>
+
+      <!-- Section 10 Travelling -->
+      <div class="section">
+        <div class="section-title">10. Travelling</div>
+        <div class="options">
+          <label class="choice"><input type="radio" name="s10" value="0">I can <b>travel anywhere</b> without pain</label>
+          <label class="choice"><input type="radio" name="s10" value="1">I can travel anywhere but it <b>gives me extra pain</b></label>
+          <label class="choice"><input type="radio" name="s10" value="2">Pain is bad but I manage journeys over <b>two hours</b></label>
+          <label class="choice"><input type="radio" name="s10" value="3">Pain restricts me to journeys of less than <b>one hour</b></label>
+          <label class="choice"><input type="radio" name="s10" value="4">Pain restricts me to short necessary journeys under <b>30 minutes</b></label>
+          <label class="choice"><input type="radio" name="s10" value="5">Pain prevents me from travelling except to <b>receive treatment</b></label>
+        </div>
+      </div>
+
+      <div class="results" id="resultsBox">
+        Total Score: <span id="totalScore">0</span> / <span id="maxScore">0</span><br>
+        Percentage: <span id="percentage">0</span>% 
+        <div class="interp" id="interpretationText"></div>
+        <div class="small">Scoring: If all 10 sections completed, denominator = 50. If a section is left blank, the denominator = (# answered × 5).</div>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function(){
+  const form = document.getElementById('odiform');
+  const totalScoreEl = document.getElementById('totalScore');
+  const maxScoreEl = document.getElementById('maxScore');
+  const percentageEl = document.getElementById('percentage');
+  const interpEl = document.getElementById('interpretationText');
+
+  function compute() {
+    let sum = 0;
+    let answered = 0;
+    for (let i = 1; i <= 10; i++) {
+      const sel = form.querySelector(`input[name="s${i}"]:checked`);
+      if (sel) {
+        sum += parseInt(sel.value, 10);
+        answered++;
+      }
+    }
+    const denom = answered * 5;
+    const pct = denom > 0 ? (sum / denom) * 100 : 0;
+    totalScoreEl.textContent = sum;
+    maxScoreEl.textContent = denom;
+    percentageEl.textContent = denom > 0 ? pct.toFixed(1) : "0.0";
+
+    // Interpretation (always visible)
+    let interp = "";
+    let cls = "";
+    if (pct <= 20) { interp = "Minimal disability — patient can cope with most living activities. Usually no treatment apart from advice."; cls = "green"; }
+    else if (pct <= 40) { interp = "Moderate disability — more pain and difficulty; may be managed conservatively."; cls = "orange"; }
+    else if (pct <= 60) { interp = "Severe disability — activities of daily living affected; detailed investigation required."; cls = "red"; }
+    else if (pct <= 80) { interp = "Crippled — back pain impinges on all aspects of life; positive intervention required."; cls = "red"; }
+    else { interp = "Bed-bound or possibly exaggerating symptoms; urgent management required."; cls = "red"; }
+
+    interpEl.innerHTML = `<span class="${cls}">${interp}</span>`;
+  }
+
+  // Attach change listener to form (delegated)
+  form.addEventListener('change', compute);
+
+  // Initialize once
+  compute();
+})();
+</script>
+</body>
+</html>
