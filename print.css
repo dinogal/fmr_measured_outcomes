@@ -1,36 +1,21 @@
 @media print {
-  body {
-    background: #fff !important;
-    color: #000 !important;
-    font-size: 11px;
-    margin: 0;
-    padding: 0;
+  /* Make the card container smaller on print */
+  .card {
+    max-width: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 10px !important;
   }
-
-  .container {
-    max-width: 100% !important;
-    margin: 0;
-    padding: 0;
+  /* Make the input fields smaller */
+  input[type="text"], input[type="date"] {
+    max-width: 300px !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+    padding: 6px 8px !important;
   }
-
-  /* Each question (or card) stays together, but can break between questions */
-  .qcard, .card {
-    box-shadow: none !important;
-    border: 1px solid #000 !important;
-    background: #fff !important;
-    page-break-inside: avoid;
-    /* Allows the browser to break after this block if needed */
-  }
-
-  /* For clarity, don't set page-break-inside on parent container */
-
-  /* Page numbers (Chrome/Safari only) */
-  @page {
-    margin: 20mm;
-    @bottom-center {
-      content: "Page " counter(page) " of " counter(pages);
-      font-size: 10px;
-      color: #000;
-    }
+  /* Optional: Make labels tighter */
+  label.field {
+    margin-bottom: 7px !important;
+    font-size: 1rem !important;
   }
 }
