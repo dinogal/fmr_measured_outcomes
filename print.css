@@ -1,21 +1,37 @@
 @media print {
-  /* Make the card container smaller on print */
+  /* Make the card container smaller and reduce padding */
   .card {
-    max-width: 400px !important;
+    max-width: 340px !important;
+    width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding: 10px !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
   }
   /* Make the input fields smaller */
   input[type="text"], input[type="date"] {
-    max-width: 300px !important;
+    max-width: 220px !important;
     width: 100% !important;
-    font-size: 1rem !important;
-    padding: 6px 8px !important;
+    font-size: 0.95rem !important;
+    padding: 5px 8px !important;
+    box-sizing: border-box !important;
   }
-  /* Optional: Make labels tighter */
+  /* Make labels and spacing tighter */
   label.field {
-    margin-bottom: 7px !important;
-    font-size: 1rem !important;
+    margin-bottom: 5px !important;
+    font-size: 0.97rem !important;
+  }
+  /* Reduce margin under card for print */
+  .card {
+    margin-bottom: 8px !important;
+  }
+  /* Reduce header margin for print */
+  h1 {
+    margin-bottom: 2px !important;
+    font-size: 1.2rem !important;
+  }
+  p.lead {
+    margin-bottom: 6px !important;
+    font-size: 0.97rem !important;
   }
 }
