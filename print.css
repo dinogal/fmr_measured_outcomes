@@ -1,16 +1,15 @@
 @media print {
+  /* Set 1 inch margin on all sides for print */
   @page {
     margin: 1in;
-    /* Page numbers at bottom center (Chrome/Safari only) */
-    @bottom-center {
-      content: "Page " counter(page) " of " counter(pages);
-      font-size: 10px;
-      color: #000;
-    }
   }
+
+  /* Prevent blocks from splitting across pages */
   .qcard, .card, .results {
     page-break-inside: avoid;
   }
+
+  /* Other print styles (optional) */
   body {
     background: #fff !important;
     color: #000 !important;
