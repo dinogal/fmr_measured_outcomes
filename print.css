@@ -16,7 +16,7 @@
     padding: 0;
   }
 
-  /* Card and question blocks */
+  /* Card and question blocks: avoid splitting, but allow overall page breaks */
   .card, .qcard, .results {
     box-shadow: none !important;
     border: 1px solid #000 !important;
@@ -65,5 +65,16 @@
   /* Optional: add patient info header repeat */
   thead {
     display: table-header-group; /* if you wrap patient info in a table */
+  }
+
+  /* --- Add page numbers (Chrome/Safari only) --- */
+  @page {
+    margin: 20mm;
+    /* Page numbers at bottom center */
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 10px;
+      color: #000;
+    }
   }
 }
