@@ -47,6 +47,27 @@
     .container { padding:12px; }
     .scale { gap:8px; }
   }
+
+  /* Print-friendly adjustments */
+  @media print {
+    body { background:#fff; color:#000; }
+    .container { max-width:100%; margin:0; padding:0; }
+    .card, .qcard, .results {
+      box-shadow:none !important;
+      border:1px solid #000 !important;
+      background:#fff !important;
+    }
+    input[type="text"], input[type="date"] {
+      border:1px solid #000 !important;
+    }
+    .scale label {
+      border:1px solid #000 !important;
+      background:#fff !important;
+      padding:2px 6px;
+    }
+    .muted-note { color:#000; font-size:0.85rem; }
+    h1, p.lead { color:#000 !important; }
+  }
 </style>
 </head>
 <body>
@@ -111,7 +132,7 @@
     </div>
 
     <!-- Q5 -->
-    <div class="qcard"><div class="qtitle"><b>5. Insomnia (Middle)</b> – patient complains of being restless and disturbed during the night.</div>
+    <div class="qcard"><div class="qtitle"><b>5. Insomnia (Middle)</b> – restless or disturbed during the night.</div>
       <div class="scale">
         <label><input type="radio" name="q5" value="0">0</label>
         <label><input type="radio" name="q5" value="1">1</label>
@@ -120,7 +141,7 @@
     </div>
 
     <!-- Q6 -->
-    <div class="qcard"><div class="qtitle"><b>6. Insomnia (Late)</b> – waking in early hours of the morning and unable to fall asleep again.</div>
+    <div class="qcard"><div class="qtitle"><b>6. Insomnia (Late)</b> – waking in early hours, unable to fall asleep again.</div>
       <div class="scale">
         <label><input type="radio" name="q6" value="0">0</label>
         <label><input type="radio" name="q6" value="1">1</label>
@@ -129,7 +150,7 @@
     </div>
 
     <!-- Q7 -->
-    <div class="qcard"><div class="qtitle"><b>7. Work and Activities</b> – loss of interest, decreased activity, inability to work, hobbies dropped.</div>
+    <div class="qcard"><div class="qtitle"><b>7. Work and Activities</b> – loss of interest, decreased activity, hobbies dropped.</div>
       <div class="scale">
         <label><input type="radio" name="q7" value="0">0</label>
         <label><input type="radio" name="q7" value="1">1</label>
@@ -182,8 +203,9 @@
         <label><input type="radio" name="q11" value="4">4</label>
       </div>
     </div>
+
     <!-- Q12 -->
-    <div class="qcard"><div class="qtitle"><b>12. Somatic Symptoms (Gastrointestinal)</b> – loss of appetite, heavy feelings in abdomen, constipation.</div>
+    <div class="qcard"><div class="qtitle"><b>12. Somatic Symptoms (Gastrointestinal)</b> – loss of appetite, constipation.</div>
       <div class="scale">
         <label><input type="radio" name="q12" value="0">0</label>
         <label><input type="radio" name="q12" value="1">1</label>
@@ -192,7 +214,7 @@
     </div>
 
     <!-- Q13 -->
-    <div class="qcard"><div class="qtitle"><b>13. Somatic Symptoms (General)</b> – heaviness in limbs, backache, loss of energy, fatigue.</div>
+    <div class="qcard"><div class="qtitle"><b>13. Somatic Symptoms (General)</b> – heaviness in limbs, backache, loss of energy.</div>
       <div class="scale">
         <label><input type="radio" name="q13" value="0">0</label>
         <label><input type="radio" name="q13" value="1">1</label>
@@ -210,7 +232,7 @@
     </div>
 
     <!-- Q15 -->
-    <div class="qcard"><div class="qtitle"><b>15. Hypochondriasis</b> – preoccupation with ill health.</div>
+    <div class="qcard"><div class="qtitle"><b>15. Hypochondriasis</b> – preoccupation with health.</div>
       <div class="scale">
         <label><input type="radio" name="q15" value="0">0</label>
         <label><input type="radio" name="q15" value="1">1</label>
@@ -221,7 +243,7 @@
     </div>
 
     <!-- Q16 -->
-    <div class="qcard"><div class="qtitle"><b>16. Loss of Weight</b> – according to patient or measured.</div>
+    <div class="qcard"><div class="qtitle"><b>16. Loss of Weight</b> – patient-reported or measured.</div>
       <div class="scale">
         <label><input type="radio" name="q16" value="0">0</label>
         <label><input type="radio" name="q16" value="1">1</label>
@@ -238,8 +260,8 @@
       </div>
     </div>
 
-    <!-- Q18 (Not scored) -->
-    <div class="qcard"><div class="qtitle"><b>18. Diurnal Variation (Not scored toward total)</b> – mood worse in morning or evening.</div>
+    <!-- Q18 -->
+    <div class="qcard"><div class="qtitle"><b>18. Diurnal Variation (Not scored toward total)</b> – mood variation morning/evening.</div>
       <div class="scale">
         <label><input type="radio" name="q18" value="0">0</label>
         <label><input type="radio" name="q18" value="1">1</label>
@@ -247,8 +269,8 @@
       </div>
     </div>
 
-    <!-- Q19 (Not scored) -->
-    <div class="qcard"><div class="qtitle"><b>19. Depersonalization/Derealization (Not scored toward total)</b> – feelings of unreality.</div>
+    <!-- Q19 -->
+    <div class="qcard"><div class="qtitle"><b>19. Depersonalization/Derealization (Not scored)</b> – feelings of unreality.</div>
       <div class="scale">
         <label><input type="radio" name="q19" value="0">0</label>
         <label><input type="radio" name="q19" value="1">1</label>
@@ -258,8 +280,8 @@
       </div>
     </div>
 
-    <!-- Q20 (Not scored) -->
-    <div class="qcard"><div class="qtitle"><b>20. Paranoid Symptoms (Not scored toward total)</b> – suspiciousness, delusions of persecution.</div>
+    <!-- Q20 -->
+    <div class="qcard"><div class="qtitle"><b>20. Paranoid Symptoms (Not scored)</b> – suspiciousness, delusions of persecution.</div>
       <div class="scale">
         <label><input type="radio" name="q20" value="0">0</label>
         <label><input type="radio" name="q20" value="1">1</label>
@@ -269,8 +291,8 @@
       </div>
     </div>
 
-    <!-- Q21 (Not scored) -->
-    <div class="qcard"><div class="qtitle"><b>21. Obsessive and Compulsive Symptoms (Not scored toward total)</b> – repetitive thoughts or behaviors.</div>
+    <!-- Q21 -->
+    <div class="qcard"><div class="qtitle"><b>21. Obsessive & Compulsive Symptoms (Not scored)</b> – repetitive thoughts/behaviors.</div>
       <div class="scale">
         <label><input type="radio" name="q21" value="0">0</label>
         <label><input type="radio" name="q21" value="1">1</label>
@@ -280,14 +302,13 @@
       </div>
     </div>
 
-    <!-- Results -->
     <div class="results" id="resultsBox">
       Total Score: <span id="total">0</span> / 52<br>
       Percentage: <span id="percent">0</span>%<br>
       Severity: <span id="severity" class="green">Normal</span><br>
-      <div class="muted-note">Interpretation: 0–7 = Normal, 8–13 = Mild, 14–18 = Moderate, 19–22 = Severe, ≥23 = Very Severe.<br>
-      Note: Items 18–21 are not scored toward the total.</div>
+      <div class="muted-note">Interpretation: 0–7 = Normal, 8–13 = Mild, 14–18 = Moderate, 19–22 = Severe, ≥23 = Very Severe. (Items 18–21 not scored.)</div>
     </div>
+
   </form>
 </div>
 
