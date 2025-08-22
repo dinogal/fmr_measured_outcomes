@@ -1,7 +1,7 @@
 @media print {
   /* Set 1 inch margin on all sides for print */
   @page {
-    margin: 1in;
+    margin: 0.5in;
   }
 
   /* Prevent blocks from splitting across pages */
