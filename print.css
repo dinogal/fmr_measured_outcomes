@@ -1,20 +1,30 @@
 @media print {
-  /* Set 1 inch margin on all sides for print */
-  @page {
-    margin: 0.5in;
+  body, html {
+    font-size: 12pt !important; /* Set base print font size */
   }
-
-  /* Prevent blocks from splitting across pages */
-  .qcard, .card, .results {
-    page-break-inside: avoid;
+  h1 {
+    font-size: 1.1em !important; /* Slightly larger than body, but not huge */
+    margin-bottom: 6px !important;
   }
-
-  /* Other print styles (optional) */
-  body {
-    background: #fff !important;
-    color: #000 !important;
-    font-size: 11px;
-    margin: 0;
-    padding: 0;
+  p.lead {
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+  .card {
+    max-width: 340px !important;
+    padding: 8px !important;
+    margin: 10px auto 10px auto !important;
+  }
+  label.field {
+    font-size: 1em !important;
+    margin-bottom: 5px !important;
+  }
+  input[type="text"], input[type="date"] {
+    font-size: 1em !important;
+    max-width: 220px !important;
+    width: 100% !important;
+    padding: 5px 8px !important;
+    margin-bottom: 6px !important;
+    box-sizing: border-box !important;
   }
 }
