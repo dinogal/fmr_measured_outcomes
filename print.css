@@ -1,37 +1,21 @@
 @media print {
-  /* Make the card container smaller and reduce padding */
-  .card {
-    max-width: 340px !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding: 8px !important;
-    box-sizing: border-box !important;
+  @page {
+    margin: 1in;
+    /* Page numbers at bottom center (Chrome/Safari only) */
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 10px;
+      color: #000;
+    }
   }
-  /* Make the input fields smaller */
-  input[type="text"], input[type="date"] {
-    max-width: 220px !important;
-    width: 100% !important;
-    font-size: 0.95rem !important;
-    padding: 5px 8px !important;
-    box-sizing: border-box !important;
+  .qcard, .card, .results {
+    page-break-inside: avoid;
   }
-  /* Make labels and spacing tighter */
-  label.field {
-    margin-bottom: 5px !important;
-    font-size: 0.97rem !important;
-  }
-  /* Reduce margin under card for print */
-  .card {
-    margin-bottom: 8px !important;
-  }
-  /* Reduce header margin for print */
-  h1 {
-    margin-bottom: 2px !important;
-    font-size: 1.2rem !important;
-  }
-  p.lead {
-    margin-bottom: 6px !important;
-    font-size: 0.97rem !important;
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
   }
 }
