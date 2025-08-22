@@ -1,21 +1,69 @@
+/* ===== Universal Print Styles for All Questionnaires ===== */
+
 @media print {
-  body { background:#fff; color:#000; font-size:11px; }
-  .container { max-width:100%; margin:0; padding:0; }
+  /* General reset for printing */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11px; /* shrink-to-fit */
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100% !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Card and question blocks */
   .card, .qcard, .results {
-    box-shadow:none !important;
-    border:1px solid #000 !important;
-    background:#fff !important;
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    page-break-inside: avoid; /* don’t split a question across pages */
+  }
+
+  /* Text fields and date fields */
+  input[type="text"], input[type="date"] {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    padding: 4px;
+  }
+
+  /* Radio/checkbox label styles */
+  .scale label {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    padding: 2px 6px;
+    margin: 2px;
+  }
+
+  /* Muted notes (like instructions) */
+  .muted-note {
+    color: #000 !important;
+    font-size: 0.85rem;
+  }
+
+  /* Titles and headings */
+  h1, h2, h3, p.lead {
+    color: #000 !important;
+    margin: 4px 0;
+  }
+
+  /* Results box always stays together */
+  .results {
+    font-weight: bold;
     page-break-inside: avoid;
   }
-  input[type="text"], input[type="date"] {
-    border:1px solid #000 !important;
+
+  /* Prevent page breaks in middle of questions */
+  .qcard {
+    page-break-inside: avoid;
   }
-  .scale label {
-    border:1px solid #000 !important;
-    background:#fff !important;
-    padding:2px 6px;
+
+  /* Optional: add patient info header repeat */
+  thead {
+    display: table-header-group; /* if you wrap patient info in a table */
   }
-  .muted-note { color:#000; font-size:0.85rem; }
-  h1, p.lead { color:#000 !important; }
-  .qcard { page-break-inside: avoid; }
 }
