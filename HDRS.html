@@ -48,14 +48,15 @@
     .scale { gap:8px; }
   }
 
-  /* Print-friendly adjustments */
+    /* Print-friendly adjustments */
   @media print {
-    body { background:#fff; color:#000; }
+    body { background:#fff; color:#000; font-size:11px; }  /* smaller font */
     .container { max-width:100%; margin:0; padding:0; }
     .card, .qcard, .results {
       box-shadow:none !important;
       border:1px solid #000 !important;
       background:#fff !important;
+      page-break-inside: avoid; /* prevent splitting */
     }
     input[type="text"], input[type="date"] {
       border:1px solid #000 !important;
@@ -67,6 +68,9 @@
     }
     .muted-note { color:#000; font-size:0.85rem; }
     h1, p.lead { color:#000 !important; }
+
+    /* shrink-to-fit addition */
+    .qcard { page-break-inside: avoid; }
   }
 </style>
 </head>
