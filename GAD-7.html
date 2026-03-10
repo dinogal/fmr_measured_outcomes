@@ -30,7 +30,15 @@
   p.lead { margin:6px 0 14px 0; color:var(--muted); }
   .card{ background:var(--card); border-radius:8px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); margin-bottom:14px; }
   label.field{ display:block; margin-bottom:10px; font-weight:700; }
-  input[type="text"], input[type="date"]{ width:100%; max-width:720px; padding:8px 10px; font-size:1rem; border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box; }
+  input[type="text"], input[type="date"]{
+    width:100%;
+    max-width:720px;
+    padding:8px 10px;
+    font-size:1rem;
+    border:1px solid #dcdce0;
+    border-radius:6px;
+    box-sizing:border-box;
+  }
   form { margin-bottom: 30px; }
   .qcard{ background:#fff; border-radius:8px; padding:12px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
   .qtitle { font-weight:700; margin-bottom:8px; }
@@ -56,15 +64,14 @@
         <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
       </label>
       <label class="field">Date of Birth:
-        <input type="date" id="dob">
+        <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
       </label>
       <label class="field">Date of Service:
-        <input type="date" id="dos">
+        <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
       </label>
     </div>
 
     <form id="gad7-form" class="card" autocomplete="off">
-      <!-- 7 Questions -->
       <div class="qcard">
         <div class="qtitle">1. Feeling nervous, anxious, or on edge</div>
         <div class="scale">
@@ -135,7 +142,6 @@
         </div>
       </div>
 
-      <!-- Difficulty question -->
       <div class="qcard">
         <div class="qtitle">If you checked off any problems, how difficult have these made it for you to do your work, take care of things at home, or get along with other people?</div>
         <div class="scale">
@@ -146,7 +152,6 @@
         </div>
       </div>
 
-      <!-- Results -->
       <div class="results" id="resultsBox">
         Total Score: <span id="total">0</span> / 21<br>
         Severity: <span id="severity" class="green">Minimal</span><br>
