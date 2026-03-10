@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>asQ Suicide Risk Screening Tool</title>
+  <style>
+    :root{
+      --bg:#f5f6f8;
+      --card:#ffffff;
+      --accent:#b11f3a;
+      --accent-dark:#86162b;
+      --blue:#2e6ea5;
+      --blue-light:#dfeaf5;
+      --border:#cfd6df;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --success:#1f7a3f;
+      --warning:#b45309;
+      --danger:#b91c1c;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+      line-height:1.4;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:20px auto;
+      padding:16px;
+    }
+
+    .sheet{
+      background:var(--card);
+      border-radius:14px;
+      box-shadow:0 2px 12px rgba(0,0,0,.08);
+      padding:20px;
+    }
+
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+
+    .titleblock h1{
+      margin:0 0 4px 0;
+      font-size:1.7rem;
+      color:var(--accent);
+    }
+
+    .titleblock .sub{
+      color:var(--muted);
+      font-size:.95rem;
+      font-weight:600;
+    }
+
+    .patient-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(220px, 1fr));
+      gap:12px;
+      margin:18px 0;
+    }
+
+    label.field{
+      display:block;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"],
+    .field textarea,
+    .field select{
+      width:100%;
+      margin-top:6px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:10px 12px;
+      font-size:1rem;
+      background:#fff;
+    }
+
+    .field textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:16px;
+      margin-bottom:16px;
+      background:#fff;
+    }
+
+    .section-title{
+      margin:0 0 12px 0;
+      color:var(--accent);
+      font-size:1.2rem;
+    }
+
+    .instruction{
+      margin:0 0 14px 0;
+      color:var(--muted);
+    }
+
+    .qrow{
+      border:1px solid #e6e9ee;
+      border-radius:10px;
+      padding:12px;
+      margin-bottom:12px;
+      background:#fcfcfd;
+    }
+
+    .qrow .qtext{
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .yn{
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      align-items:center;
+    }
+
+    .yn label,
+    .inline-options label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      font-weight:500;
+    }
+
+    .inline-row{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:14px;
+      align-items:end;
+      margin-top:10px;
+    }
+
+    .inline-options{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      align-items:center;
+      padding-bottom:8px;
+    }
+
+    .result-box{
+      border-radius:12px;
+      padding:16px;
+      border:2px solid var(--border);
+      background:#fff;
+    }
+
+    .result-line{
+      font-size:1.15rem;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .negative{ color:var(--success); }
+    .nonacute{ color:var(--warning); }
+    .acute{ color:var(--danger); }
+
+    .guidance{
+      margin-top:10px;
+      padding:12px;
+      border-radius:10px;
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+    }
+
+    .guidance ul{
+      margin:8px 0 0 18px;
+      padding:0;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .mini-panel{
+      border:1px solid #b7cbe0;
+      border-radius:10px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .mini-head{
+      background:var(--blue);
+      color:#fff;
+      font-weight:700;
+      padding:10px 12px;
+    }
+
+    .mini-body{
+      padding:12px;
+      background:var(--blue-light);
+      min-height:210px;
+    }
+
+    .mini-body h3{
+      margin:0 0 8px 0;
+      font-size:1.05rem;
+    }
+
+    .resources{
+      margin-top:16px;
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:#fff;
+    }
+
+    .resources h3{
+      margin:0 0 8px 0;
+      color:var(--accent);
+    }
+
+    .print-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      font-size:1rem;
+      font-weight:700;
+      cursor:pointer;
+      background:var(--accent);
+      color:#fff;
+    }
+
+    button.secondary{
+      background:#475569;
+    }
+
+    .note{
+      font-size:.92rem;
+      color:var(--muted);
+      margin-top:10px;
+    }
+
+    @media (max-width:900px){
+      .patient-grid,
+      .grid-3,
+      .inline-row{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media print{
+      body{
+        background:#fff;
+      }
+      .wrap{
+        margin:0;
+        padding:0;
+        max-width:none;
+      }
+      .sheet{
+        box-shadow:none;
+        border-radius:0;
+      }
+      .print-row{
+        display:none;
+      }
+      button{
+        display:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="sheet">
+      <div class="topbar">
+        <div class="titleblock">
+          <h1>asQ Suicide Risk Screening Tool</h1>
+          <div class="sub">Screening Tool for Youth and Adults</div>
+        </div>
+      </div>
+
+      <div class="patient-grid">
+        <label class="field">Patient Name
+          <input type="text" id="patientName" placeholder="Enter full name">
+        </label>
+
+        <label class="field">Date of Birth
+          <input type="text" id="dob" placeholder="MM/DD/YYYY">
+        </label>
+
+        <label class="field">Date of Service
+          <input type="text" id="dos" placeholder="MM/DD/YYYY">
+        </label>
+
+        <label class="field">Age
+          <input type="number" id="age" min="0" max="130" placeholder="Enter age">
+        </label>
+
+        <label class="field">MRN
+          <input type="text" id="mrn" placeholder="Optional">
+        </label>
+
+        <label class="field">Clinician
+          <input type="text" id="clinician" placeholder="Optional">
+        </label>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Ask the patient</h2>
+        <p class="instruction">
+          Complete Questions 1–4 first. If any answer to Questions 1–4 is Yes, then ask Question 5. The PDF defines:
+          negative screen if Questions 1–4 are all No; acute positive screen if any of Questions 1–4 are Yes and Question 5 is Yes; and non-acute positive screen if any of Questions 1–4 are Yes and Question 5 is No. :contentReference[oaicite:1]{index=1}
+        </p>
+
+        <div class="qrow">
+          <div class="qtext">1. In the past few weeks, have you wished you were dead?</div>
+          <div class="yn">
+            <label><input type="radio" name="q1" value="yes"> Yes</label>
+            <label><input type="radio" name="q1" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="qrow">
+          <div class="qtext">2. In the past few weeks, have you felt that you or your family would be better off if you were dead?</div>
+          <div class="yn">
+            <label><input type="radio" name="q2" value="yes"> Yes</label>
+            <label><input type="radio" name="q2" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="qrow">
+          <div class="qtext">3. In the past week, have you been having thoughts about killing yourself?</div>
+          <div class="yn">
+            <label><input type="radio" name="q3" value="yes"> Yes</label>
+            <label><input type="radio" name="q3" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="qrow">
+          <div class="qtext">4. Have you ever tried to kill yourself?</div>
+          <div class="yn">
+            <label><input type="radio" name="q4" value="yes"> Yes</label>
+            <label><input type="radio" name="q4" value="no"> No</label>
+          </div>
+
+          <div class="inline-row">
+            <label class="field">If yes, when was the most recent attempt?
+              <input type="text" id="recentAttemptText" placeholder="Freehand entry">
+            </label>
+
+            <div class="inline-options">
+              <label><input type="radio" name="attemptTiming" value="within12"> Within last 12 months</label>
+              <label><input type="radio" name="attemptTiming" value="over1year"> Over 1 year ago</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="qrow">
+          <div class="qtext">5. Are you having thoughts of killing yourself right now?</div>
+          <div class="yn">
+            <label><input type="radio" name="q5" value="yes"> Yes</label>
+            <label><input type="radio" name="q5" value="no"> No</label>
+          </div>
+
+          <label class="field" style="margin-top:12px;">If yes, describe briefly
+            <textarea id="briefDescribe" placeholder="Enter brief description"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Screening result and next steps</h2>
+
+        <div class="result-box" id="resultBox">
+          <div class="result-line" id="resultHeadline">Result: Incomplete</div>
+          <div id="resultSubtext">Complete Questions 1–4 to generate a screening result.</div>
+
+          <div class="guidance" id="guidanceBox">
+            The PDF states that all patients should be provided resources including 988 Suicide and Crisis Lifeline and Crisis Text Line. :contentReference[oaicite:2]{index=2}
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-panel">
+            <div class="mini-head">No to all Questions #1–#4</div>
+            <div class="mini-body">
+              <h3>Negative screen</h3>
+              <div>No intervention is necessary at this time.</div>
+              <div style="margin-top:8px;"><strong>Note:</strong> Clinical judgment can always override a negative screen. :contentReference[oaicite:3]{index=3}</div>
+            </div>
+          </div>
+
+          <div class="mini-panel">
+            <div class="mini-head">Yes to any of Questions #1–#4 and Yes to Question #5</div>
+            <div class="mini-body">
+              <h3>Acute positive screen</h3>
+              <div>(imminent/acute risk identified)</div>
+              <ul>
+                <li>Patient requires a STAT/urgent safety/full mental health evaluation.</li>
+                <li>Patient cannot leave until evaluated for safety.</li>
+                <li>Keep patient in sight.</li>
+                <li>Remove dangerous objects from room, if possible.</li>
+                <li>Alert clinician responsible for patient’s care.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mini-panel">
+            <div class="mini-head">Yes to any of Questions #1–#4 and No to Question #5</div>
+            <div class="mini-body">
+              <h3>Non-acute positive screen</h3>
+              <div>(potential risk identified)</div>
+              <ul>
+                <li>Patient needs a brief suicide safety assessment to determine if a full mental health evaluation is needed and when.</li>
+                <li>Non-acute positive status does not require 1-to-1 observation while awaiting further assessment unless there are other safety concerns.</li>
+                <li>If adult patient, or parent/guardian of youth patient, refuses the brief suicide safety assessment, document the refusal.</li>
+                <li>Follow-up call is recommended.</li>
+                <li>Alert clinician responsible for patient’s care.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:14px;">
+          The PDF also notes an exception: when the positive screen is solely due to Yes on Question 4, a brief suicide safety assessment may not be necessary in certain situations based on age and how long ago the attempt occurred. :contentReference[oaicite:4]{index=4}
+        </div>
+      </div>
+
+      <div class="resources">
+        <h3>Provide resources to all patients</h3>
+        <div><strong>988 Suicide and Crisis Lifeline:</strong> call or text 988, and 988lifeline.org</div>
+        <div><strong>Crisis Text Line:</strong> text HOME or HOLA to 741741, and crisistextline.org</div>
+        <div class="note">These resources are listed on the uploaded PDF. :contentReference[oaicite:5]{index=5}</div>
+      </div>
+
+      <div class="print-row">
+        <button type="button" onclick="window.print()">Print / Save PDF</button>
+        <button type="button" class="secondary" onclick="resetForm()">Clear Form</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const qNames = ["q1", "q2", "q3", "q4", "q5"];
+
+    function getRadioValue(name){
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      return checked ? checked.value : "";
+    }
+
+    function answeredQuestions(names){
+      return names.every(name => getRadioValue(name) !== "");
+    }
+
+    function updateResult(){
+      const q1 = getRadioValue("q1");
+      const q2 = getRadioValue("q2");
+      const q3 = getRadioValue("q3");
+      const q4 = getRadioValue("q4");
+      const q5 = getRadioValue("q5");
+
+      const headline = document.getElementById("resultHeadline");
+      const subtext = document.getElementById("resultSubtext");
+      const guidance = document.getElementById("guidanceBox");
+
+      if (!answeredQuestions(["q1","q2","q3","q4"])) {
+        headline.textContent = "Result: Incomplete";
+        headline.className = "result-line";
+        subtext.textContent = "Complete Questions 1–4 to generate a screening result.";
+        guidance.innerHTML = "Question 5 is asked if the patient answers Yes to any of Questions 1–4. :contentReference[oaicite:6]{index=6}";
+        return;
+      }
+
+      const anyPositive14 = [q1, q2, q3, q4].includes("yes");
+
+      if (!anyPositive14) {
+        headline.textContent = "Result: Negative screen";
+        headline.className = "result-line negative";
+        subtext.textContent = "No to all Questions #1–#4.";
+        guidance.innerHTML = `
+          <strong>Next steps:</strong>
+          <ul>
+            <li>No intervention is necessary at this time.</li>
+            <li>Clinical judgment can always override a negative screen.</li>
+            <li>Provide patient resources.</li>
+          </ul>
+        `;
+        return;
+      }
+
+      if (q5 === "") {
+        headline.textContent = "Result: Pending Question 5";
+        headline.className = "result-line";
+        subtext.textContent = "At least one of Questions 1–4 is Yes. Complete Question 5.";
+        guidance.innerHTML = `
+          The form indicates that if the patient answers Yes to any of Questions 1–4, the acuity Question 5 should be asked. :contentReference[oaicite:7]{index=7}
+        `;
+        return;
+      }
+
+      if (q5 === "yes") {
+        headline.textContent = "Result: Acute positive screen";
+        headline.className = "result-line acute";
+        subtext.textContent = "Imminent/acute risk identified.";
+        guidance.innerHTML = `
+          <strong>Next steps:</strong>
+          <ul>
+            <li>Patient requires a STAT/urgent safety/full mental health evaluation.</li>
+            <li>Patient cannot leave until evaluated for safety.</li>
+            <li>Keep patient in sight.</li>
+            <li>Remove dangerous objects from room if possible.</li>
+            <li>Alert clinician responsible for patient’s care.</li>
+          </ul>
+        `;
+        return;
+      }
+
+      if (q5 === "no") {
+        headline.textContent = "Result: Non-acute positive screen";
+        headline.className = "result-line nonacute";
+        subtext.textContent = "Potential risk identified.";
+        guidance.innerHTML = `
+          <strong>Next steps:</strong>
+          <ul>
+            <li>Patient needs a brief suicide safety assessment to determine if a full mental health evaluation is needed and when.</li>
+            <li>Non-acute positive status does not require 1-to-1 observation while awaiting further assessment unless there are other safety concerns.</li>
+            <li>If adult patient, or parent/guardian of youth patient, refuses the brief suicide safety assessment, document the refusal.</li>
+            <li>Follow-up call is recommended.</li>
+            <li>Alert clinician responsible for patient’s care.</li>
+          </ul>
+        `;
+      }
+    }
+
+    function resetForm(){
+      document.querySelectorAll('input').forEach(el => {
+        if (el.type === 'radio' || el.type === 'checkbox') el.checked = false;
+        else el.value = '';
+      });
+      document.querySelectorAll('textarea').forEach(el => el.value = '');
+      updateResult();
+    }
+
+    document.addEventListener('change', updateResult);
+    document.addEventListener('input', updateResult);
+    updateResult();
+  </script>
+</body>
+</html>
