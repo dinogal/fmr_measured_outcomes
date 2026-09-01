@@ -5,16 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mood Disorder Questionnaire (MDQ)</title>
 
-<!-- Link to shared print stylesheet -->
-<link rel="stylesheet" href="print.css">
- <style>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     font-family: Arial, sans-serif;
+    margin: 0;
     padding: 20px;
     background: #f7f7f7;
+    color: #222;
     -webkit-overflow-scrolling: touch;
   }
-  h1 { color: #003366; }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    color: #003366;
+    margin-top: 0;
+  }
+
+  .instructions {
+    margin-bottom: 15px;
+  }
+
   .card {
     background: #fff;
     padding: 12px;
@@ -22,19 +40,30 @@
     border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
+
+  .patient-info {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 14px;
+  }
+
   label.field {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 0;
     font-weight: bold;
   }
-  input[type="text"], input[type="date"] {
+
+  input[type="text"],
+  input[type="date"] {
     width: 100%;
-    max-width: 700px;
     padding: 8px;
+    margin-top: 5px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background: #fff;
   }
+
   .question {
     background: #fff;
     padding: 10px;
@@ -42,65 +71,336 @@
     border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
+
+  .q1-item {
+    margin-top: 10px;
+  }
+
+  .q1-text {
+    margin-bottom: 4px;
+  }
+
   .options {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 5px;
   }
+
   label.choice {
     display: flex;
     align-items: center;
     gap: 5px;
   }
+
   .results {
     margin-top: 20px;
     padding: 15px;
     background: #fff;
     border-radius: 6px;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.05em;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
+
   .green { color: green; }
   .orange { color: darkorange; }
   .red { color: red; }
+
   .disclaimer {
     font-size: 0.9em;
     color: #555;
     margin-top: 10px;
+    font-weight: normal;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    border: 0;
+    border-radius: 5px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .print-btn {
+    background: #003366;
+    color: #fff;
+  }
+
+  .clear-btn {
+    background: #e5e5e5;
+    color: #222;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+
+  .back-link a {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #003366;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .back-link a:hover {
+    background: #002244;
+  }
+
+  @media (max-width: 700px) {
+    body {
+      padding: 10px;
+    }
+
+    .patient-info {
+      grid-template-columns: 1fr;
+    }
+
+    .actions {
+      flex-direction: column-reverse;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  /* ONE-PAGE US LETTER PORTRAIT PRINT / PDF */
+  @media print {
+    @page {
+      size: Letter portrait;
+      margin: 0.18in;
+    }
+
+    html,
+    body {
+      width: 8.5in;
+      margin: 0;
+      padding: 0 !important;
+      background: #fff;
+      font-size: 7.2pt;
+      line-height: 1.02;
+    }
+
+    .page {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #000;
+      font-size: 14pt;
+      margin: 0 0 3px;
+      line-height: 1;
+    }
+
+    .instructions {
+      margin: 0 0 4px;
+      font-size: 7.2pt;
+    }
+
+    .card {
+      box-shadow: none;
+      border-radius: 0;
+      border: none;
+      padding: 0;
+      margin: 0 0 4px;
+      background: #fff;
+    }
+
+    .patient-info {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 9px;
+    }
+
+    .patient-info label {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      white-space: nowrap;
+      font-size: 7pt;
+    }
+
+    .patient-info input {
+      min-width: 0;
+      height: 16px;
+      margin: 0;
+      padding: 0 2px;
+      border: none;
+      border-bottom: 1px solid #333;
+      border-radius: 0;
+      background: transparent;
+      font-size: 7pt;
+    }
+
+    .question {
+      box-shadow: none;
+      border-radius: 0;
+      border: 1px solid #888;
+      padding: 4px 5px;
+      margin: 0 0 3px;
+      background: #fff;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      font-size: 6.8pt;
+      line-height: 1.02;
+    }
+
+    .question > strong {
+      font-size: 7.2pt;
+    }
+
+    /* Q1: compact each symptom into one row with Yes / No on the right */
+    .q1-item {
+      display: grid;
+      grid-template-columns: 1fr 34px 34px;
+      gap: 3px;
+      align-items: center;
+      margin: 1px 0 0;
+      padding-top: 1px;
+      border-top: 1px solid #ddd;
+    }
+
+    .q1-text {
+      margin: 0;
+      font-size: 6.45pt;
+      line-height: 1.01;
+    }
+
+    .q1-item .options {
+      display: contents;
+    }
+
+    .q1-item label.choice {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1px;
+      margin: 0;
+      font-size: 6.2pt;
+      white-space: nowrap;
+    }
+
+    .options {
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    label.choice {
+      font-size: 6.6pt;
+    }
+
+    input[type="radio"] {
+      width: 9px;
+      height: 9px;
+      margin: 0;
+    }
+
+    .results {
+      box-shadow: none;
+      border-radius: 0;
+      border: 1px solid #555;
+      margin: 3px 0 0;
+      padding: 4px 5px;
+      font-size: 7pt;
+      line-height: 1.02;
+      background: #fff;
+    }
+
+    .results br {
+      display: none;
+    }
+
+    .disclaimer {
+      margin-top: 2px;
+      font-size: 6.2pt;
+      line-height: 1.02;
+      color: #000;
+    }
+
+    .green,
+    .orange,
+    .red {
+      color: #000;
+    }
+
+    .actions,
+    .back-link {
+      display: none !important;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   }
 </style>
 </head>
+
 <body>
+<div class="page">
 
-<h1>Mood Disorder Questionnaire (MDQ)</h1>
-<p>Please answer each question based on your experiences.</p>
+  <h1>Mood Disorder Questionnaire (MDQ)</h1>
+  <p class="instructions">Please answer each question based on your experiences.</p>
 
-<div class="card">
-  <label class="field">Name:
-    <input type="text" id="name" name="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
-<label class="field">Date of Birth:
-  <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
-</label>
-<label class="field">Date of Service:
-  <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
-</label>
-</div>
+  <div class="card">
+    <div class="patient-info">
+      <label class="field">
+        Patient Name:
+        <input type="text" id="name" name="name" maxlength="80">
+      </label>
 
-<form id="mdq-form">
-  <div id="questions-container"></div>
+      <label class="field">
+        Date of Birth:
+        <input type="text" id="dob" name="dob" maxlength="20" placeholder="Enter DOB">
+      </label>
 
-  <div class="results">
-    Subtotal Q1 Yes answers: <span id="subtotal">0</span>
-    <div id="interpretation"></div>
-    <br>
-    Screening Result: <span id="screen-result" class="green">Negative</span>
-    <div class="disclaimer">
-      This screening is not a diagnosis. Results should be interpreted by a qualified healthcare provider.
+      <label class="field">
+        Date of Service:
+        <input type="text" id="dos" name="dos" maxlength="20" placeholder="Enter DOS">
+      </label>
     </div>
   </div>
-</form>
+
+  <form id="mdq-form">
+    <div id="questions-container"></div>
+
+    <div class="results">
+      Subtotal Q1 Yes answers: <span id="subtotal">0</span>
+      <div id="interpretation"></div>
+      <br>
+      Screening Result: <span id="screen-result" class="green">Negative</span>
+      <div class="disclaimer">
+        This screening is not a diagnosis. Results should be interpreted by a qualified healthcare provider.
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
+      <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </form>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
+  </div>
+
+</div>
 
 <script>
 const q1Items = [
@@ -121,19 +421,22 @@ const q1Items = [
 
 const container = document.getElementById('questions-container');
 
-// Question 1
 let q1HTML = `<div class="question"><strong>1. In your lifetime, have you ever had any of the following occur?</strong>`;
+
 q1Items.forEach((q, idx) => {
-  q1HTML += `<div>${idx+1}. ${q}</div>
-  <div class="options">
-    <label class="choice"><input type="radio" name="q1_${idx}" value="yes">Yes</label>
-    <label class="choice"><input type="radio" name="q1_${idx}" value="no">No</label>
-  </div>`;
+  q1HTML += `
+    <div class="q1-item">
+      <div class="q1-text">${idx + 1}. ${q}</div>
+      <div class="options">
+        <label class="choice"><input type="radio" name="q1_${idx}" value="yes">Yes</label>
+        <label class="choice"><input type="radio" name="q1_${idx}" value="no">No</label>
+      </div>
+    </div>`;
 });
+
 q1HTML += `</div>`;
 container.innerHTML += q1HTML;
 
-// Question 2
 container.innerHTML += `
 <div class="question">
   <strong>2. If you checked YES to 2 or more of the above, did several of these ever happen during the same period of time?</strong>
@@ -143,10 +446,10 @@ container.innerHTML += `
   </div>
 </div>`;
 
-// Question 3
 container.innerHTML += `
 <div class="question">
-  <strong>3. How much of a problem did any of these cause you</strong> (like being unable to work; having family, money, or legal troubles; getting into arguments or fights)?
+  <strong>3. How much of a problem did any of these cause you</strong>
+  (like being unable to work; having family, money, or legal troubles; getting into arguments or fights)?
   <div class="options">
     <label class="choice"><input type="radio" name="q3" value="none">No problem</label>
     <label class="choice"><input type="radio" name="q3" value="minor">Minor problem</label>
@@ -155,7 +458,6 @@ container.innerHTML += `
   </div>
 </div>`;
 
-// Question 4
 container.innerHTML += `
 <div class="question">
   <strong>4. Have any of your blood relatives had manic-depressive illness or bipolar disorder?</strong>
@@ -165,7 +467,6 @@ container.innerHTML += `
   </div>
 </div>`;
 
-// Question 5
 container.innerHTML += `
 <div class="question">
   <strong>5. Has a health professional ever told you that you have manic-depressive illness or bipolar disorder?</strong>
@@ -177,18 +478,18 @@ container.innerHTML += `
 
 const form = document.getElementById('mdq-form');
 
-form.addEventListener('change', (e) => {
-  // Count Q1 Yes answers
+function updateResults(changedName = "") {
   let q1YesCount = 0;
+
   q1Items.forEach((_, idx) => {
     const selected = form.querySelector(`input[name="q1_${idx}"]:checked`);
     if (selected && selected.value === "yes") q1YesCount++;
   });
 
-  // Auto-fill Q2 unless user just changed Q2
-  if (e.target.name !== 'q2') {
+  if (changedName !== 'q2') {
     const q2Yes = form.querySelector('input[name="q2"][value="yes"]');
     const q2No = form.querySelector('input[name="q2"][value="no"]');
+
     if (q1YesCount >= 2) {
       q2Yes.checked = true;
     } else {
@@ -196,23 +497,35 @@ form.addEventListener('change', (e) => {
     }
   }
 
-  // Show subtotal and interpretation
   document.getElementById('subtotal').textContent = q1YesCount;
+
   let interp = "";
   let interpClass = "";
-  if (q1YesCount >= 7) { interp = "Possible need for further evaluation for bipolar disorder."; interpClass = "red"; }
-  else if (q1YesCount >= 4) { interp = "May need additional monitoring or support."; interpClass = "orange"; }
-  else { interp = "Unlikely to indicate bipolar disorder."; interpClass = "green"; }
-  document.getElementById('interpretation').innerHTML = `<span class="${interpClass}">${interp}</span>`;
 
-  // Final screening
+  if (q1YesCount >= 7) {
+    interp = "Possible need for further evaluation for bipolar disorder.";
+    interpClass = "red";
+  } else if (q1YesCount >= 4) {
+    interp = "May need additional monitoring or support.";
+    interpClass = "orange";
+  } else {
+    interp = "Unlikely to indicate bipolar disorder.";
+    interpClass = "green";
+  }
+
+  document.getElementById('interpretation').innerHTML =
+    `<span class="${interpClass}">${interp}</span>`;
+
   const q2Val = form.querySelector('input[name="q2"]:checked')?.value;
   const q3Val = form.querySelector('input[name="q3"]:checked')?.value;
-  let positive = false;
-  if (q1YesCount >= 7 && q2Val === "yes" && (q3Val === "moderate" || q3Val === "serious")) {
-    positive = true;
-  }
+
+  const positive =
+    q1YesCount >= 7 &&
+    q2Val === "yes" &&
+    (q3Val === "moderate" || q3Val === "serious");
+
   const screenResultEl = document.getElementById('screen-result');
+
   if (positive) {
     screenResultEl.textContent = "Positive";
     screenResultEl.className = "red";
@@ -220,7 +533,24 @@ form.addEventListener('change', (e) => {
     screenResultEl.textContent = "Negative";
     screenResultEl.className = "green";
   }
+}
+
+form.addEventListener('change', (e) => {
+  updateResults(e.target.name);
 });
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  if (confirm('Clear all responses?')) {
+    form.reset();
+    document.getElementById('name').value = '';
+    document.getElementById('dob').value = '';
+    document.getElementById('dos').value = '';
+    updateResults();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+updateResults();
 </script>
 
 </body>
