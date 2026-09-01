@@ -4,32 +4,36 @@
   <meta charset="UTF-8">
   <title>Örebro Musculoskeletal Pain Questionnaire (Short)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       min-height: 100vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       background-color: #f9f9f9;
+      -webkit-overflow-scrolling: touch;
     }
 
     body {
       padding: 20px;
     }
 
+    .page {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
     h2 {
       text-align: left;
       margin: 0 0 20px;
+      color: #222;
     }
 
     .section {
-      margin-bottom: 30px;
+      margin-bottom: 18px;
       background-color: #fff;
       padding: 15px;
       border-radius: 8px;
@@ -40,6 +44,28 @@
     .question {
       display: block;
       margin: 8px 0;
+    }
+
+    .patient-info {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .patient-info label {
+      font-weight: 700;
+      margin: 0;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 7px;
+      margin-top: 5px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
     }
 
     .scale {
@@ -55,6 +81,7 @@
       flex-direction: column;
       align-items: center;
       font-size: 0.85em;
+      margin: 0;
     }
 
     .guide {
@@ -64,7 +91,11 @@
     }
 
     .score {
-      margin-top: 30px;
+      margin-top: 20px;
+      padding: 12px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       font-weight: bold;
       font-size: 1.1em;
     }
@@ -72,13 +103,14 @@
     .actions {
       display: flex;
       justify-content: flex-end;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 18px;
     }
 
     button {
       border: 0;
-      border-radius: 5px;
+      border-radius: 6px;
       padding: 10px 16px;
       font-size: 0.95rem;
       cursor: pointer;
@@ -89,32 +121,19 @@
       color: #fff;
     }
 
-    .clear-btn {
-      background: #e5e5e5;
-      color: #222;
-    }
-
     .landscape-btn {
       background: #566b7a;
       color: #fff;
     }
 
-    input[type="text"] {
-      width: 100%;
-      max-width: 600px;
-      padding: 6px;
-      font-size: 1em;
-    }
-
-    input[type="date"] {
-      padding: 6px;
-      font-size: 1em;
-      max-width: 250px;
+    .clear-btn {
+      background: #e5e5e5;
+      color: #222;
     }
 
     .back-link {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 24px;
       margin-bottom: 10px;
     }
 
@@ -124,7 +143,7 @@
       background: #003366;
       color: #fff;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 6px;
       font-weight: bold;
     }
 
@@ -133,9 +152,22 @@
     }
 
     @media screen and (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
+      .patient-info {
+        grid-template-columns: 1fr;
+      }
+
       .scale {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      .scale label {
+        flex-direction: row;
+        gap: 5px;
       }
 
       .actions {
@@ -147,162 +179,11 @@
       }
     }
 
-    /* Örebro: print as no more than two US Letter landscape pages */
-
-      html,
-      body {
-        width: 11in;
-        margin: 0;
-        padding: 0 !important;
-        background: #fff;
-        overflow: visible;
-        font-size: 8pt;
-        line-height: 1.05;
-      }
-
-      h2 {
-        margin: 0 0 6px;
-        font-size: 15pt;
-        line-height: 1.05;
-      }
-
-      form {
-        margin: 0;
-        padding: 0;
-      }
-
-      .section {
-        margin: 0 0 5px;
-        padding: 5px 7px;
-        border: 1px solid #777;
-        border-radius: 0;
-        box-shadow: none;
-        background: #fff;
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-
-      /* Compact patient information into one row */
-      form > .section:first-child {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 12px;
-        align-items: end;
-      }
-
-      form > .section:first-child label {
-        display: flex;
-        align-items: flex-end;
-        gap: 5px;
-        margin: 0;
-        font-weight: 700;
-        white-space: nowrap;
-        font-size: 8pt;
-      }
-
-      form > .section:first-child input[type="text"],
-      form > .section:first-child input[type="date"] {
-        width: 100%;
-        max-width: none;
-        height: 18px;
-        margin: 0;
-        padding: 1px 2px;
-        border: none;
-        border-bottom: 1px solid #333;
-        border-radius: 0;
-        font-size: 8pt;
-        background: transparent;
-      }
-
-      .question {
-        margin: 0 0 3px;
-        font-weight: 700;
-        font-size: 8pt;
-      }
-
-      .scale {
-        display: grid;
-        grid-template-columns:
-          minmax(120px, 1.1fr)
-          repeat(11, 27px)
-          minmax(150px, 1.35fr);
-        gap: 2px;
-        align-items: center;
-        margin: 0;
-      }
-
-      .scale label {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        font-size: 7.2pt;
-        line-height: 1;
-      }
-
-      .scale input[type="radio"] {
-        width: 11px;
-        height: 11px;
-        margin: 0 0 1px;
-      }
-
-      .guide {
-        min-width: 0;
-        margin: 0;
-        color: #000;
-        font-size: 7pt;
-        line-height: 1.05;
-      }
-
-      /* Question 1 has 10 choices and no left/right guides */
-      form > .section:nth-child(2) .scale {
-        grid-template-columns: repeat(10, 1fr);
-      }
-
-      form > .section:nth-child(2) .scale label {
-        font-size: 7.2pt;
-        white-space: nowrap;
-      }
-
-      #dynamic-questions {
-        margin: 0;
-        padding: 0;
-      }
-
-      /*
-        Q2–Q10 are the 9 children of #dynamic-questions.
-        Child 6 is Question 7. Starting Q7 on page 2 produces
-        a predictable two-page result with comfortable readability.
-      */
-      #dynamic-questions .section:nth-child(6) {
-        break-before: page;
-        page-break-before: always;
-      }
-
-      .score {
-        margin: 5px 0 0;
-        padding: 5px 7px;
-        border: 1px solid #555;
-        font-size: 9pt;
-      }
-
-      .actions,
-      .back-link {
-        display: none !important;
-      }
-
-      * {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
-  
-    /* Örebro: compact one-page US Letter PORTRAIT PDF layout */
+    /* DEFAULT PRINT: ONE-PAGE PORTRAIT */
     @media print {
       @page {
         size: Letter portrait;
-        margin: 0.18in;
+        margin: 0.16in;
       }
 
       html,
@@ -312,17 +193,20 @@
         padding: 0 !important;
         background: #fff;
         overflow: visible;
-        font-size: 7.2pt;
-        line-height: 1.0;
+        font-size: 7pt;
+        line-height: 1;
       }
 
-      body {
-        padding: 0 !important;
+      .page {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
       }
 
       h2 {
-        margin: 0 0 4px;
-        font-size: 13pt;
+        margin: 0 0 3px;
+        font-size: 12.5pt;
         line-height: 1;
       }
 
@@ -342,52 +226,47 @@
         page-break-inside: avoid;
       }
 
-      /* Patient information on one compact row */
-      form > .section:first-child {
-        display: grid;
+      .patient-info {
         grid-template-columns: 2fr 1fr 1fr;
         gap: 8px;
-        align-items: end;
       }
 
-      form > .section:first-child label {
+      .patient-info label {
         display: flex;
         align-items: flex-end;
         gap: 4px;
         margin: 0;
-        font-weight: 700;
         white-space: nowrap;
-        font-size: 7pt;
+        font-size: 6.8pt;
       }
 
-      form > .section:first-child input[type="text"],
-      form > .section:first-child input[type="date"] {
+      .patient-info input[type="text"],
+      .patient-info input[type="date"] {
         width: 100%;
-        max-width: none;
-        height: 15px;
+        min-width: 0;
+        height: 14px;
         margin: 0;
         padding: 0 2px;
         border: none;
         border-bottom: 1px solid #333;
         border-radius: 0;
-        font-size: 7pt;
         background: transparent;
+        font-size: 6.8pt;
       }
 
       .question {
         margin: 0 0 1px;
         font-weight: 700;
-        font-size: 7.2pt;
+        font-size: 6.9pt;
         line-height: 1;
       }
 
-      /* Q2-Q10: guides + 0-10 scale all stay on one line */
       .scale {
         display: grid;
         grid-template-columns:
-          minmax(92px, 1fr)
-          repeat(11, 18px)
-          minmax(112px, 1.15fr);
+          minmax(86px, 1fr)
+          repeat(11, 17px)
+          minmax(105px, 1.2fr);
         gap: 1px;
         align-items: center;
         margin: 0;
@@ -399,13 +278,13 @@
         align-items: center;
         justify-content: center;
         margin: 0;
-        font-size: 6.2pt;
+        font-size: 5.9pt;
         line-height: 0.95;
       }
 
       .scale input[type="radio"] {
-        width: 9px;
-        height: 9px;
+        width: 8px;
+        height: 8px;
         margin: 0;
       }
 
@@ -413,37 +292,27 @@
         min-width: 0;
         margin: 0;
         color: #000;
-        font-size: 6pt;
+        font-size: 5.7pt;
         line-height: 1;
       }
 
-      /* Q1: ten duration choices across the width */
-      form > .section:nth-child(2) .scale {
+      .q1 .scale {
         grid-template-columns: repeat(10, 1fr);
-        gap: 2px;
+        gap: 1px;
       }
 
-      form > .section:nth-child(2) .scale label {
-        font-size: 6.1pt;
+      .q1 .scale label {
+        font-size: 5.8pt;
         white-space: nowrap;
-      }
-
-      #dynamic-questions {
-        margin: 0;
-        padding: 0;
-      }
-
-      /* Remove any forced page break from earlier versions */
-      #dynamic-questions .section {
-        break-before: auto !important;
-        page-break-before: auto !important;
       }
 
       .score {
         margin: 2px 0 0;
         padding: 3px 4px;
         border: 1px solid #555;
-        font-size: 8pt;
+        border-radius: 0;
+        box-shadow: none;
+        font-size: 7.5pt;
         line-height: 1;
       }
 
@@ -457,51 +326,67 @@
         print-color-adjust: exact;
       }
     }
-
   </style>
 </head>
+
 <body>
+<div class="page">
 
-<h2>Örebro Musculoskeletal Pain Questionnaire (Short Form)</h2>
+  <h2>Örebro Musculoskeletal Pain Questionnaire (Short Form)</h2>
 
-<form id="orebro-form">
-  <div class="section">
-    <label>Name: <input type="text" name="name" maxlength="80" placeholder="Enter full name (up to 80 characters)" /></label>
-    <label>Date of Birth: <input type="date" name="dob" /></label>
-    <label>Date of Service: <input type="date" name="dos" /></label>
-  </div>
+  <form id="orebro-form">
+    <div class="section">
+      <div class="patient-info">
+        <label>
+          Patient Name:
+          <input type="text" name="name" maxlength="80">
+        </label>
 
-  <div class="section">
-    <div class="question">1. How long have you had your current pain problem?</div>
-    <div class="scale">
-      <label><input type="radio" name="q1" value="1"> 0–1 week</label>
-      <label><input type="radio" name="q1" value="2"> 1–2 weeks</label>
-      <label><input type="radio" name="q1" value="3"> 3–4 weeks</label>
-      <label><input type="radio" name="q1" value="4"> 4–5 weeks</label>
-      <label><input type="radio" name="q1" value="5"> 6–8 weeks</label>
-      <label><input type="radio" name="q1" value="6"> 9–11 weeks</label>
-      <label><input type="radio" name="q1" value="7"> 3–6 months</label>
-      <label><input type="radio" name="q1" value="8"> 6–9 months</label>
-      <label><input type="radio" name="q1" value="9"> 9–12 months</label>
-      <label><input type="radio" name="q1" value="10"> Over 1 year</label>
+        <label>
+          Date of Birth:
+          <input type="date" name="dob">
+        </label>
+
+        <label>
+          Date of Service:
+          <input type="date" name="dos">
+        </label>
+      </div>
     </div>
+
+    <div class="section q1">
+      <div class="question">1. How long have you had your current pain problem?</div>
+      <div class="scale">
+        <label><input type="radio" name="q1" value="1">0–1 week</label>
+        <label><input type="radio" name="q1" value="2">1–2 weeks</label>
+        <label><input type="radio" name="q1" value="3">3–4 weeks</label>
+        <label><input type="radio" name="q1" value="4">4–5 weeks</label>
+        <label><input type="radio" name="q1" value="5">6–8 weeks</label>
+        <label><input type="radio" name="q1" value="6">9–11 weeks</label>
+        <label><input type="radio" name="q1" value="7">3–6 months</label>
+        <label><input type="radio" name="q1" value="8">6–9 months</label>
+        <label><input type="radio" name="q1" value="9">9–12 months</label>
+        <label><input type="radio" name="q1" value="10">Over 1 year</label>
+      </div>
+    </div>
+
+    <div id="dynamic-questions"></div>
+
+    <div class="score">
+      Total Score: <span id="total">0 (incomplete)</span> / 100
+    </div>
+
+    <div class="actions">
+      <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
+      <button type="button" class="print-btn" onclick="printPortrait()">Print Portrait / Save PDF</button>
+      <button type="button" class="landscape-btn" onclick="printLandscape()">Print Landscape / Save PDF</button>
+    </div>
+  </form>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
   </div>
 
-  <div id="dynamic-questions"></div>
-
-  <div class="score">
-    Total Score: <span id="total">0</span> / 100
-  </div>
-
-  <div class="actions">
-    <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
-    <button type="button" class="print-btn" onclick="printPortrait()">Print Portrait / Save PDF</button>
-    <button type="button" class="print-btn landscape-btn" onclick="printLandscape()">Print Landscape / Save PDF</button>
-  </div>
-</form>
-
-<div class="back-link">
-  <a href="index.html">← Return to Index</a>
 </div>
 
 <script>
@@ -517,18 +402,21 @@
     {id: 10, text: "10. I should not do my normal work with my present pain", left: "0 = Completely disagree", right: "10 = Completely agree"}
   ];
 
-  const dynamicQuestions = document.getElementById('dynamic-questions');
+  const dynamicQuestions = document.getElementById("dynamic-questions");
+  const form = document.getElementById("orebro-form");
+  const totalSpan = document.getElementById("total");
 
   items.forEach(item => {
-    let radios = '';
+    let radios = "";
+
     for (let i = 0; i <= 10; i++) {
       radios += `
         <label>
-          <input type="radio" name="q${item.id}" value="${i}" ${item.reverse ? 'data-reverse="true"' : ''}>${i}
-        </label>
-      `;
+          <input type="radio" name="q${item.id}" value="${i}">${i}
+        </label>`;
     }
-    const section = `
+
+    dynamicQuestions.insertAdjacentHTML("beforeend", `
       <div class="section">
         <div class="question">${item.text}</div>
         <div class="scale">
@@ -537,12 +425,8 @@
           <span class="guide">${item.right}</span>
         </div>
       </div>
-    `;
-    dynamicQuestions.insertAdjacentHTML('beforeend', section);
+    `);
   });
-
-  const form = document.getElementById('orebro-form');
-  const totalSpan = document.getElementById('total');
 
   function updateScore() {
     let sum = 0;
@@ -550,74 +434,80 @@
     const reverseQuestions = [3, 4, 8];
 
     for (let i = 1; i <= 10; i++) {
-      const radios = form.querySelectorAll(`input[name="q${i}"]`);
-      for (let radio of radios) {
-        if (radio.checked) {
-          const val = parseInt(radio.value, 10);
-          if (reverseQuestions.includes(i)) {
-            sum += 10 - val;
-          } else {
-            sum += val;
-          }
-          completed++;
-          break;
-        }
+      const selected = form.querySelector(`input[name="q${i}"]:checked`);
+
+      if (selected) {
+        const value = parseInt(selected.value, 10);
+        sum += reverseQuestions.includes(i) ? 10 - value : value;
+        completed++;
       }
     }
 
-    totalSpan.textContent = `${sum}${completed === 10 ? '' : ' (incomplete)'}`;
+    totalSpan.textContent =
+      completed === 10 ? `${sum}` : `${sum} (incomplete)`;
   }
 
-  form.addEventListener('change', updateScore);
-
-  document.getElementById('clear-btn').addEventListener('click', () => {
-    if (confirm('Clear all responses?')) {
-      form.reset();
-    
   function printPortrait() {
-    // Portrait is the default print orientation defined in the page CSS.
+    removeLandscapeOverride();
     window.print();
   }
 
   function printLandscape() {
-    // Temporarily override the page orientation only for this print job.
-    const override = document.createElement('style');
-    override.id = 'temporary-landscape-print-style';
-    override.textContent = `
+    removeLandscapeOverride();
+
+    const style = document.createElement("style");
+    style.id = "landscape-print-override";
+    style.textContent = `
       @media print {
         @page {
           size: Letter landscape;
           margin: 0.18in;
         }
 
-        html,
-        body {
+        html, body {
           width: 11in !important;
         }
 
         .scale {
           grid-template-columns:
-            minmax(120px, 1fr)
-            repeat(11, 24px)
-            minmax(145px, 1.2fr) !important;
+            minmax(115px, 1fr)
+            repeat(11, 23px)
+            minmax(140px, 1.2fr) !important;
+        }
+
+        .scale label {
+          font-size: 6.4pt !important;
+        }
+
+        .guide {
+          font-size: 6.2pt !important;
         }
       }
     `;
 
-    document.head.appendChild(override);
+    document.head.appendChild(style);
 
     const cleanup = () => {
-      const el = document.getElementById('temporary-landscape-print-style');
-      if (el) el.remove();
-      window.removeEventListener('afterprint', cleanup);
+      removeLandscapeOverride();
+      window.removeEventListener("afterprint", cleanup);
     };
 
-    window.addEventListener('afterprint', cleanup);
+    window.addEventListener("afterprint", cleanup);
     window.print();
   }
 
-  updateScore();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  function removeLandscapeOverride() {
+    const oldStyle = document.getElementById("landscape-print-override");
+    if (oldStyle) oldStyle.remove();
+  }
+
+  form.addEventListener("change", updateScore);
+
+  document.getElementById("clear-btn").addEventListener("click", () => {
+    if (confirm("Clear all responses?")) {
+      form.reset();
+      updateScore();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
 
