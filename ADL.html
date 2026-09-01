@@ -807,6 +807,7 @@
 
           <h3>Do you currently use any assistive device?</h3>
           <div class="check-grid">
+            <label><input type="checkbox" id="noDeviceCheck" value="None"> None</label>
             <label><input type="checkbox" value="Cane"> Cane</label>
             <label><input type="checkbox" value="Walker"> Walker</label>
             <label><input type="checkbox" value="Wheelchair"> Wheelchair</label>
@@ -827,6 +828,9 @@
         <h2>7. Change From Previous Function</h2>
         <p style="margin-top:0;">Compared with before your injury/condition, your ability to perform daily activities is:</p>
         <div class="inline-options">
+          <label><input type="radio" name="changeFunction" value="Overall improved"> Overall improved</label>
+          <label><input type="radio" name="changeFunction" value="Moderately better"> Moderately better</label>
+          <label><input type="radio" name="changeFunction" value="Slightly better"> Slightly better</label>
           <label><input type="radio" name="changeFunction" value="About the same"> About the same</label>
           <label><input type="radio" name="changeFunction" value="Slightly worse"> Slightly worse</label>
           <label><input type="radio" name="changeFunction" value="Moderately worse"> Moderately worse</label>
@@ -1255,9 +1259,11 @@
         parts.push("The patient reports not requiring assistance from another person with daily activities.");
       }
 
+      const noneSelected = document.getElementById("noDeviceCheck")?.checked;
       const devices = [];
+
       document.querySelectorAll('.check-grid input[type="checkbox"]:checked').forEach(box => {
-        if (box.value !== "Other") devices.push(box.value.toLowerCase());
+        if (box.value !== "Other" && box.value !== "None") devices.push(box.value.toLowerCase());
       });
 
       const otherChecked = document.getElementById("otherDeviceCheck")?.checked;
@@ -1266,7 +1272,9 @@
         devices.push(otherDevice.toLowerCase());
       }
 
-      if (devices.length){
+      if (noneSelected){
+        parts.push("The patient reports no current use of assistive devices.");
+      } else if (devices.length){
         parts.push(`The patient currently uses ${joinNatural(devices)} for assistance.`);
       }
 
@@ -1279,6 +1287,9 @@
 
       if (change){
         const map = {
+          "Overall improved":"overall improved",
+          "Moderately better":"moderately better",
+          "Slightly better":"slightly better",
           "About the same":"about the same",
           "Slightly worse":"slightly worse",
           "Moderately worse":"moderately worse",
@@ -1404,6 +1415,32 @@
       calculateScores();
       window.scrollTo({ top:0, behavior:"smooth" });
     }
+
+    const noDeviceCheck = document.getElementById("noDeviceCheck");
+    const deviceCheckboxes = Array.from(document.querySelectorAll('.check-grid input[type="checkbox"]'));
+
+    noDeviceCheck?.addEventListener("change", () => {
+      if (noDeviceCheck.checked){
+        deviceCheckboxes.forEach(box => {
+          if (box !== noDeviceCheck) box.checked = false;
+        });
+        document.getElementById("otherDevice").value = "";
+      }
+      generateNarrative();
+    });
+
+    deviceCheckboxes.forEach(box => {
+      if (box === noDeviceCheck) return;
+      box.addEventListener("change", () => {
+        if (box.checked && noDeviceCheck){
+          noDeviceCheck.checked = false;
+        }
+        if (box.id === "otherDeviceCheck" && !box.checked){
+          document.getElementById("otherDevice").value = "";
+        }
+        generateNarrative();
+      });
+    });
 
     buildSections();
     calculateScores();
