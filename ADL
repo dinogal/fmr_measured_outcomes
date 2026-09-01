@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Activities of Daily Living (ADL) Worksheet</title>
+  <style>
+    :root{
+      --bg:#f5f7fa;
+      --card:#ffffff;
+      --accent:#0b5d8f;
+      --accent-dark:#073f62;
+      --border:#cfd8e3;
+      --muted:#5f6b76;
+      --text:#1f2937;
+      --soft:#eef5fa;
+      --success:#1f7a3f;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.4;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:20px auto;
+      padding:16px;
+    }
+
+    .sheet{
+      background:var(--card);
+      border-radius:14px;
+      box-shadow:0 2px 12px rgba(0,0,0,.08);
+      padding:22px;
+    }
+
+    h1{
+      margin:0 0 6px;
+      color:var(--accent);
+      font-size:1.75rem;
+      line-height:1.15;
+    }
+
+    .subtitle{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:.98rem;
+    }
+
+    .patient-grid{
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 1fr;
+      gap:12px;
+      margin:16px 0 18px;
+    }
+
+    label.field{
+      display:block;
+      font-weight:700;
+      font-size:.94rem;
+    }
+
+    .field input,
+    .field textarea,
+    .field select{
+      width:100%;
+      margin-top:6px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:10px 12px;
+      font-size:1rem;
+      background:#fff;
+    }
+
+    .field textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .instructions{
+      background:var(--soft);
+      border:1px solid #c8ddea;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:16px;
+    }
+
+    .instructions strong{
+      color:var(--accent-dark);
+    }
+
+    .score-key{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .score-pill{
+      border:1px solid #c8ddea;
+      background:#fff;
+      border-radius:8px;
+      padding:8px;
+      font-size:.88rem;
+      text-align:center;
+    }
+
+    .section-card{
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-bottom:16px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .section-head{
+      background:var(--accent);
+      color:#fff;
+      padding:10px 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:1.12rem;
+    }
+
+    .section-score{
+      font-weight:700;
+      font-size:.94rem;
+    }
+
+    .adl-table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+    }
+
+    .adl-table th,
+    .adl-table td{
+      border-top:1px solid #e2e8f0;
+      padding:8px 6px;
+      vertical-align:middle;
+    }
+
+    .adl-table th{
+      background:#f8fafc;
+      font-size:.82rem;
+      color:#374151;
+      text-align:center;
+    }
+
+    .adl-table th.activity,
+    .adl-table td.activity{
+      width:38%;
+      text-align:left;
+      padding-left:12px;
+    }
+
+    .adl-table td.choice{
+      text-align:center;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      accent-color:var(--accent);
+      cursor:pointer;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:15px;
+      margin-bottom:16px;
+      background:#fff;
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      color:var(--accent);
+      font-size:1.15rem;
+    }
+
+    .card h3{
+      margin:12px 0 8px;
+      font-size:1rem;
+      color:var(--accent-dark);
+    }
+
+    .inline-options{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px 18px;
+      margin-top:8px;
+    }
+
+    .inline-options label,
+    .check-grid label{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      font-weight:500;
+    }
+
+    .check-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(150px,1fr));
+      gap:10px 14px;
+      margin-top:10px;
+    }
+
+    .tolerance-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .rank-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .rank-list input{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:9px 10px;
+      font-size:1rem;
+    }
+
+    .summary-box{
+      border:2px solid var(--accent);
+      border-radius:12px;
+      padding:16px;
+      margin-top:18px;
+      background:#fbfdff;
+    }
+
+    .summary-box h2{
+      margin:0 0 12px;
+      color:var(--accent);
+      font-size:1.2rem;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px 18px;
+    }
+
+    .summary-item{
+      padding:8px 0;
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .summary-total{
+      grid-column:1 / -1;
+      border-top:2px solid var(--accent);
+      margin-top:4px;
+      padding-top:12px;
+      font-size:1.08rem;
+      font-weight:800;
+    }
+
+    .summary-note{
+      color:var(--muted);
+      font-size:.88rem;
+      margin-top:10px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    button,
+    .back-link a{
+      border:none;
+      border-radius:7px;
+      padding:10px 16px;
+      font-size:.95rem;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-block;
+    }
+
+    .print-btn,
+    .back-link a{
+      background:var(--accent-dark);
+      color:#fff;
+    }
+
+    .clear-btn{
+      background:#e5e7eb;
+      color:#222;
+    }
+
+    .back-link{
+      text-align:center;
+      margin:20px 0 4px;
+    }
+
+    .small-note{
+      font-size:.88rem;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    @media (max-width:900px){
+      .patient-grid,
+      .two-col,
+      .tolerance-grid{
+        grid-template-columns:1fr;
+      }
+
+      .check-grid{
+        grid-template-columns:repeat(2,minmax(140px,1fr));
+      }
+
+      .score-key{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .adl-table{
+        font-size:.88rem;
+      }
+
+      .adl-table th.activity,
+      .adl-table td.activity{
+        width:42%;
+      }
+    }
+
+    @media (max-width:560px){
+      .container{ padding:8px; }
+      .sheet{ padding:14px; }
+      .adl-table th,
+      .adl-table td{ padding:7px 3px; }
+      .adl-table th.activity,
+      .adl-table td.activity{ width:46%; }
+      .check-grid{ grid-template-columns:1fr; }
+    }
+
+    @media print{
+      @page{
+        size:Letter portrait;
+        margin:.35in;
+      }
+
+      html,body{
+        background:#fff !important;
+        color:#000;
+        font-size:9pt;
+        line-height:1.2;
+      }
+
+      .container{
+        max-width:none;
+        margin:0;
+        padding:0;
+      }
+
+      .sheet{
+        box-shadow:none;
+        border-radius:0;
+        padding:0;
+      }
+
+      h1{
+        color:#000;
+        font-size:16pt;
+        margin-bottom:3px;
+      }
+
+      .subtitle{
+        color:#000;
+        margin-bottom:8px;
+      }
+
+      .patient-grid{
+        grid-template-columns:2fr 1fr 1fr 1fr;
+        gap:7px;
+        margin:8px 0 10px;
+      }
+
+      label.field{
+        font-size:8.5pt;
+      }
+
+      .field input,
+      .field textarea,
+      .field select{
+        border:none;
+        border-bottom:1px solid #444;
+        border-radius:0;
+        padding:2px 1px;
+        margin-top:2px;
+        font-size:8.5pt;
+        background:#fff;
+      }
+
+      .instructions{
+        padding:7px 9px;
+        margin-bottom:10px;
+        background:#fff;
+        border:1px solid #777;
+      }
+
+      .score-key{
+        grid-template-columns:repeat(6,1fr);
+        gap:3px;
+        margin-top:5px;
+      }
+
+      .score-pill{
+        padding:4px 3px;
+        font-size:7.4pt;
+        border-color:#888;
+      }
+
+      .section-card{
+        border-radius:0;
+        margin-bottom:8px;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .section-head{
+        background:#fff !important;
+        color:#000;
+        border-bottom:1px solid #444;
+        padding:5px 8px;
+      }
+
+      .section-head h2{
+        font-size:10pt;
+      }
+
+      .section-score{
+        font-size:8.5pt;
+      }
+
+      .adl-table th,
+      .adl-table td{
+        padding:4px 3px;
+        font-size:7.9pt;
+      }
+
+      .adl-table th.activity,
+      .adl-table td.activity{
+        width:40%;
+        padding-left:6px;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"]{
+        width:11px;
+        height:11px;
+      }
+
+      .card{
+        border-radius:0;
+        padding:8px;
+        margin-bottom:8px;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .card h2{
+        color:#000;
+        font-size:10pt;
+        margin-bottom:6px;
+      }
+
+      .card h3{
+        color:#000;
+        font-size:9pt;
+      }
+
+      .two-col,
+      .tolerance-grid{
+        gap:8px;
+      }
+
+      .check-grid{
+        grid-template-columns:repeat(4,1fr);
+        gap:4px 8px;
+      }
+
+      .summary-box{
+        border-radius:0;
+        border:1.5px solid #333;
+        padding:9px;
+        margin-top:8px;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .summary-box h2{
+        color:#000;
+        font-size:10pt;
+        margin-bottom:5px;
+      }
+
+      .summary-grid{
+        gap:3px 12px;
+      }
+
+      .summary-item{
+        padding:3px 0;
+      }
+
+      .summary-note,
+      .small-note{
+        color:#000;
+        font-size:7.5pt;
+      }
+
+      .actions,
+      .back-link{
+        display:none !important;
+      }
+
+      textarea{
+        min-height:45px !important;
+      }
+
+      *{
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sheet">
+      <h1>Activities of Daily Living (ADL) &amp; Functional Status Worksheet</h1>
+      <p class="subtitle">Patient-reported functional difficulty related to the current condition.</p>
+
+      <div class="patient-grid">
+        <label class="field">Patient Name
+          <input type="text" id="patientName" maxlength="80" placeholder="Enter full name">
+        </label>
+        <label class="field">Date of Birth
+          <input type="date" id="dob">
+        </label>
+        <label class="field">Date of Service
+          <input type="date" id="dos">
+        </label>
+        <label class="field">Date of Injury
+          <input type="date" id="doi">
+        </label>
+      </div>
+
+      <div class="instructions">
+        <strong>Instructions:</strong> Please rate how difficult each activity is for you because of your current condition. Select <strong>N/A</strong> if an activity does not apply to you.
+        <div class="score-key">
+          <div class="score-pill"><strong>0</strong><br>No difficulty</div>
+          <div class="score-pill"><strong>1</strong><br>Mild difficulty</div>
+          <div class="score-pill"><strong>2</strong><br>Moderate difficulty</div>
+          <div class="score-pill"><strong>3</strong><br>Severe / needs help</div>
+          <div class="score-pill"><strong>4</strong><br>Unable to perform</div>
+          <div class="score-pill"><strong>N/A</strong><br>Not applicable</div>
+        </div>
+      </div>
+
+      <div id="sections"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2>5. Sleep &amp; Daily Tolerance</h2>
+
+          <label class="field">How many hours do you usually sleep each night?
+            <input type="number" id="sleepHours" min="0" max="24" step="0.5" placeholder="Hours">
+          </label>
+
+          <h3>Does pain wake you from sleep?</h3>
+          <div class="inline-options">
+            <label><input type="radio" name="sleepWake" value="Never"> Never</label>
+            <label><input type="radio" name="sleepWake" value="Occasionally"> Occasionally</label>
+            <label><input type="radio" name="sleepWake" value="Frequently"> Frequently</label>
+            <label><input type="radio" name="sleepWake" value="Every night"> Every night</label>
+          </div>
+
+          <h3>How long can you comfortably:</h3>
+          <div class="tolerance-grid">
+            <label class="field">Sit
+              <input type="number" min="0" id="sitMinutes" placeholder="Minutes">
+            </label>
+            <label class="field">Stand
+              <input type="number" min="0" id="standMinutes" placeholder="Minutes">
+            </label>
+            <label class="field">Walk
+              <input type="number" min="0" id="walkMinutes" placeholder="Minutes">
+            </label>
+            <label class="field">Drive
+              <input type="number" min="0" id="driveMinutes" placeholder="Minutes">
+            </label>
+            <label class="field">Lift
+              <input type="number" min="0" step="0.5" id="liftLbs" placeholder="Pounds">
+            </label>
+            <label class="field">Carry
+              <input type="number" min="0" step="0.5" id="carryLbs" placeholder="Pounds">
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>6. Assistance / Adaptive Equipment</h2>
+
+          <h3>Do you need help from another person with daily activities?</h3>
+          <div class="inline-options">
+            <label><input type="radio" name="needsHelp" value="No"> No</label>
+            <label><input type="radio" name="needsHelp" value="Yes"> Yes</label>
+          </div>
+
+          <label class="field" style="margin-top:12px;">If yes, which activities?
+            <textarea id="helpActivities" placeholder="Describe assistance needed"></textarea>
+          </label>
+
+          <h3>Do you currently use any assistive device?</h3>
+          <div class="check-grid">
+            <label><input type="checkbox" value="Cane"> Cane</label>
+            <label><input type="checkbox" value="Walker"> Walker</label>
+            <label><input type="checkbox" value="Wheelchair"> Wheelchair</label>
+            <label><input type="checkbox" value="Brace"> Brace</label>
+            <label><input type="checkbox" value="Grabber/Reacher"> Grabber / Reacher</label>
+            <label><input type="checkbox" value="Shower Chair"> Shower Chair</label>
+            <label><input type="checkbox" value="Dressing Aid"> Dressing Aid</label>
+            <label><input type="checkbox" id="otherDeviceCheck" value="Other"> Other</label>
+          </div>
+
+          <label class="field" style="margin-top:10px;">Other device
+            <input type="text" id="otherDevice" placeholder="Specify">
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>7. Change From Previous Function</h2>
+        <p style="margin-top:0;">Compared with before your injury/condition, your ability to perform daily activities is:</p>
+        <div class="inline-options">
+          <label><input type="radio" name="changeFunction" value="About the same"> About the same</label>
+          <label><input type="radio" name="changeFunction" value="Slightly worse"> Slightly worse</label>
+          <label><input type="radio" name="changeFunction" value="Moderately worse"> Moderately worse</label>
+          <label><input type="radio" name="changeFunction" value="Significantly worse"> Significantly worse</label>
+          <label><input type="radio" name="changeFunction" value="Unable to perform many previous activities"> Unable to perform many activities I previously performed</label>
+        </div>
+
+        <h3>Which three daily activities are most affected?</h3>
+        <div class="rank-list">
+          <input type="text" id="affected1" placeholder="1. Most affected activity">
+          <input type="text" id="affected2" placeholder="2. Second most affected activity">
+          <input type="text" id="affected3" placeholder="3. Third most affected activity">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>8. Patient Comments</h2>
+        <label class="field">Please describe any other activities that are difficult because of your condition:
+          <textarea id="comments" placeholder="Additional functional limitations or comments"></textarea>
+        </label>
+      </div>
+
+      <div class="summary-box">
+        <h2>Functional Difficulty Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-item"><strong>Personal Care:</strong> <span id="score-personal">0 / 0</span></div>
+          <div class="summary-item"><strong>Mobility:</strong> <span id="score-mobility">0 / 0</span></div>
+          <div class="summary-item"><strong>Household / IADL:</strong> <span id="score-household">0 / 0</span></div>
+          <div class="summary-item"><strong>Upper Extremity:</strong> <span id="score-upper">0 / 0</span></div>
+          <div class="summary-total">
+            Overall Functional Difficulty: <span id="score-total">0 / 0</span>
+            <span id="score-percent" style="margin-left:10px;"></span>
+          </div>
+        </div>
+        <div class="summary-note">
+          Higher scores indicate greater reported functional difficulty. N/A items are excluded from the available maximum score.
+          This worksheet is intended to document functional status and change over time and is not a standalone diagnostic or validated disability instrument.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="clear-btn" id="clearBtn">Clear Form</button>
+        <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+      </div>
+
+      <div class="back-link">
+        <a href="index.html">← Return to Index</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sections = [
+      {
+        id: "personal",
+        title: "1. Personal Care / Basic ADLs",
+        items: [
+          "Bathing / showering",
+          "Dressing upper body",
+          "Dressing lower body",
+          "Putting on shoes / socks",
+          "Grooming / personal hygiene",
+          "Toileting",
+          "Eating / feeding yourself",
+          "Getting in / out of bed"
+        ]
+      },
+      {
+        id: "mobility",
+        title: "2. Mobility",
+        items: [
+          "Sitting",
+          "Standing",
+          "Walking short distances",
+          "Walking longer distances",
+          "Going up / down stairs",
+          "Bending / stooping",
+          "Kneeling / squatting",
+          "Getting in / out of a chair",
+          "Getting in / out of a car",
+          "Driving"
+        ]
+      },
+      {
+        id: "household",
+        title: "3. Household & Instrumental ADLs",
+        items: [
+          "Preparing meals / cooking",
+          "Washing dishes",
+          "Light housekeeping",
+          "Vacuuming / sweeping / mopping",
+          "Laundry",
+          "Grocery shopping",
+          "Carrying groceries",
+          "Managing medications",
+          "Running errands",
+          "Caring for children / dependents"
+        ]
+      },
+      {
+        id: "upper",
+        title: "4. Upper-Extremity Function",
+        items: [
+          "Reaching overhead",
+          "Reaching behind your back",
+          "Reaching forward",
+          "Lifting objects",
+          "Carrying objects",
+          "Pushing / pulling",
+          "Gripping / grasping",
+          "Opening jars / containers",
+          "Writing / typing",
+          "Using a phone / small objects"
+        ]
+      }
+    ];
+
+    const columns = [
+      { label: "0", title: "No difficulty", value: "0" },
+      { label: "1", title: "Mild difficulty", value: "1" },
+      { label: "2", title: "Moderate difficulty", value: "2" },
+      { label: "3", title: "Severe / needs help", value: "3" },
+      { label: "4", title: "Unable to perform", value: "4" },
+      { label: "N/A", title: "Not applicable", value: "na" }
+    ];
+
+    function slugify(text){
+      return text.toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function buildSections(){
+      const holder = document.getElementById("sections");
+
+      sections.forEach(section => {
+        const card = document.createElement("div");
+        card.className = "section-card";
+
+        const head = document.createElement("div");
+        head.className = "section-head";
+        head.innerHTML = `
+          <h2>${section.title}</h2>
+          <div class="section-score">Section Score: <span id="head-${section.id}">0 / 0</span></div>
+        `;
+        card.appendChild(head);
+
+        const table = document.createElement("table");
+        table.className = "adl-table";
+
+        const thead = document.createElement("thead");
+        const trh = document.createElement("tr");
+        const activityTh = document.createElement("th");
+        activityTh.className = "activity";
+        activityTh.textContent = "Activity";
+        trh.appendChild(activityTh);
+
+        columns.forEach(col => {
+          const th = document.createElement("th");
+          th.title = col.title;
+          th.innerHTML = `${col.label}<br><span style="font-weight:400">${col.title}</span>`;
+          trh.appendChild(th);
+        });
+
+        thead.appendChild(trh);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        section.items.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          const tdActivity = document.createElement("td");
+          tdActivity.className = "activity";
+          tdActivity.textContent = item;
+          tr.appendChild(tdActivity);
+
+          const name = `${section.id}-${index+1}-${slugify(item)}`;
+
+          columns.forEach(col => {
+            const td = document.createElement("td");
+            td.className = "choice";
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = name;
+            input.value = col.value;
+            input.setAttribute("aria-label", `${item}: ${col.title}`);
+            input.dataset.section = section.id;
+            td.appendChild(input);
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        card.appendChild(table);
+        holder.appendChild(card);
+      });
+    }
+
+    function calculateScores(){
+      let totalScore = 0;
+      let totalMax = 0;
+
+      sections.forEach(section => {
+        let score = 0;
+        let max = 0;
+
+        section.items.forEach((item, index) => {
+          const name = `${section.id}-${index+1}-${slugify(item)}`;
+          const selected = document.querySelector(`input[name="${name}"]:checked`);
+
+          if (selected && selected.value !== "na"){
+            score += Number(selected.value);
+            max += 4;
+          }
+        });
+
+        totalScore += score;
+        totalMax += max;
+
+        document.getElementById(`score-${section.id}`).textContent = `${score} / ${max}`;
+        document.getElementById(`head-${section.id}`).textContent = `${score} / ${max}`;
+      });
+
+      document.getElementById("score-total").textContent = `${totalScore} / ${totalMax}`;
+
+      const percent = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
+      document.getElementById("score-percent").textContent = totalMax > 0 ? `(${percent}%)` : "";
+    }
+
+    function clearForm(){
+      if (!confirm("Clear all responses?")) return;
+
+      document.querySelectorAll("input").forEach(el => {
+        if (el.type === "radio" || el.type === "checkbox"){
+          el.checked = false;
+        } else {
+          el.value = "";
+        }
+      });
+
+      document.querySelectorAll("textarea").forEach(el => el.value = "");
+      calculateScores();
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
+
+    buildSections();
+    calculateScores();
+
+    document.addEventListener("change", calculateScores);
+    document.getElementById("clearBtn").addEventListener("click", clearForm);
+  </script>
+</body>
+</html>
