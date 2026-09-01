@@ -262,6 +262,10 @@
       margin-top:10px;
     }
 
+    .print-reference-title{
+      display:none;
+    }
+
     @media (max-width:900px){
       .patient-grid,
       .grid-3,
@@ -271,25 +275,351 @@
     }
 
     @media print{
-      body{
-        background:#fff;
+      @page{
+        size: Letter portrait;
+        margin: 0.38in;
       }
-      .wrap{
+
+      html, body{
         margin:0;
         padding:0;
-        max-width:none;
+        background:#fff;
+        color:#000;
+        font-size:9pt;
+        line-height:1.22;
       }
+
+      .wrap{
+        width:100%;
+        max-width:none;
+        margin:0;
+        padding:0;
+      }
+
       .sheet{
+        padding:0;
+        margin:0;
         box-shadow:none;
         border-radius:0;
+        background:#fff;
       }
-      .print-row{
-        display:none;
+
+      .topbar{
+        margin:0 0 6px 0;
+        display:block;
       }
+
+      .titleblock h1{
+        margin:0 0 2px 0;
+        color:#000;
+        font-size:16pt;
+        line-height:1.05;
+      }
+
+      .titleblock .sub{
+        color:#000;
+        font-size:8.5pt;
+        font-weight:600;
+      }
+
+      .patient-grid{
+        display:grid;
+        grid-template-columns:2fr 1fr 1fr;
+        gap:8px;
+        margin:8px 0 10px;
+      }
+
+      label.field{
+        font-size:8pt;
+        margin:0;
+      }
+
+      .field input[type="text"],
+      .field input[type="number"],
+      .field textarea,
+      .field select{
+        margin-top:3px;
+        padding:3px 4px;
+        min-height:20px;
+        border:1px solid #777;
+        border-radius:0;
+        font-size:8.5pt;
+        background:#fff;
+      }
+
+      .field textarea{
+        min-height:34px;
+        resize:none;
+      }
+
+      .card{
+        border:1px solid #777;
+        border-radius:0;
+        padding:8px;
+        margin:0 0 8px 0;
+        background:#fff;
+        break-inside:auto;
+        page-break-inside:auto;
+      }
+
+      .screening-card{
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .results-card{
+        break-before:page;
+        page-break-before:always;
+      }
+
+      .section-title{
+        color:#000;
+        font-size:11pt;
+        margin:0 0 5px 0;
+        line-height:1.1;
+      }
+
+      .instruction{
+        color:#000;
+        font-size:8pt;
+        margin:0 0 6px 0;
+        line-height:1.2;
+      }
+
+      .qrow{
+        display:grid;
+        grid-template-columns:minmax(0, 1fr) auto;
+        column-gap:10px;
+        row-gap:4px;
+        align-items:center;
+        border:1px solid #aaa;
+        border-radius:0;
+        padding:5px 7px;
+        margin:0 0 4px 0;
+        background:#fff;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .qrow .qtext{
+        margin:0;
+        font-size:8.7pt;
+        line-height:1.18;
+        font-weight:700;
+      }
+
+      .yn{
+        display:flex;
+        flex-wrap:nowrap;
+        gap:12px;
+        white-space:nowrap;
+      }
+
+      .yn label,
+      .inline-options label{
+        gap:3px;
+        font-size:8pt;
+        white-space:nowrap;
+      }
+
+      input[type="radio"]{
+        width:10px;
+        height:10px;
+        margin:0;
+      }
+
+      .inline-row{
+        grid-column:1 / -1;
+        display:grid;
+        grid-template-columns:minmax(0, 1fr) auto;
+        gap:10px;
+        align-items:end;
+        margin-top:2px;
+      }
+
+      .inline-options{
+        display:flex;
+        flex-wrap:nowrap;
+        gap:10px;
+        padding-bottom:3px;
+      }
+
+      .qrow > label.field{
+        grid-column:1 / -1;
+      }
+
+      .attempt-row{
+        display:block;
+      }
+
+      .attempt-row .qtext{
+        display:inline-block;
+        margin-right:12px;
+      }
+
+      .attempt-row > .yn{
+        display:inline-flex;
+        vertical-align:middle;
+      }
+
+      .attempt-row .inline-row{
+        display:flex;
+        gap:10px;
+        align-items:flex-end;
+        margin-top:6px;
+      }
+
+      .attempt-row .inline-row > .field{
+        flex:1 1 auto;
+      }
+
+      .attempt-row .inline-options{
+        flex:0 0 auto;
+        display:flex;
+        flex-wrap:nowrap;
+        gap:10px;
+      }
+
+      .current-row{
+        display:block;
+      }
+
+      .current-row .qtext{
+        display:inline-block;
+        margin-right:12px;
+      }
+
+      .current-row > .yn{
+        display:inline-flex;
+        vertical-align:middle;
+      }
+
+      .current-row > label.field{
+        display:block;
+        margin-top:6px;
+      }
+
+      .result-box{
+        border:1px solid #555;
+        border-radius:0;
+        padding:7px;
+        background:#fff;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .result-line{
+        font-size:10pt;
+        margin-bottom:3px;
+        color:#000 !important;
+      }
+
+      .guidance{
+        margin-top:5px;
+        padding:6px;
+        border:1px solid #aaa;
+        border-radius:0;
+        background:#fff;
+        font-size:8pt;
+      }
+
+      .guidance ul{
+        margin:4px 0 0 15px;
+      }
+
+      .print-reference-title{
+        display:block;
+        margin:8px 0 4px;
+        font-size:10pt;
+        font-weight:700;
+      }
+
+      .grid-3{
+        display:block;
+        margin-top:0;
+      }
+
+      .mini-panel{
+        display:grid;
+        grid-template-columns:2.15in minmax(0, 1fr);
+        border:1px solid #777;
+        border-radius:0;
+        margin:0 0 5px 0;
+        overflow:visible;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .mini-head{
+        display:flex;
+        align-items:center;
+        background:#fff;
+        color:#000;
+        border-right:1px solid #777;
+        padding:5px 6px;
+        font-size:8pt;
+        line-height:1.15;
+      }
+
+      .mini-body{
+        padding:5px 7px;
+        background:#fff;
+        min-height:0;
+        font-size:8pt;
+        line-height:1.18;
+      }
+
+      .mini-body h3{
+        margin:0 0 2px 0;
+        font-size:9pt;
+      }
+
+      .mini-body ul{
+        margin:3px 0 0 15px;
+        padding:0;
+      }
+
+      .note{
+        color:#000;
+        font-size:7.5pt;
+        margin-top:5px;
+        line-height:1.18;
+      }
+
+      .resources{
+        margin:6px 0 0 0;
+        padding:7px;
+        border:1px solid #777;
+        border-radius:0;
+        background:#fff;
+        font-size:8pt;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      .resources h3{
+        margin:0 0 4px 0;
+        color:#000;
+        font-size:10pt;
+      }
+
+      .print-row,
       button{
-        display:none;
+        display:none !important;
+      }
+
+      .negative,
+      .nonacute,
+      .acute{
+        color:#000 !important;
+      }
+
+      *{
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
       }
     }
+
   </style>
 </head>
 <body>
@@ -297,7 +627,7 @@
     <div class="sheet">
       <div class="topbar">
         <div class="titleblock">
-          <h1>asQ Suicide Risk Screening Tool</h1>
+          <h1>ASQ Suicide Risk Screening Tool</h1>
           <div class="sub">Screening Tool for Youth and Adults</div>
         </div>
       </div>
@@ -316,11 +646,10 @@
         </label>
       </div>
 
-      <div class="card">
+      <div class="card screening-card">
         <h2 class="section-title">Ask the patient</h2>
         <p class="instruction">
-          Complete Questions 1–4 first. If any answer to Questions 1–4 is Yes, then ask Question 5. The PDF defines:
-          negative screen if Questions 1–4 are all No; acute positive screen if any of Questions 1–4 are Yes and Question 5 is Yes, and non-acute positive screen if any of Questions 1–4 are Yes and Question 5 is No.{index=1}
+          Complete Questions 1–4 first. If any answer to Questions 1–4 is Yes, then ask Question 5. A negative screen is No to all Questions 1–4. An acute positive screen is Yes to any of Questions 1–4 and Yes to Question 5. A non-acute positive screen is Yes to any of Questions 1–4 and No to Question 5.
         </p>
 
         <div class="qrow">
@@ -347,7 +676,7 @@
           </div>
         </div>
 
-        <div class="qrow">
+        <div class="qrow attempt-row">
           <div class="qtext">4. Have you ever tried to kill yourself?</div>
           <div class="yn">
             <label><input type="radio" name="q4" value="yes"> Yes</label>
@@ -366,7 +695,7 @@
           </div>
         </div>
 
-        <div class="qrow">
+        <div class="qrow current-row">
           <div class="qtext">5. Are you having thoughts of killing yourself right now?</div>
           <div class="yn">
             <label><input type="radio" name="q5" value="yes"> Yes</label>
@@ -379,7 +708,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card results-card">
         <h2 class="section-title">Screening result and next steps</h2>
 
         <div class="result-box" id="resultBox">
@@ -387,9 +716,11 @@
           <div id="resultSubtext">Complete Questions 1–4 to generate a screening result.</div>
 
           <div class="guidance" id="guidanceBox">
-            The PDF states that all patients should be provided resources including 988 Suicide and Crisis Lifeline and Crisis Text Line]{index=2}
+            Provide all patients with the crisis resources listed below.
           </div>
         </div>
+
+        <div class="print-reference-title">Screening Result Reference</div>
 
         <div class="grid-3">
           <div class="mini-panel">
@@ -397,7 +728,7 @@
             <div class="mini-body">
               <h3>Negative screen</h3>
               <div>No intervention is necessary at this time.</div>
-              <div style="margin-top:8px;"><strong>Note:</strong> Clinical judgment can always override a negative screen. :contentReference[oaicite:3]{index=3}</div>
+              <div style="margin-top:8px;"><strong>Note:</strong> Clinical judgment can always override a negative screen.</div>
             </div>
           </div>
 
@@ -433,7 +764,7 @@
         </div>
 
         <div class="note" style="margin-top:14px;">
-          The PDF also notes an exception: when the positive screen is solely due to Yes on Question 4, a brief suicide safety assessment may not be necessary in certain situations based on age and how long ago the attempt occurred.{index=4}
+          Exception note: when the positive screen is solely due to Yes on Question 4, a brief suicide safety assessment may not be necessary in certain situations based on age and how long ago the attempt occurred.
         </div>
       </div>
 
@@ -441,7 +772,7 @@
         <h3>Provide resources to all patients</h3>
         <div><strong>988 Suicide and Crisis Lifeline:</strong> call or text 988, and 988lifeline.org</div>
         <div><strong>Crisis Text Line:</strong> text HOME or HOLA to 741741, and crisistextline.org</div>
-        <div class="note">These resources are listed on the uploaded PDF. :contentReference[oaicite:5]{index=5}</div>
+        
       </div>
 
       <div class="print-row">
@@ -478,7 +809,7 @@
         headline.textContent = "Result: Incomplete";
         headline.className = "result-line";
         subtext.textContent = "Complete Questions 1–4 to generate a screening result.";
-        guidance.innerHTML = "Question 5 is asked if the patient answers Yes to any of Questions 1–4. :contentReference[oaicite:6]{index=6}";
+        guidance.innerHTML = "Question 5 is asked if the patient answers Yes to any of Questions 1–4.";
         return;
       }
 
@@ -504,7 +835,7 @@
         headline.className = "result-line";
         subtext.textContent = "At least one of Questions 1–4 is Yes. Complete Question 5.";
         guidance.innerHTML = `
-          The form indicates that if the patient answers Yes to any of Questions 1–4, the acuity Question 5 should be asked. :contentReference[oaicite:7]{index=7}
+          If the patient answers Yes to any of Questions 1–4, complete Question 5 to determine acuity.
         `;
         return;
       }
