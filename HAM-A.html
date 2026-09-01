@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" href="print.css" media="print">
-
 <title>Hamilton Anxiety Rating Scale (HAM-A)</title>
+
 <style>
+  * { box-sizing: border-box; }
+
   :root{
     --bg:#f7f7f7;
     --card:#fff;
@@ -16,214 +17,589 @@
     --orange:#d46a00;
     --red:#c53030;
   }
+
   html,body{
-    height:100%;
+    min-height:100%;
     margin:0;
     padding:0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background:var(--bg);
-    -webkit-overflow-scrolling:touch;
     color:#111;
+    -webkit-overflow-scrolling:touch;
   }
-  .container{ max-width:920px; margin:18px auto; padding:18px; }
-  h1{ margin:0 0 6px 0; color:var(--accent); font-size:1.35rem; }
-  p.lead { margin:6px 0 14px 0; color:var(--muted); }
-  .card{ background:var(--card); border-radius:8px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); margin-bottom:14px; }
-  label.field{ display:block; margin-bottom:10px; font-weight:700; }
-  input[type="text"], input[type="date"]{ width:100%; max-width:720px; padding:8px 10px; font-size:1rem; border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box; }
-  .qcard{ background:#fff; border-radius:8px; padding:12px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
-  .qtitle { margin-bottom:8px; }
-  .qtitle b { font-weight:700; }
-  .scale { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-  .scale label { display:flex; align-items:center; gap:6px; cursor:pointer; background:#fafafa; padding:6px 8px; border-radius:6px; border:1px solid transparent; }
-  .results { margin-top:10px; padding:12px; border-radius:8px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700; }
-  .muted-note { font-size:0.92rem; color:var(--muted); margin-top:8px; }
-  .green{ color:var(--green); } .orange{ color:var(--orange); } .red{ color:var(--red); }
+
+  .container{
+    max-width:920px;
+    margin:18px auto;
+    padding:18px;
+  }
+
+  h1{
+    margin:0 0 6px;
+    color:var(--accent);
+    font-size:1.35rem;
+  }
+
+  p.lead{
+    margin:6px 0 14px;
+    color:var(--muted);
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:8px;
+    padding:14px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.06);
+    margin-bottom:14px;
+  }
+
+  .patient-info{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:14px;
+  }
+
+  label.field{
+    display:block;
+    margin-bottom:0;
+    font-weight:700;
+  }
+
+  input[type="text"],
+  input[type="date"]{
+    width:100%;
+    padding:8px 10px;
+    margin-top:5px;
+    font-size:1rem;
+    border:1px solid #dcdce0;
+    border-radius:6px;
+  }
+
+  #ham-a-form{
+    padding:0;
+    background:transparent;
+    box-shadow:none;
+  }
+
+  .qcard{
+    background:#fff;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .qtitle{
+    margin-bottom:8px;
+  }
+
+  .qtitle b{
+    font-weight:700;
+  }
+
+  .scale{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+
+  .scale label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    background:#fafafa;
+    padding:6px 8px;
+    border-radius:6px;
+    border:1px solid transparent;
+  }
+
+  .results{
+    margin-top:10px;
+    padding:12px;
+    border-radius:8px;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+    font-weight:700;
+  }
+
+  .muted-note{
+    font-size:0.92rem;
+    color:var(--muted);
+    margin-top:8px;
+    font-weight:normal;
+  }
+
+  .green{ color:var(--green); }
+  .orange{ color:var(--orange); }
+  .red{ color:var(--red); }
+
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+    flex-wrap:wrap;
+  }
+
+  button{
+    border:0;
+    border-radius:5px;
+    padding:10px 16px;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+
+  .print-btn{
+    background:#003366;
+    color:#fff;
+  }
+
+  .clear-btn{
+    background:#e5e5e5;
+    color:#222;
+  }
+
+  .back-link{
+    text-align:center;
+    margin-top:22px;
+    margin-bottom:10px;
+  }
+
+  .back-link a{
+    display:inline-block;
+    padding:10px 18px;
+    background:#003366;
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    font-weight:bold;
+  }
+
+  .back-link a:hover{
+    background:#002244;
+  }
+
+  .print-guide{
+    display:none;
+  }
+
   @media (max-width:720px){
     .container{ padding:12px; }
-    .scale { gap:8px; }
+
+    .patient-info{
+      grid-template-columns:1fr;
+    }
+
+    .scale{
+      gap:8px;
+    }
+
+    .actions{
+      flex-direction:column-reverse;
+    }
+
+    button{
+      width:100%;
+    }
+  }
+
+  /* ONE-PAGE US LETTER PORTRAIT PRINT / PDF */
+  @media print{
+    @page{
+      size:Letter portrait;
+      margin:0.18in;
+    }
+
+    html,
+    body{
+      width:8.5in;
+      margin:0;
+      padding:0 !important;
+      background:#fff;
+      font-size:7.1pt;
+      line-height:1.02;
+    }
+
+    .container{
+      width:100%;
+      max-width:none;
+      margin:0;
+      padding:0;
+    }
+
+    h1{
+      color:#000;
+      font-size:14pt;
+      margin:0 0 3px;
+      line-height:1;
+    }
+
+    p.lead{
+      margin:0 0 4px;
+      font-size:7pt;
+      line-height:1.04;
+      color:#000;
+    }
+
+    .card{
+      box-shadow:none;
+      border-radius:0;
+      border:none;
+      padding:0;
+      margin:0 0 4px;
+      background:#fff;
+    }
+
+    .patient-info{
+      grid-template-columns:2fr 1fr 1fr;
+      gap:8px;
+    }
+
+    .patient-info label{
+      display:flex;
+      align-items:flex-end;
+      gap:4px;
+      margin:0;
+      white-space:nowrap;
+      font-size:6.8pt;
+    }
+
+    .patient-info input{
+      min-width:0;
+      height:15px;
+      margin:0;
+      padding:0 2px;
+      border:none;
+      border-bottom:1px solid #333;
+      border-radius:0;
+      background:transparent;
+      font-size:6.8pt;
+    }
+
+    .print-guide{
+      display:block;
+      border:1px solid #777;
+      padding:3px 5px;
+      margin:0 0 3px;
+      text-align:center;
+      font-size:6.5pt;
+      line-height:1;
+    }
+
+    .questions-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2px 5px;
+      align-items:start;
+    }
+
+    .qcard{
+      display:grid;
+      grid-template-columns:1fr 112px;
+      gap:4px;
+      align-items:center;
+      box-shadow:none;
+      border:1px solid #888;
+      border-radius:0;
+      padding:3px 4px;
+      margin:0;
+      background:#fff;
+      break-inside:avoid;
+      page-break-inside:avoid;
+      min-height:0;
+    }
+
+    .qtitle{
+      margin:0;
+      font-size:6.35pt;
+      line-height:1.02;
+    }
+
+    .scale{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:1px;
+      margin:0;
+    }
+
+    .scale label{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:1px;
+      padding:0;
+      margin:0;
+      border:0;
+      background:transparent;
+      font-size:6pt;
+      line-height:1;
+    }
+
+    input[type="radio"]{
+      width:9px;
+      height:9px;
+      margin:0;
+    }
+
+    .results{
+      display:grid;
+      grid-template-columns:auto auto 1fr;
+      gap:10px;
+      align-items:center;
+      box-shadow:none;
+      border-radius:0;
+      border:1px solid #555;
+      margin:4px 0 0;
+      padding:4px 5px;
+      font-size:7.2pt;
+      line-height:1.02;
+      background:#fff;
+    }
+
+    .muted-note{
+      margin:0;
+      font-size:6pt;
+      line-height:1.02;
+      color:#000;
+    }
+
+    .green,
+    .orange,
+    .red{
+      color:#000;
+    }
+
+    .actions,
+    .back-link{
+      display:none !important;
+    }
+
+    *{
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
   }
 </style>
 </head>
+
 <body>
 <div class="container">
+
   <h1>Hamilton Anxiety Rating Scale (HAM-A)</h1>
-  <p class="lead">Rate each item based on the patient's symptoms during the past week. 0 = Not present, 4 = Very severe.</p>
+
+  <p class="lead">
+    Rate each item based on the patient's symptoms during the past week.
+    0 = Not present, 4 = Very severe.
+  </p>
 
   <div class="card">
-    <label class="field">Name:
-      <input type="text" maxlength="80" placeholder="Enter full name (up to 80 characters)">
-    </label>
-   <label class="field">Date of Birth:
-  <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
-</label>
-<label class="field">Date of Service:
-  <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
-</label>
+    <div class="patient-info">
+      <label class="field">
+        Patient Name:
+        <input type="text" id="name" maxlength="80">
+      </label>
+
+      <label class="field">
+        Date of Birth:
+        <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
+      </label>
+
+      <label class="field">
+        Date of Service:
+        <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
+      </label>
+    </div>
   </div>
 
-  <form id="ham-a-form" class="card" autocomplete="off">
-    <!-- Questions -->
-    <div class="qcard">
-      <div class="qtitle"><b>Anxious mood</b> – Worries, anticipation of the worst, fearful anticipation, irritability.</div>
-      <div class="scale">
-        <label><input type="radio" name="q1" value="0">0</label>
-        <label><input type="radio" name="q1" value="1">1</label>
-        <label><input type="radio" name="q1" value="2">2</label>
-        <label><input type="radio" name="q1" value="3">3</label>
-        <label><input type="radio" name="q1" value="4">4</label>
-      </div>
-    </div>
+  <div class="print-guide">
+    0 = Not present &nbsp;&nbsp; | &nbsp;&nbsp;
+    1 = Mild &nbsp;&nbsp; | &nbsp;&nbsp;
+    2 = Moderate &nbsp;&nbsp; | &nbsp;&nbsp;
+    3 = Severe &nbsp;&nbsp; | &nbsp;&nbsp;
+    4 = Very severe
+  </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Tension</b> – Feelings of tension, fatigability, startle response, moved to tears easily, trembling, feelings of restlessness.</div>
-      <div class="scale">
-        <label><input type="radio" name="q2" value="0">0</label>
-        <label><input type="radio" name="q2" value="1">1</label>
-        <label><input type="radio" name="q2" value="2">2</label>
-        <label><input type="radio" name="q2" value="3">3</label>
-        <label><input type="radio" name="q2" value="4">4</label>
-      </div>
-    </div>
+  <form id="ham-a-form" autocomplete="off">
 
-    <div class="qcard">
-      <div class="qtitle"><b>Fears</b> – Of dark, of strangers, of being left alone, of animals, of traffic, of crowds.</div>
-      <div class="scale">
-        <label><input type="radio" name="q3" value="0">0</label>
-        <label><input type="radio" name="q3" value="1">1</label>
-        <label><input type="radio" name="q3" value="2">2</label>
-        <label><input type="radio" name="q3" value="3">3</label>
-        <label><input type="radio" name="q3" value="4">4</label>
-      </div>
-    </div>
+    <div class="questions-grid">
 
-    <div class="qcard">
-      <div class="qtitle"><b>Insomnia</b> – Difficulty falling asleep, broken sleep, unsatisfying sleep, fatigue on waking, nightmares.</div>
-      <div class="scale">
-        <label><input type="radio" name="q4" value="0">0</label>
-        <label><input type="radio" name="q4" value="1">1</label>
-        <label><input type="radio" name="q4" value="2">2</label>
-        <label><input type="radio" name="q4" value="3">3</label>
-        <label><input type="radio" name="q4" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>1. Anxious mood</b> – Worries, anticipation of the worst, fearful anticipation, irritability.</div>
+        <div class="scale">
+          <label><input type="radio" name="q1" value="0">0</label>
+          <label><input type="radio" name="q1" value="1">1</label>
+          <label><input type="radio" name="q1" value="2">2</label>
+          <label><input type="radio" name="q1" value="3">3</label>
+          <label><input type="radio" name="q1" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Intellectual</b> – Difficulty in concentration, poor memory.</div>
-      <div class="scale">
-        <label><input type="radio" name="q5" value="0">0</label>
-        <label><input type="radio" name="q5" value="1">1</label>
-        <label><input type="radio" name="q5" value="2">2</label>
-        <label><input type="radio" name="q5" value="3">3</label>
-        <label><input type="radio" name="q5" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>2. Tension</b> – Feelings of tension, fatigability, startle response, moved to tears easily, trembling, feelings of restlessness.</div>
+        <div class="scale">
+          <label><input type="radio" name="q2" value="0">0</label>
+          <label><input type="radio" name="q2" value="1">1</label>
+          <label><input type="radio" name="q2" value="2">2</label>
+          <label><input type="radio" name="q2" value="3">3</label>
+          <label><input type="radio" name="q2" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Depressed mood</b> – Loss of interest, lack of pleasure, early waking, diurnal swing.</div>
-      <div class="scale">
-        <label><input type="radio" name="q6" value="0">0</label>
-        <label><input type="radio" name="q6" value="1">1</label>
-        <label><input type="radio" name="q6" value="2">2</label>
-        <label><input type="radio" name="q6" value="3">3</label>
-        <label><input type="radio" name="q6" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>3. Fears</b> – Of dark, of strangers, of being left alone, of animals, of traffic, of crowds.</div>
+        <div class="scale">
+          <label><input type="radio" name="q3" value="0">0</label>
+          <label><input type="radio" name="q3" value="1">1</label>
+          <label><input type="radio" name="q3" value="2">2</label>
+          <label><input type="radio" name="q3" value="3">3</label>
+          <label><input type="radio" name="q3" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Somatic (muscular)</b> – Pains, stiffness, twitching, grinding of teeth, unsteady voice.</div>
-      <div class="scale">
-        <label><input type="radio" name="q7" value="0">0</label>
-        <label><input type="radio" name="q7" value="1">1</label>
-        <label><input type="radio" name="q7" value="2">2</label>
-        <label><input type="radio" name="q7" value="3">3</label>
-        <label><input type="radio" name="q7" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>4. Insomnia</b> – Difficulty falling asleep, broken sleep, unsatisfying sleep, fatigue on waking, nightmares.</div>
+        <div class="scale">
+          <label><input type="radio" name="q4" value="0">0</label>
+          <label><input type="radio" name="q4" value="1">1</label>
+          <label><input type="radio" name="q4" value="2">2</label>
+          <label><input type="radio" name="q4" value="3">3</label>
+          <label><input type="radio" name="q4" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Somatic (sensory)</b> – Tinnitus, blurred vision, hot and cold flushes, feelings of weakness, pricking sensations.</div>
-      <div class="scale">
-        <label><input type="radio" name="q8" value="0">0</label>
-        <label><input type="radio" name="q8" value="1">1</label>
-        <label><input type="radio" name="q8" value="2">2</label>
-        <label><input type="radio" name="q8" value="3">3</label>
-        <label><input type="radio" name="q8" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>5. Intellectual</b> – Difficulty in concentration, poor memory.</div>
+        <div class="scale">
+          <label><input type="radio" name="q5" value="0">0</label>
+          <label><input type="radio" name="q5" value="1">1</label>
+          <label><input type="radio" name="q5" value="2">2</label>
+          <label><input type="radio" name="q5" value="3">3</label>
+          <label><input type="radio" name="q5" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Cardiovascular symptoms</b> – Tachycardia, palpitations, pain in chest, throbbing of vessels, fainting feelings.</div>
-      <div class="scale">
-        <label><input type="radio" name="q9" value="0">0</label>
-        <label><input type="radio" name="q9" value="1">1</label>
-        <label><input type="radio" name="q9" value="2">2</label>
-        <label><input type="radio" name="q9" value="3">3</label>
-        <label><input type="radio" name="q9" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>6. Depressed mood</b> – Loss of interest, lack of pleasure, early waking, diurnal swing.</div>
+        <div class="scale">
+          <label><input type="radio" name="q6" value="0">0</label>
+          <label><input type="radio" name="q6" value="1">1</label>
+          <label><input type="radio" name="q6" value="2">2</label>
+          <label><input type="radio" name="q6" value="3">3</label>
+          <label><input type="radio" name="q6" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Respiratory symptoms</b> – Pressure or constriction in chest, choking feelings, sighing, dyspnea.</div>
-      <div class="scale">
-        <label><input type="radio" name="q10" value="0">0</label>
-        <label><input type="radio" name="q10" value="1">1</label>
-        <label><input type="radio" name="q10" value="2">2</label>
-        <label><input type="radio" name="q10" value="3">3</label>
-        <label><input type="radio" name="q10" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>7. Somatic (muscular)</b> – Pains, stiffness, twitching, grinding of teeth, unsteady voice.</div>
+        <div class="scale">
+          <label><input type="radio" name="q7" value="0">0</label>
+          <label><input type="radio" name="q7" value="1">1</label>
+          <label><input type="radio" name="q7" value="2">2</label>
+          <label><input type="radio" name="q7" value="3">3</label>
+          <label><input type="radio" name="q7" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Gastrointestinal symptoms</b> – Difficulty swallowing, wind, abdominal pain, burning sensations, nausea, vomiting, constipation, diarrhea.</div>
-      <div class="scale">
-        <label><input type="radio" name="q11" value="0">0</label>
-        <label><input type="radio" name="q11" value="1">1</label>
-        <label><input type="radio" name="q11" value="2">2</label>
-        <label><input type="radio" name="q11" value="3">3</label>
-        <label><input type="radio" name="q11" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>8. Somatic (sensory)</b> – Tinnitus, blurred vision, hot and cold flushes, feelings of weakness, pricking sensations.</div>
+        <div class="scale">
+          <label><input type="radio" name="q8" value="0">0</label>
+          <label><input type="radio" name="q8" value="1">1</label>
+          <label><input type="radio" name="q8" value="2">2</label>
+          <label><input type="radio" name="q8" value="3">3</label>
+          <label><input type="radio" name="q8" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Genitourinary symptoms</b> – Frequency of micturition, urgency of micturition, amenorrhea, menorrhagia, development of frigidity, premature ejaculation, loss of libido, impotence.</div>
-      <div class="scale">
-        <label><input type="radio" name="q12" value="0">0</label>
-        <label><input type="radio" name="q12" value="1">1</label>
-        <label><input type="radio" name="q12" value="2">2</label>
-        <label><input type="radio" name="q12" value="3">3</label>
-        <label><input type="radio" name="q12" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>9. Cardiovascular symptoms</b> – Tachycardia, palpitations, pain in chest, throbbing of vessels, fainting feelings.</div>
+        <div class="scale">
+          <label><input type="radio" name="q9" value="0">0</label>
+          <label><input type="radio" name="q9" value="1">1</label>
+          <label><input type="radio" name="q9" value="2">2</label>
+          <label><input type="radio" name="q9" value="3">3</label>
+          <label><input type="radio" name="q9" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Autonomic symptoms</b> – Dry mouth, flushing, pallor, tendency to sweat, giddiness, tension headache, raising of hair.</div>
-      <div class="scale">
-        <label><input type="radio" name="q13" value="0">0</label>
-        <label><input type="radio" name="q13" value="1">1</label>
-        <label><input type="radio" name="q13" value="2">2</label>
-        <label><input type="radio" name="q13" value="3">3</label>
-        <label><input type="radio" name="q13" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>10. Respiratory symptoms</b> – Pressure or constriction in chest, choking feelings, sighing, dyspnea.</div>
+        <div class="scale">
+          <label><input type="radio" name="q10" value="0">0</label>
+          <label><input type="radio" name="q10" value="1">1</label>
+          <label><input type="radio" name="q10" value="2">2</label>
+          <label><input type="radio" name="q10" value="3">3</label>
+          <label><input type="radio" name="q10" value="4">4</label>
+        </div>
       </div>
-    </div>
 
-    <div class="qcard">
-      <div class="qtitle"><b>Behavior at interview</b> – Fidgeting, restlessness, trembling, rapid speech, sighing, etc.</div>
-      <div class="scale">
-        <label><input type="radio" name="q14" value="0">0</label>
-        <label><input type="radio" name="q14" value="1">1</label>
-        <label><input type="radio" name="q14" value="2">2</label>
-        <label><input type="radio" name="q14" value="3">3</label>
-        <label><input type="radio" name="q14" value="4">4</label>
+      <div class="qcard">
+        <div class="qtitle"><b>11. Gastrointestinal symptoms</b> – Difficulty swallowing, wind, abdominal pain, burning sensations, nausea, vomiting, constipation, diarrhea.</div>
+        <div class="scale">
+          <label><input type="radio" name="q11" value="0">0</label>
+          <label><input type="radio" name="q11" value="1">1</label>
+          <label><input type="radio" name="q11" value="2">2</label>
+          <label><input type="radio" name="q11" value="3">3</label>
+          <label><input type="radio" name="q11" value="4">4</label>
+        </div>
       </div>
+
+      <div class="qcard">
+        <div class="qtitle"><b>12. Genitourinary symptoms</b> – Frequency of micturition, urgency of micturition, amenorrhea, menorrhagia, development of frigidity, premature ejaculation, loss of libido, impotence.</div>
+        <div class="scale">
+          <label><input type="radio" name="q12" value="0">0</label>
+          <label><input type="radio" name="q12" value="1">1</label>
+          <label><input type="radio" name="q12" value="2">2</label>
+          <label><input type="radio" name="q12" value="3">3</label>
+          <label><input type="radio" name="q12" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle"><b>13. Autonomic symptoms</b> – Dry mouth, flushing, pallor, tendency to sweat, giddiness, tension headache, raising of hair.</div>
+        <div class="scale">
+          <label><input type="radio" name="q13" value="0">0</label>
+          <label><input type="radio" name="q13" value="1">1</label>
+          <label><input type="radio" name="q13" value="2">2</label>
+          <label><input type="radio" name="q13" value="3">3</label>
+          <label><input type="radio" name="q13" value="4">4</label>
+        </div>
+      </div>
+
+      <div class="qcard">
+        <div class="qtitle"><b>14. Behavior at interview</b> – Fidgeting, restlessness, trembling, rapid speech, sighing, etc.</div>
+        <div class="scale">
+          <label><input type="radio" name="q14" value="0">0</label>
+          <label><input type="radio" name="q14" value="1">1</label>
+          <label><input type="radio" name="q14" value="2">2</label>
+          <label><input type="radio" name="q14" value="3">3</label>
+          <label><input type="radio" name="q14" value="4">4</label>
+        </div>
+      </div>
+
     </div>
 
     <div class="results" id="resultsBox">
-      Total Score: <span id="total">0</span> / 56<br>
-      Severity: <span id="severity" class="green">Mild</span><br>
-      <div class="muted-note">Interpretation: &lt;17 = Mild, 18–24 = Mild to moderate, 25–30 = Moderate to severe</div>
+      <span>Total Score: <span id="total">0</span> / 56</span>
+      <span>Severity: <span id="severity" class="green">Mild</span></span>
+      <div class="muted-note">
+        Interpretation: &lt;17 = Mild, 18–24 = Mild to moderate, 25–30 = Moderate to severe, &gt;30 = Severe.
+      </div>
     </div>
+
+    <div class="actions">
+      <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
+      <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
   </form>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
+  </div>
+
 </div>
 
 <script>
@@ -231,32 +607,55 @@
   const form = document.getElementById('ham-a-form');
   const totalEl = document.getElementById('total');
   const severityEl = document.getElementById('severity');
+  const clearBtn = document.getElementById('clear-btn');
 
   function compute(){
     let sum = 0;
-    for(let i=1;i<=14;i++){
+
+    for(let i = 1; i <= 14; i++){
       const sel = form.querySelector(`input[name="q${i}"]:checked`);
       if(sel) sum += Number(sel.value);
     }
+
     totalEl.textContent = sum;
 
-    let sev="", cls="";
-    if(sum < 17){ sev="Mild"; cls="green"; }
-    else if(sum <= 24){ sev="Mild to moderate"; cls="orange"; }
-    else if(sum <= 30){ sev="Moderate to severe"; cls="red"; }
-    else { sev="Severe"; cls="red"; }
+    let sev = "";
+    let cls = "";
+
+    if(sum < 17){
+      sev = "Mild";
+      cls = "green";
+    } else if(sum <= 24){
+      sev = "Mild to moderate";
+      cls = "orange";
+    } else if(sum <= 30){
+      sev = "Moderate to severe";
+      cls = "red";
+    } else {
+      sev = "Severe";
+      cls = "red";
+    }
+
     severityEl.textContent = sev;
     severityEl.className = cls;
   }
-<div class="results" id="resultsBox">
-  Total Score: <span id="total">0</span> / 56<br>
-  Percentage: <span id="percent">0%</span><br>
-  Severity: <span id="severity" class="green">Mild</span><br>
-  <div class="muted-note">Interpretation: &lt;17 = Mild, 18–24 = Mild to moderate, 25–30 = Moderate to severe</div>
-</div>
+
   form.addEventListener('change', compute);
+
+  clearBtn.addEventListener('click', function(){
+    if(confirm('Clear all responses?')){
+      form.reset();
+      document.getElementById('name').value = '';
+      document.getElementById('dob').value = '';
+      document.getElementById('dos').value = '';
+      compute();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
   compute();
 })();
 </script>
+
 </body>
 </html>
