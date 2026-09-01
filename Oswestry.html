@@ -153,6 +153,27 @@
     color:#222;
   }
 
+
+  .back-link{
+    text-align:center;
+    margin-top:22px;
+    margin-bottom:10px;
+  }
+
+  .back-link a{
+    display:inline-block;
+    padding:10px 18px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    font-weight:700;
+  }
+
+  .back-link a:hover{
+    filter:brightness(0.9);
+  }
+
   @media (max-width:720px){
     .container{ padding:12px; }
 
@@ -319,7 +340,8 @@
       color:#000;
     }
 
-    .actions {
+    .actions,
+    .back-link {
       display:none !important;
     }
 
@@ -494,6 +516,10 @@
     </div>
   </form>
 
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
+  </div>
+
 </div>
 
 <script>
@@ -564,9 +590,6 @@
 
   compute();
 })();
- <div class="back-link">
-  <a href="index.html">← Return to Index</a>
-</div>
 </script>
 </body>
 </html>
