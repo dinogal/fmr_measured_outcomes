@@ -57,6 +57,41 @@
       font-size: .98rem;
     }
 
+
+    .patient-info {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 22px;
+      padding: 18px 30px 4px;
+    }
+
+    .field {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .field label {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .line-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1.5px solid #606975;
+      border-radius: 0;
+      padding: 5px 4px 4px;
+      font: inherit;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .line-input:focus {
+      outline: none;
+      border-bottom: 2px solid var(--accent);
+    }
+
     .intro {
       padding: 22px 30px 6px;
     }
@@ -213,6 +248,12 @@
     @media (max-width: 650px) {
       .page { margin-top: 12px; padding: 0 10px 30px; }
       .header, .intro { padding-left: 18px; padding-right: 18px; }
+      .patient-info {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
       .instructions, .questions, .score-box, .impact, .closing {
         margin-left: 18px;
         margin-right: 18px;
@@ -258,6 +299,16 @@
       }
 
       h1 { font-size: 19px; }
+
+      .patient-info {
+        padding: 10px 0 2px;
+        gap: 24px;
+      }
+
+      .line-input {
+        padding: 2px 2px;
+        border-bottom: 1px solid #333;
+      }
 
       .intro {
         padding: 10px 0 0;
@@ -321,6 +372,30 @@
         <h1>Adverse Childhood Experience Questionnaire for Adults</h1>
         <p class="subtitle">California Surgeon General’s Clinical Advisory Committee</p>
       </header>
+
+
+      <div class="patient-info">
+        <div class="field">
+          <label for="patientName">Patient Name:</label>
+          <input
+            id="patientName"
+            name="patientName"
+            class="line-input"
+            type="text"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field">
+          <label for="dateOfService">Date of Service:</label>
+          <input
+            id="dateOfService"
+            name="dateOfService"
+            class="line-input"
+            type="date"
+          />
+        </div>
+      </div>
 
       <div class="intro">
         <p>
