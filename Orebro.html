@@ -94,6 +94,11 @@
       color: #222;
     }
 
+    .landscape-btn {
+      background: #566b7a;
+      color: #fff;
+    }
+
     input[type="text"] {
       width: 100%;
       max-width: 600px;
@@ -490,7 +495,8 @@
 
   <div class="actions">
     <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
-    <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    <button type="button" class="print-btn" onclick="printPortrait()">Print Portrait / Save PDF</button>
+    <button type="button" class="print-btn landscape-btn" onclick="printLandscape()">Print Landscape / Save PDF</button>
   </div>
 </form>
 
@@ -567,7 +573,50 @@
   document.getElementById('clear-btn').addEventListener('click', () => {
     if (confirm('Clear all responses?')) {
       form.reset();
-      updateScore();
+    
+  function printPortrait() {
+    // Portrait is the default print orientation defined in the page CSS.
+    window.print();
+  }
+
+  function printLandscape() {
+    // Temporarily override the page orientation only for this print job.
+    const override = document.createElement('style');
+    override.id = 'temporary-landscape-print-style';
+    override.textContent = `
+      @media print {
+        @page {
+          size: Letter landscape;
+          margin: 0.18in;
+        }
+
+        html,
+        body {
+          width: 11in !important;
+        }
+
+        .scale {
+          grid-template-columns:
+            minmax(120px, 1fr)
+            repeat(11, 24px)
+            minmax(145px, 1.2fr) !important;
+        }
+      }
+    `;
+
+    document.head.appendChild(override);
+
+    const cleanup = () => {
+      const el = document.getElementById('temporary-landscape-print-style');
+      if (el) el.remove();
+      window.removeEventListener('afterprint', cleanup);
+    };
+
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+  }
+
+  updateScore();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
