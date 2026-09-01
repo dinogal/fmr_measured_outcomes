@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE Questionnaire for Adults</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5f6b7a;
+      --border: #d8dee6;
+      --soft: #eef6f8;
+      --accent: #2f6f7e;
+      --accent-dark: #245864;
+      --focus: #90c7d2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 32px auto;
+      padding: 0 18px 48px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 28px 30px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: 1.75rem;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: .98rem;
+    }
+
+    .intro {
+      padding: 22px 30px 6px;
+    }
+
+    .instructions {
+      margin: 16px 30px 22px;
+      padding: 16px 18px;
+      background: #fff3df;
+      border: 1px solid #e6c995;
+      border-radius: 10px;
+    }
+
+    .questions {
+      margin: 0 30px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .question {
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      align-items: center;
+      gap: 16px;
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .question:nth-child(even) {
+      background: var(--soft);
+    }
+
+    .question:last-child {
+      border-bottom: none;
+    }
+
+    .question-text {
+      font-size: 1rem;
+    }
+
+    .check-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input[type="checkbox"] {
+      width: 25px;
+      height: 25px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .score-box {
+      margin: 24px 30px 0;
+      padding: 18px 20px;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      background: #f8fcfd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-weight: 700;
+    }
+
+    .score-number {
+      min-width: 64px;
+      text-align: center;
+      font-size: 2rem;
+      color: var(--accent-dark);
+    }
+
+    .impact {
+      margin: 24px 30px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .impact-title {
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .radio-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+    }
+
+    .closing {
+      margin: 0 30px 26px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      padding: 20px 30px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 18px;
+      font-size: .98rem;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: #e9edf1;
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--muted);
+      text-align: center;
+      font-size: .85rem;
+    }
+
+    @media (max-width: 650px) {
+      .page { margin-top: 12px; padding: 0 10px 30px; }
+      .header, .intro { padding-left: 18px; padding-right: 18px; }
+      .instructions, .questions, .score-box, .impact, .closing {
+        margin-left: 18px;
+        margin-right: 18px;
+      }
+      .question {
+        grid-template-columns: 1fr 54px;
+        padding: 14px 12px;
+      }
+      .actions {
+        padding: 18px;
+        flex-direction: column-reverse;
+      }
+      .actions button { width: 100%; }
+      .score-box { align-items: flex-start; }
+      .radio-row { flex-direction: column; gap: 10px; }
+    }
+
+    @media print {
+      @page {
+        size: letter;
+        margin: 0.45in;
+      }
+
+      body {
+        background: white;
+        font-size: 11px;
+      }
+
+      .page {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .card {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+      }
+
+      .header {
+        padding: 0 0 10px;
+      }
+
+      h1 { font-size: 19px; }
+
+      .intro {
+        padding: 10px 0 0;
+      }
+
+      .instructions {
+        margin: 8px 0 10px;
+        padding: 8px 10px;
+      }
+
+      .questions {
+        margin: 0;
+      }
+
+      .question {
+        min-height: 35px;
+        padding: 7px 9px;
+        grid-template-columns: 1fr 48px;
+        gap: 8px;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+
+      .score-box {
+        margin: 10px 0 0;
+        padding: 8px 10px;
+      }
+
+      .score-number {
+        font-size: 20px;
+      }
+
+      .impact {
+        margin: 10px 0;
+        padding: 9px 10px;
+      }
+
+      .closing {
+        margin: 8px 0 0;
+      }
+
+      .actions,
+      .footer-note {
+        display: none !important;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <header class="header">
+        <h1>Adverse Childhood Experience Questionnaire for Adults</h1>
+        <p class="subtitle">California Surgeon General’s Clinical Advisory Committee</p>
+      </header>
+
+      <div class="intro">
+        <p>
+          Our relationships and experiences—even those in childhood—can affect our health and well-being.
+          Difficult childhood experiences are very common. Please tell us whether you have had any of the
+          experiences listed below, as they may be affecting your health today or may affect your health in
+          the future. This information will help you and your provider better understand how to work together
+          to support your health and well-being.
+        </p>
+      </div>
+
+      <div class="instructions">
+        <strong>Instructions:</strong> Below is a list of 10 categories of Adverse Childhood Experiences (ACEs).
+        Please place a checkmark next to each ACE category that you experienced prior to your 18th birthday.
+        Your ACE score will be calculated automatically.
+      </div>
+
+      <form id="aceForm">
+        <div class="questions">
+          <label class="question">
+            <span class="question-text"><strong>1.</strong> Did you feel that you didn’t have enough to eat, had to wear dirty clothes, or had no one to protect or take care of you?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 1 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>2.</strong> Did you lose a parent through divorce, abandonment, death, or other reason?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 2 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>3.</strong> Did you live with anyone who was depressed, mentally ill, or attempted suicide?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 3 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>4.</strong> Did you live with anyone who had a problem with drinking or using drugs, including prescription drugs?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 4 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>5.</strong> Did your parents or adults in your home ever hit, punch, beat, or threaten to harm each other?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 5 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>6.</strong> Did you live with anyone who went to jail or prison?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 6 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>7.</strong> Did a parent or adult in your home ever swear at you, insult you, or put you down?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 7 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>8.</strong> Did a parent or adult in your home ever hit, beat, kick, or physically hurt you in any way?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 8 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>9.</strong> Did you feel that no one in your family loved you or thought you were special?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 9 yes" /></span>
+          </label>
+
+          <label class="question">
+            <span class="question-text"><strong>10.</strong> Did you experience unwanted sexual contact (such as fondling or oral/anal/vaginal intercourse/penetration)?</span>
+            <span class="check-wrap"><input class="ace-check" type="checkbox" aria-label="Question 10 yes" /></span>
+          </label>
+        </div>
+
+        <div class="score-box" aria-live="polite">
+          <span>Your ACE score is the total number of checked responses</span>
+          <span id="aceScore" class="score-number">0</span>
+        </div>
+
+        <section class="impact">
+          <div class="impact-title">Do you believe that these experiences have affected your health?</div>
+          <div class="radio-row">
+            <label class="radio-option">
+              <input type="radio" name="impact" value="Not Much" />
+              <span>Not Much</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="impact" value="Some" />
+              <span>Some</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="impact" value="A Lot" />
+              <span>A Lot</span>
+            </label>
+          </div>
+        </section>
+
+        <div class="closing">
+          <p>Experiences in childhood are just one part of a person’s life story.<br>
+          There are many ways to heal throughout one’s life.</p>
+          <p>Please let us know if you have questions about privacy or confidentiality.</p>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" id="clearBtn">Clear Form</button>
+          <button type="button" class="btn-primary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="footer-note">
+      Responses are calculated locally in your browser and are not transmitted by this page.
+    </div>
+  </main>
+
+  <script>
+    const checks = Array.from(document.querySelectorAll('.ace-check'));
+    const scoreEl = document.getElementById('aceScore');
+    const clearBtn = document.getElementById('clearBtn');
+    const form = document.getElementById('aceForm');
+
+    function updateScore() {
+      scoreEl.textContent = checks.filter(cb => cb.checked).length;
+    }
+
+    checks.forEach(cb => cb.addEventListener('change', updateScore));
+
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Clear all responses?')) {
+        form.reset();
+        updateScore();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    updateScore();
+  </script>
+</body>
+</html>
