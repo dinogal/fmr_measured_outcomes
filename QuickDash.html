@@ -135,6 +135,27 @@
       color: #222;
     }
 
+
+    .back-link {
+      text-align: center;
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #003366;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .back-link a:hover {
+      background: #002244;
+    }
+
     @media (max-width: 720px) {
       body {
         padding: 10px;
@@ -170,17 +191,17 @@
     @media print {
       @page {
         size: Letter portrait;
-        margin: 0.22in;
+        margin: 0.16in;
       }
 
       html,
       body {
         width: 8.5in;
         margin: 0;
-        padding: 0;
+        padding: 0 !important;
         background: #fff;
-        font-size: 8.2pt;
-        line-height: 1.05;
+        font-size: 7.7pt;
+        line-height: 1.0;
       }
 
       .page {
@@ -191,9 +212,10 @@
       }
 
       h2 {
-        font-size: 15pt;
-        margin: 0 0 5px;
+        font-size: 14pt;
+        margin: 0 0 4px;
         color: #000;
+        line-height: 1;
       }
 
       .info {
@@ -201,29 +223,29 @@
         border-radius: 0;
         border: none;
         padding: 0;
-        margin: 0 0 5px;
-        grid-template-columns: 2fr 0.8fr 1fr 1fr 1fr;
-        gap: 5px 9px;
+        margin: 0 0 4px;
+        grid-template-columns: 2fr 0.75fr 1fr 1fr 0.9fr;
+        gap: 4px 7px;
       }
 
       .info label {
         display: flex;
         align-items: flex-end;
-        gap: 4px;
+        gap: 3px;
         white-space: nowrap;
-        font-size: 7.7pt;
+        font-size: 7.1pt;
       }
 
       .info input,
       .info select {
         min-width: 0;
-        padding: 1px 2px;
+        padding: 0 2px;
         margin: 0;
-        height: 18px;
+        height: 16px;
         border: none;
         border-bottom: 1px solid #333;
         border-radius: 0;
-        font-size: 7.7pt;
+        font-size: 7.1pt;
         background: transparent;
       }
 
@@ -237,38 +259,39 @@
         margin: 0;
         box-shadow: none;
         table-layout: fixed;
+        border-collapse: collapse;
       }
 
       th,
       td {
         border: 1px solid #777;
-        padding: 3px 2px;
-        line-height: 1.03;
+        padding: 2.4px 2px;
+        line-height: 1.0;
       }
 
       th {
-        font-size: 7.1pt;
+        font-size: 6.7pt;
         background: #f4f4f4;
       }
 
       td {
-        font-size: 7.4pt;
+        font-size: 6.95pt;
       }
 
       th:first-child,
       td:first-child {
-        width: 54%;
+        width: 55%;
         text-align: left;
       }
 
       th:not(:first-child),
       td:not(:first-child) {
-        width: 9.2%;
+        width: 9%;
       }
 
       input[type="radio"] {
-        width: 11px;
-        height: 11px;
+        width: 10px;
+        height: 10px;
         margin: 0;
       }
 
@@ -276,18 +299,23 @@
         box-shadow: none;
         border-radius: 0;
         border: 1px solid #555;
-        margin: 5px 0 0;
-        padding: 5px 6px;
+        margin: 4px 0 0;
+        padding: 4px 5px;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
-        font-size: 8pt;
+        gap: 6px;
+        font-size: 7.4pt;
+      }
+
+      .score-box p {
+        margin: 0;
       }
 
       .highlight {
         color: #000;
       }
 
-      .actions {
+      .actions,
+      .back-link {
         display: none !important;
       }
 
@@ -464,6 +492,10 @@
       <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
     </div>
   </form>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
+  </div>
 
 </div>
 
