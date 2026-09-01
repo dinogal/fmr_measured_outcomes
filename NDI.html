@@ -123,6 +123,27 @@
       color: #222;
     }
 
+
+    .back-link {
+      text-align: center;
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #003366;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .back-link a:hover {
+      background: #002244;
+    }
+
     @media (max-width: 700px) {
       body {
         padding: 10px;
@@ -262,7 +283,8 @@
         color: #000;
       }
 
-      .actions {
+      .actions,
+      .back-link {
         display: none !important;
       }
 
@@ -433,6 +455,10 @@
 
   <div class="muted-note">
     <b>Scoring:</b> Each section is scored 0–5. The total score is calculated out of 50 and converted to a percentage. Higher scores = greater disability.
+  </div>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
   </div>
 </div>
 
