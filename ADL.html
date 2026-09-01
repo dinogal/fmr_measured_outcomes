@@ -365,7 +365,100 @@
       .check-grid{ grid-template-columns:1fr; }
     }
 
+
+    .narrative-printout{
+      display:none;
+      background:#fff;
+      color:#111;
+    }
+
+    .narrative-header{
+      border-bottom:2px solid var(--accent);
+      padding-bottom:10px;
+      margin-bottom:14px;
+    }
+
+    .narrative-header h1{
+      margin-bottom:4px;
+    }
+
+    .narrative-demographics{
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+      font-size:.94rem;
+    }
+
+    .narrative-demographics div{
+      border-bottom:1px solid #888;
+      padding:3px 2px 5px;
+      min-height:28px;
+    }
+
+    .narrative-demographics strong{
+      display:block;
+      font-size:.78rem;
+      color:var(--muted);
+      margin-bottom:2px;
+    }
+
+    .narrative-body{
+      font-size:1rem;
+      line-height:1.55;
+    }
+
+    .narrative-body p{
+      margin:0 0 12px;
+    }
+
+    .narrative-section-title{
+      font-weight:800;
+      color:var(--accent-dark);
+      margin:14px 0 5px;
+    }
+
+    .narrative-score-box{
+      margin-top:16px;
+      padding:12px 14px;
+      border:1.5px solid var(--accent);
+      border-radius:8px;
+      background:#fbfdff;
+    }
+
+    .narrative-score-box h2{
+      margin:0 0 8px;
+      font-size:1.05rem;
+      color:var(--accent);
+    }
+
+    .narrative-score-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:5px 18px;
+    }
+
+    .narrative-footer-note{
+      margin-top:12px;
+      padding-top:8px;
+      border-top:1px solid #bbb;
+      font-size:.82rem;
+      color:#555;
+    }
+
     @media print{
+      body.narrative-print .sheet > *:not(.narrative-printout){
+        display:none !important;
+      }
+
+      body.narrative-print .narrative-printout{
+        display:block !important;
+      }
+
+      body.worksheet-print .narrative-printout{
+        display:none !important;
+      }
+
       @page{
         size:Letter portrait;
         margin:.35in;
@@ -549,6 +642,75 @@
         min-height:45px !important;
       }
 
+      body.narrative-print .narrative-printout{
+        font-size:10pt;
+        line-height:1.42;
+      }
+
+      body.narrative-print .narrative-header{
+        border-bottom:1.5px solid #333;
+        padding-bottom:7px;
+        margin-bottom:10px;
+      }
+
+      body.narrative-print .narrative-header h1{
+        font-size:15pt;
+        color:#000;
+      }
+
+      body.narrative-print .narrative-demographics{
+        grid-template-columns:2fr 1fr 1fr 1fr;
+        gap:7px;
+        margin-top:7px;
+        font-size:8.7pt;
+      }
+
+      body.narrative-print .narrative-demographics strong{
+        color:#000;
+        font-size:7.4pt;
+      }
+
+      body.narrative-print .narrative-body{
+        font-size:9.4pt;
+        line-height:1.4;
+      }
+
+      body.narrative-print .narrative-body p{
+        margin:0 0 8px;
+      }
+
+      body.narrative-print .narrative-section-title{
+        color:#000;
+        margin:10px 0 3px;
+      }
+
+      body.narrative-print .narrative-score-box{
+        border:1px solid #333;
+        border-radius:0;
+        background:#fff;
+        padding:8px 10px;
+        margin-top:10px;
+        break-inside:avoid;
+        page-break-inside:avoid;
+      }
+
+      body.narrative-print .narrative-score-box h2{
+        color:#000;
+        font-size:9.5pt;
+        margin-bottom:5px;
+      }
+
+      body.narrative-print .narrative-score-grid{
+        gap:3px 14px;
+        font-size:8.7pt;
+      }
+
+      body.narrative-print .narrative-footer-note{
+        color:#000;
+        font-size:7.5pt;
+        margin-top:8px;
+      }
+
       *{
         -webkit-print-color-adjust:exact;
         print-color-adjust:exact;
@@ -707,7 +869,33 @@
 
       <div class="actions">
         <button type="button" class="clear-btn" id="clearBtn">Clear Form</button>
-        <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+        <button type="button" class="print-btn" onclick="printWorksheet()">Print Worksheet</button>
+        <button type="button" class="print-btn" onclick="printNarrative()">Print Narrative</button>
+      </div>
+
+      <div class="narrative-printout" id="narrativePrintout" aria-hidden="true">
+        <div class="narrative-header">
+          <h1>Activities of Daily Living (ADL) &amp; Functional Status</h1>
+          <div>Patient-Reported Functional Narrative</div>
+
+          <div class="narrative-demographics">
+            <div><strong>Patient Name</strong><span id="narrativeName"></span></div>
+            <div><strong>Date of Birth</strong><span id="narrativeDob"></span></div>
+            <div><strong>Date of Service</strong><span id="narrativeDos"></span></div>
+            <div><strong>Date of Injury</strong><span id="narrativeDoi"></span></div>
+          </div>
+        </div>
+
+        <div class="narrative-body" id="narrativeBody"></div>
+
+        <div class="narrative-score-box">
+          <h2>Functional Difficulty Scores</h2>
+          <div class="narrative-score-grid" id="narrativeScores"></div>
+          <div class="narrative-footer-note">
+            Higher scores indicate greater reported functional difficulty. N/A items are excluded from the available maximum score.
+            This worksheet is intended to document patient-reported functional status and change over time and is not a standalone diagnostic or validated disability instrument.
+          </div>
+        </div>
       </div>
 
       <div class="back-link">
@@ -869,23 +1057,39 @@
     function calculateScores(){
       let totalScore = 0;
       let totalMax = 0;
+      let totalAnswered = 0;
+      let totalItems = 0;
+      const scoreData = {};
 
       sections.forEach(section => {
         let score = 0;
         let max = 0;
+        let answered = 0;
 
         section.items.forEach((item, index) => {
+          totalItems++;
           const name = `${section.id}-${index+1}-${slugify(item)}`;
           const selected = document.querySelector(`input[name="${name}"]:checked`);
 
-          if (selected && selected.value !== "na"){
-            score += Number(selected.value);
-            max += 4;
+          if (selected){
+            answered++;
+            totalAnswered++;
+            if (selected.value !== "na"){
+              score += Number(selected.value);
+              max += 4;
+            }
           }
         });
 
         totalScore += score;
         totalMax += max;
+
+        scoreData[section.id] = {
+          score,
+          max,
+          answered,
+          items: section.items.length
+        };
 
         document.getElementById(`score-${section.id}`).textContent = `${score} / ${max}`;
         document.getElementById(`head-${section.id}`).textContent = `${score} / ${max}`;
@@ -895,7 +1099,295 @@
 
       const percent = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
       document.getElementById("score-percent").textContent = totalMax > 0 ? `(${percent}%)` : "";
+
+      return {
+        sections: scoreData,
+        totalScore,
+        totalMax,
+        totalAnswered,
+        totalItems,
+        percent
+      };
     }
+
+
+    function getRadioValue(name){
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : "";
+    }
+
+    function getValue(id){
+      return (document.getElementById(id)?.value || "").trim();
+    }
+
+    function formatDateValue(value){
+      if (!value) return "";
+      const parts = value.split("-");
+      if (parts.length === 3){
+        return `${parts[1]}/${parts[2]}/${parts[0]}`;
+      }
+      return value;
+    }
+
+    function escapeHtml(value){
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function joinNatural(items){
+      if (!items.length) return "";
+      if (items.length === 1) return items[0];
+      if (items.length === 2) return `${items[0]} and ${items[1]}`;
+      return `${items.slice(0,-1).join(", ")}, and ${items[items.length-1]}`;
+    }
+
+    function sectionNarrative(section){
+      const grouped = {0:[],1:[],2:[],3:[],4:[],na:[]};
+      let answered = 0;
+
+      section.items.forEach((item, index) => {
+        const name = `${section.id}-${index+1}-${slugify(item)}`;
+        const selected = document.querySelector(`input[name="${name}"]:checked`);
+        if (!selected) return;
+        answered++;
+        grouped[selected.value].push(item.toLowerCase());
+      });
+
+      if (!answered) return "";
+
+      const clauses = [];
+
+      if (grouped["1"].length){
+        clauses.push(`mild difficulty with ${joinNatural(grouped["1"])}`);
+      }
+      if (grouped["2"].length){
+        clauses.push(`moderate difficulty with ${joinNatural(grouped["2"])}`);
+      }
+      if (grouped["3"].length){
+        clauses.push(`severe difficulty with ${joinNatural(grouped["3"])}`);
+      }
+      if (grouped["4"].length){
+        clauses.push(`being unable to perform ${joinNatural(grouped["4"])}`);
+      }
+
+      let main = "";
+      if (clauses.length){
+        main = `The patient reports ${joinNatural(clauses)}.`;
+      } else if (grouped["0"].length){
+        main = `The patient reports no difficulty with the assessed activities in this section.`;
+      }
+
+      if (grouped["0"].length && clauses.length){
+        const zeroText = grouped["0"].length === section.items.length
+          ? "the assessed activities"
+          : joinNatural(grouped["0"]);
+        main += ` No difficulty was reported with ${zeroText}.`;
+      }
+
+      return main;
+    }
+
+    function buildToleranceNarrative(){
+      const parts = [];
+
+      const sleepHours = getValue("sleepHours");
+      const sleepWake = getRadioValue("sleepWake");
+
+      if (sleepHours){
+        parts.push(`The patient reports sleeping approximately ${sleepHours} hour${Number(sleepHours) === 1 ? "" : "s"} per night`);
+      }
+
+      if (sleepWake){
+        const wakeMap = {
+          "Never":"pain does not wake the patient from sleep",
+          "Occasionally":"pain occasionally wakes the patient from sleep",
+          "Frequently":"pain frequently wakes the patient from sleep",
+          "Every night":"pain wakes the patient every night"
+        };
+        parts.push(wakeMap[sleepWake]);
+      }
+
+      const tolerance = [];
+      const sit = getValue("sitMinutes");
+      const stand = getValue("standMinutes");
+      const walk = getValue("walkMinutes");
+      const drive = getValue("driveMinutes");
+
+      if (sit) tolerance.push(`sit for approximately ${sit} minutes`);
+      if (stand) tolerance.push(`stand for approximately ${stand} minutes`);
+      if (walk) tolerance.push(`walk for approximately ${walk} minutes`);
+      if (drive) tolerance.push(`drive for approximately ${drive} minutes`);
+
+      const lift = getValue("liftLbs");
+      const carry = getValue("carryLbs");
+
+      let paragraph = "";
+      if (parts.length){
+        paragraph += joinNatural(parts) + ".";
+      }
+      if (tolerance.length){
+        paragraph += `${paragraph ? " " : ""}The patient reports being able to comfortably ${joinNatural(tolerance)}.`;
+      }
+      if (lift || carry){
+        const weightParts = [];
+        if (lift) weightParts.push(`lift up to approximately ${lift} lb${Number(lift) === 1 ? "" : "s"}`);
+        if (carry) weightParts.push(`carry up to approximately ${carry} lb${Number(carry) === 1 ? "" : "s"}`);
+        paragraph += `${paragraph ? " " : ""}The patient reports being comfortable to ${joinNatural(weightParts)}.`;
+      }
+
+      return paragraph;
+    }
+
+    function buildAssistanceNarrative(){
+      const parts = [];
+      const needsHelp = getRadioValue("needsHelp");
+      const helpActivities = getValue("helpActivities");
+
+      if (needsHelp === "Yes"){
+        let text = "The patient reports requiring assistance from another person with daily activities";
+        if (helpActivities) text += `, specifically ${helpActivities}`;
+        parts.push(text + ".");
+      } else if (needsHelp === "No"){
+        parts.push("The patient reports not requiring assistance from another person with daily activities.");
+      }
+
+      const devices = [];
+      document.querySelectorAll('.check-grid input[type="checkbox"]:checked').forEach(box => {
+        if (box.value !== "Other") devices.push(box.value.toLowerCase());
+      });
+
+      const otherChecked = document.getElementById("otherDeviceCheck")?.checked;
+      const otherDevice = getValue("otherDevice");
+      if (otherChecked && otherDevice){
+        devices.push(otherDevice.toLowerCase());
+      }
+
+      if (devices.length){
+        parts.push(`The patient currently uses ${joinNatural(devices)} for assistance.`);
+      }
+
+      return parts.join(" ");
+    }
+
+    function buildChangeNarrative(){
+      const parts = [];
+      const change = getRadioValue("changeFunction");
+
+      if (change){
+        const map = {
+          "About the same":"about the same",
+          "Slightly worse":"slightly worse",
+          "Moderately worse":"moderately worse",
+          "Significantly worse":"significantly worse",
+          "Unable to perform many previous activities":"markedly reduced, with the patient reporting inability to perform many activities that were previously performed"
+        };
+        parts.push(`Compared with the pre-injury/pre-condition level of function, the patient describes overall daily functioning as ${map[change]}.`);
+      }
+
+      const affected = [getValue("affected1"), getValue("affected2"), getValue("affected3")].filter(Boolean);
+      if (affected.length){
+        parts.push(`The daily activities identified as most affected are ${joinNatural(affected)}.`);
+      }
+
+      return parts.join(" ");
+    }
+
+    function generateNarrative(){
+      const scoreData = calculateScores();
+
+      document.getElementById("narrativeName").textContent = getValue("patientName") || "—";
+      document.getElementById("narrativeDob").textContent = formatDateValue(getValue("dob")) || "—";
+      document.getElementById("narrativeDos").textContent = formatDateValue(getValue("dos")) || "—";
+      document.getElementById("narrativeDoi").textContent = formatDateValue(getValue("doi")) || "—";
+
+      const paragraphs = [];
+
+      const intro = "The patient completed an Activities of Daily Living and Functional Status worksheet regarding limitations related to the current condition.";
+      paragraphs.push(`<p>${intro}</p>`);
+
+      const labels = {
+        personal:"Personal Care / Basic ADLs",
+        mobility:"Mobility",
+        household:"Household / Instrumental ADLs",
+        upper:"Upper-Extremity Function"
+      };
+
+      sections.forEach(section => {
+        const text = sectionNarrative(section);
+        if (text){
+          paragraphs.push(`<div class="narrative-section-title">${labels[section.id]}</div><p>${escapeHtml(text)}</p>`);
+        }
+      });
+
+      const tolerance = buildToleranceNarrative();
+      if (tolerance){
+        paragraphs.push(`<div class="narrative-section-title">Sleep &amp; Daily Tolerance</div><p>${escapeHtml(tolerance)}</p>`);
+      }
+
+      const assistance = buildAssistanceNarrative();
+      if (assistance){
+        paragraphs.push(`<div class="narrative-section-title">Assistance / Adaptive Equipment</div><p>${escapeHtml(assistance)}</p>`);
+      }
+
+      const change = buildChangeNarrative();
+      if (change){
+        paragraphs.push(`<div class="narrative-section-title">Change From Previous Function</div><p>${escapeHtml(change)}</p>`);
+      }
+
+      const comments = getValue("comments");
+      if (comments){
+        paragraphs.push(`<div class="narrative-section-title">Patient Comments</div><p>${escapeHtml(comments)}</p>`);
+      }
+
+      if (scoreData.totalAnswered === 0){
+        paragraphs.push(`<p><em>No scored ADL items were completed.</em></p>`);
+      }
+
+      document.getElementById("narrativeBody").innerHTML = paragraphs.join("");
+
+      const scoreNames = {
+        personal:"Personal Care",
+        mobility:"Mobility",
+        household:"Household / IADL",
+        upper:"Upper Extremity"
+      };
+
+      const scoreLines = sections.map(section => {
+        const d = scoreData.sections[section.id];
+        return `<div><strong>${scoreNames[section.id]}:</strong> ${d.score} / ${d.max}</div>`;
+      });
+
+      scoreLines.push(
+        `<div style="grid-column:1/-1; margin-top:4px; padding-top:5px; border-top:1px solid #999;">
+          <strong>Overall Functional Difficulty:</strong> ${scoreData.totalScore} / ${scoreData.totalMax}
+          ${scoreData.totalMax ? `(${scoreData.percent}%)` : ""}
+          &nbsp;&nbsp; <strong>Scored items completed:</strong> ${scoreData.totalAnswered} / ${scoreData.totalItems}
+        </div>`
+      );
+
+      document.getElementById("narrativeScores").innerHTML = scoreLines.join("");
+    }
+
+    function printWorksheet(){
+      document.body.classList.remove("narrative-print");
+      document.body.classList.add("worksheet-print");
+      window.print();
+    }
+
+    function printNarrative(){
+      generateNarrative();
+      document.body.classList.remove("worksheet-print");
+      document.body.classList.add("narrative-print");
+      requestAnimationFrame(() => window.print());
+    }
+
+    window.addEventListener("afterprint", () => {
+      document.body.classList.remove("worksheet-print", "narrative-print");
+    });
 
     function clearForm(){
       if (!confirm("Clear all responses?")) return;
@@ -915,8 +1407,15 @@
 
     buildSections();
     calculateScores();
+    generateNarrative();
 
-    document.addEventListener("change", calculateScores);
+    document.addEventListener("change", () => {
+      calculateScores();
+      generateNarrative();
+    });
+    document.addEventListener("input", () => {
+      generateNarrative();
+    });
     document.getElementById("clearBtn").addEventListener("click", clearForm);
   </script>
 </body>
