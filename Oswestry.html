@@ -4,28 +4,42 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Oswestry Low Back Disability Questionnaire</title>
+
 <style>
+  * { box-sizing: border-box; }
+
   :root{
     --bg:#f7f7f7;
     --card:#fff;
     --accent:#0b66c3;
     --muted:#666;
   }
-  html,body{
-    height:100%;
+
+  html, body {
     margin:0;
     padding:0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background:var(--bg);
+    color:#222;
     -webkit-overflow-scrolling:touch;
   }
+
   .container{
     max-width:980px;
     margin:18px auto;
     padding:18px;
   }
-  h1{ margin:0 0 8px 0; color:var(--accent); }
-  p.lead { margin:6px 0 18px 0; color:var(--muted); }
+
+  h1{
+    margin:0 0 8px 0;
+    color:var(--accent);
+  }
+
+  p.lead{
+    margin:6px 0 18px 0;
+    color:var(--muted);
+  }
+
   .card{
     background:var(--card);
     border-radius:8px;
@@ -33,58 +47,315 @@
     box-shadow:0 1px 6px rgba(0,0,0,0.06);
     margin-bottom:14px;
   }
-  label.field{ display:block; margin-bottom:10px; font-weight:700; }
-  input[type="text"], input[type="date"]{
-    width:100%; max-width:720px; padding:8px 10px; font-size:1rem;
-    border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box;
+
+  .patient-info{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:14px;
   }
-  .section {
+
+  label.field{
+    display:block;
+    margin-bottom:0;
+    font-weight:700;
+  }
+
+  input[type="text"],
+  input[type="date"]{
+    width:100%;
+    padding:8px 10px;
+    margin-top:5px;
+    font-size:1rem;
+    border:1px solid #dcdce0;
+    border-radius:6px;
+    background:#fff;
+  }
+
+  .section{
     background:#fff;
     border-radius:8px;
     padding:12px;
     margin-bottom:12px;
     box-shadow:0 1px 3px rgba(0,0,0,0.04);
   }
-  .section-title { font-weight:700; margin-bottom:8px; }
-  .options { display:flex; flex-direction:column; gap:8px; }
-  label.choice {
-    display:flex; align-items:flex-start; gap:10px; padding:6px;
-    border-radius:6px; cursor:pointer;
+
+  .section-title{
+    font-weight:700;
+    margin-bottom:8px;
   }
-  label.choice input { transform:translateY(2px); margin-right:6px; }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  label.choice{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:6px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+
+  label.choice input{
+    transform:translateY(2px);
+    margin-right:6px;
+  }
+
   .results{
-    margin-top:10px; padding:12px; border-radius:8px; background:#fff;
-    box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700;
+    margin-top:10px;
+    padding:12px;
+    border-radius:8px;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+    font-weight:700;
   }
-  .interp { margin-top:8px; font-weight:700; }
-  .green{ color:green; } .orange{ color:darkorange; } .red{ color:red; }
-  .small { font-size:0.95rem; color:var(--muted); margin-top:8px; }
+
+  .interp{
+    margin-top:8px;
+    font-weight:700;
+  }
+
+  .green{ color:green; }
+  .orange{ color:darkorange; }
+  .red{ color:red; }
+
+  .small{
+    font-size:0.95rem;
+    color:var(--muted);
+    margin-top:8px;
+  }
+
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+  }
+
+  button{
+    border:0;
+    border-radius:5px;
+    padding:10px 16px;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+
+  .print-btn{
+    background:var(--accent);
+    color:#fff;
+  }
+
+  .clear-btn{
+    background:#e5e5e5;
+    color:#222;
+  }
+
   @media (max-width:720px){
     .container{ padding:12px; }
+
+    .patient-info{
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    .actions{
+      flex-direction:column-reverse;
+    }
+
+    button{
+      width:100%;
+    }
+  }
+
+  /* One-page US Letter print/PDF layout */
+  @media print {
+    @page {
+      size: Letter portrait;
+      margin: 0.20in;
+    }
+
+    html,
+    body {
+      width: 8.5in;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      font-size: 7pt;
+      line-height: 1.01;
+    }
+
+    .container {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #000;
+      font-size: 13.5pt;
+      margin: 0 0 2px;
+    }
+
+    p.lead {
+      color:#000;
+      margin: 0 0 4px;
+      font-size: 7.2pt;
+    }
+
+    .card {
+      box-shadow:none;
+      border-radius:0;
+      padding:0;
+      margin:0 0 4px;
+      background:#fff;
+    }
+
+    .patient-info {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    label.field {
+      display:flex;
+      align-items:flex-end;
+      gap:4px;
+      white-space:nowrap;
+      font-size:7.2pt;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      min-width:0;
+      margin:0;
+      padding:1px 2px;
+      height:17px;
+      border:none;
+      border-bottom:1px solid #333;
+      border-radius:0;
+      font-size:7.2pt;
+      background:transparent;
+    }
+
+    .sections-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:3px 5px;
+      align-items:start;
+    }
+
+    .section {
+      box-shadow:none;
+      border:1px solid #888;
+      border-radius:0;
+      padding:3px 4px;
+      margin:0;
+      background:#fff;
+      break-inside:avoid;
+      page-break-inside:avoid;
+    }
+
+    .section-title {
+      margin:0 0 1px;
+      font-size:7.5pt;
+      line-height:1.02;
+    }
+
+    .options {
+      gap:0;
+    }
+
+    label.choice {
+      display:flex;
+      gap:2px;
+      padding:0;
+      margin:0;
+      font-size:6.2pt;
+      line-height:1.03;
+    }
+
+    label.choice input {
+      width:9px;
+      height:9px;
+      margin:0 1px 0 0;
+      transform:none;
+      flex:0 0 auto;
+    }
+
+    .results {
+      box-shadow:none;
+      border:1px solid #555;
+      border-radius:0;
+      margin:4px 0 0;
+      padding:4px 5px;
+      font-size:7.2pt;
+      background:#fff;
+      display:grid;
+      grid-template-columns:auto auto 1fr;
+      gap:4px 12px;
+      align-items:start;
+    }
+
+    .interp {
+      margin:0;
+      font-size:6.7pt;
+      line-height:1.03;
+    }
+
+    .small {
+      grid-column:1 / -1;
+      margin:1px 0 0;
+      color:#000;
+      font-size:6.1pt;
+      line-height:1.02;
+    }
+
+    .green,
+    .orange,
+    .red {
+      color:#000;
+    }
+
+    .actions {
+      display:none !important;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   }
 </style>
 </head>
-<body>
-  <div class="container">
-    <h1>Oswestry Low Back Disability Questionnaire (ODI)</h1>
-    <p class="lead">Please answer by selecting ONE box in each section that best applies to you.</p>
 
-    <div class="card">
-      <label class="field">Name:
-        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
+<body>
+<div class="container">
+
+  <h1>Oswestry Low Back Disability Questionnaire (ODI)</h1>
+  <p class="lead">Please answer by selecting ONE box in each section that best applies to you.</p>
+
+  <div class="card">
+    <div class="patient-info">
+      <label class="field">Patient Name:
+        <input type="text" id="name" maxlength="80">
       </label>
+
       <label class="field">Date of Birth:
         <input type="date" id="dob">
       </label>
+
       <label class="field">Date of Service:
         <input type="date" id="dos">
       </label>
     </div>
+  </div>
 
-    <form id="odiform">
-      <!-- Section template: each option is value 0..5 (0 = first statement, 5 = last statement) -->
+  <form id="odiform">
+    <div class="sections-grid">
 
-      <!-- Section 1 Pain intensity -->
       <div class="section">
         <div class="section-title">1. Pain intensity</div>
         <div class="options">
@@ -97,7 +368,6 @@
         </div>
       </div>
 
-      <!-- Section 2 Personal care -->
       <div class="section">
         <div class="section-title">2. Personal care (washing, dressing, etc.)</div>
         <div class="options">
@@ -110,7 +380,6 @@
         </div>
       </div>
 
-      <!-- Section 3 Lifting -->
       <div class="section">
         <div class="section-title">3. Lifting</div>
         <div class="options">
@@ -123,7 +392,6 @@
         </div>
       </div>
 
-      <!-- Section 4 Walking -->
       <div class="section">
         <div class="section-title">4. Walking</div>
         <div class="options">
@@ -136,7 +404,6 @@
         </div>
       </div>
 
-      <!-- Section 5 Sitting -->
       <div class="section">
         <div class="section-title">5. Sitting</div>
         <div class="options">
@@ -149,7 +416,6 @@
         </div>
       </div>
 
-      <!-- Section 6 Standing -->
       <div class="section">
         <div class="section-title">6. Standing</div>
         <div class="options">
@@ -162,7 +428,6 @@
         </div>
       </div>
 
-      <!-- Section 7 Sleeping -->
       <div class="section">
         <div class="section-title">7. Sleeping</div>
         <div class="options">
@@ -175,7 +440,6 @@
         </div>
       </div>
 
-      <!-- Section 8 Sex life -->
       <div class="section">
         <div class="section-title">8. Sex life (if applicable)</div>
         <div class="options">
@@ -188,7 +452,6 @@
         </div>
       </div>
 
-      <!-- Section 9 Social life -->
       <div class="section">
         <div class="section-title">9. Social life</div>
         <div class="options">
@@ -201,7 +464,6 @@
         </div>
       </div>
 
-      <!-- Section 10 Travelling -->
       <div class="section">
         <div class="section-title">10. Travelling</div>
         <div class="options">
@@ -214,14 +476,25 @@
         </div>
       </div>
 
-      <div class="results" id="resultsBox">
-        Total Score: <span id="totalScore">0</span> / <span id="maxScore">0</span><br>
-        Percentage: <span id="percentage">0</span>% 
-        <div class="interp" id="interpretationText"></div>
-        <div class="small">Scoring: If all 10 sections completed, denominator = 50. If a section is left blank, the denominator = (# answered × 5).</div>
+    </div>
+
+    <div class="results" id="resultsBox">
+      <div>Total Score: <span id="totalScore">0</span> / <span id="maxScore">0</span></div>
+      <div>Percentage: <span id="percentage">0.0</span>%</div>
+      <div class="interp" id="interpretationText"></div>
+      <div class="small">
+        Scoring: If all 10 sections are completed, denominator = 50. If a section is left blank,
+        denominator = (# answered × 5).
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="clear-btn" id="clearBtn">Clear Form</button>
+      <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </form>
+
+</div>
 
 <script>
 (function(){
@@ -230,10 +503,12 @@
   const maxScoreEl = document.getElementById('maxScore');
   const percentageEl = document.getElementById('percentage');
   const interpEl = document.getElementById('interpretationText');
+  const clearBtn = document.getElementById('clearBtn');
 
   function compute() {
     let sum = 0;
     let answered = 0;
+
     for (let i = 1; i <= 10; i++) {
       const sel = form.querySelector(`input[name="s${i}"]:checked`);
       if (sel) {
@@ -241,28 +516,52 @@
         answered++;
       }
     }
+
     const denom = answered * 5;
     const pct = denom > 0 ? (sum / denom) * 100 : 0;
+
     totalScoreEl.textContent = sum;
     maxScoreEl.textContent = denom;
     percentageEl.textContent = denom > 0 ? pct.toFixed(1) : "0.0";
 
-    // Interpretation (always visible)
     let interp = "";
     let cls = "";
-    if (pct <= 20) { interp = "Minimal disability — patient can cope with most living activities. Usually no treatment apart from advice."; cls = "green"; }
-    else if (pct <= 40) { interp = "Moderate disability — more pain and difficulty; may be managed conservatively."; cls = "orange"; }
-    else if (pct <= 60) { interp = "Severe disability — activities of daily living affected; detailed investigation required."; cls = "red"; }
-    else if (pct <= 80) { interp = "Crippled — back pain impinges on all aspects of life; positive intervention required."; cls = "red"; }
-    else { interp = "Bed-bound or possibly exaggerating symptoms; urgent management required."; cls = "red"; }
 
-    interpEl.innerHTML = `<span class="${cls}">${interp}</span>`;
+    if (denom === 0) {
+      interp = "";
+    } else if (pct <= 20) {
+      interp = "Minimal disability — patient can cope with most living activities. Usually no treatment apart from advice.";
+      cls = "green";
+    } else if (pct <= 40) {
+      interp = "Moderate disability — more pain and difficulty; may be managed conservatively.";
+      cls = "orange";
+    } else if (pct <= 60) {
+      interp = "Severe disability — activities of daily living affected; detailed investigation required.";
+      cls = "red";
+    } else if (pct <= 80) {
+      interp = "Crippled — back pain impinges on all aspects of life; positive intervention required.";
+      cls = "red";
+    } else {
+      interp = "Bed-bound or possibly exaggerating symptoms; urgent management required.";
+      cls = "red";
+    }
+
+    interpEl.innerHTML = interp ? `<span class="${cls}">${interp}</span>` : "";
   }
 
-  // Attach change listener to form (delegated)
   form.addEventListener('change', compute);
 
-  // Initialize once
+  clearBtn.addEventListener('click', function(){
+    if (confirm('Clear all responses?')) {
+      form.reset();
+      document.getElementById('name').value = '';
+      document.getElementById('dob').value = '';
+      document.getElementById('dos').value = '';
+      compute();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+  });
+
   compute();
 })();
 </script>
