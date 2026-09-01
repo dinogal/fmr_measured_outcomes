@@ -238,6 +238,26 @@
       outline-offset: 2px;
     }
 
+    .back-link {
+      text-align: center;
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 10px 18px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .back-link a:hover {
+      background: var(--accent-dark);
+    }
+
     .footer-note {
       margin-top: 14px;
       color: var(--muted);
@@ -273,16 +293,22 @@
 
     @media print {
       @page {
-        size: letter;
-        margin: 0.45in;
+        size: Letter portrait;
+        margin: 0.25in;
       }
 
+      html,
       body {
+        width: 8.5in;
+        margin: 0;
+        padding: 0;
         background: white;
-        font-size: 11px;
+        font-size: 9.5px;
+        line-height: 1.18;
       }
 
       .page {
+        width: 100%;
         max-width: none;
         margin: 0;
         padding: 0;
@@ -295,65 +321,114 @@
       }
 
       .header {
-        padding: 0 0 10px;
+        padding: 0 0 5px;
       }
 
-      h1 { font-size: 19px; }
+      h1 {
+        font-size: 16px;
+        margin: 0 0 2px;
+      }
+
+      .subtitle {
+        font-size: 9px;
+      }
 
       .patient-info {
-        padding: 10px 0 2px;
-        gap: 24px;
+        padding: 5px 0 2px;
+        gap: 22px;
+      }
+
+      .field {
+        gap: 6px;
       }
 
       .line-input {
-        padding: 2px 2px;
+        padding: 1px 2px;
         border-bottom: 1px solid #333;
+        font-size: 9.5px;
       }
 
       .intro {
-        padding: 10px 0 0;
+        padding: 5px 0 0;
+      }
+
+      .intro p {
+        margin: 2px 0 4px;
       }
 
       .instructions {
-        margin: 8px 0 10px;
-        padding: 8px 10px;
+        margin: 4px 0 5px;
+        padding: 5px 7px;
+        border-radius: 4px;
       }
 
       .questions {
         margin: 0;
+        border-radius: 0;
       }
 
       .question {
-        min-height: 35px;
-        padding: 7px 9px;
-        grid-template-columns: 1fr 48px;
-        gap: 8px;
+        min-height: 0;
+        padding: 4px 6px;
+        grid-template-columns: 1fr 34px;
+        gap: 5px;
+        line-height: 1.12;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .question-text {
+        font-size: 9.3px;
       }
 
       input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
       }
 
       .score-box {
-        margin: 10px 0 0;
-        padding: 8px 10px;
+        margin: 5px 0 0;
+        padding: 5px 7px;
+        border-width: 1px;
+        border-radius: 4px;
       }
 
       .score-number {
-        font-size: 20px;
+        min-width: 34px;
+        font-size: 17px;
       }
 
       .impact {
-        margin: 10px 0;
-        padding: 9px 10px;
+        margin: 5px 0;
+        padding: 5px 7px;
+        border-radius: 4px;
+      }
+
+      .impact-title {
+        margin-bottom: 4px;
+      }
+
+      .radio-row {
+        gap: 18px;
+      }
+
+      input[type="radio"] {
+        width: 13px;
+        height: 13px;
       }
 
       .closing {
-        margin: 8px 0 0;
+        margin: 4px 0 0;
+        font-size: 8.8px;
+        line-height: 1.12;
+      }
+
+      .closing p {
+        margin: 2px 0;
       }
 
       .actions,
+      .back-link,
       .footer-note {
         display: none !important;
       }
@@ -501,6 +576,10 @@
         </div>
       </form>
     </section>
+
+    <div class="back-link">
+      <a href="index.html">← Return to Index</a>
+    </div>
 
     <div class="footer-note">
       Responses are calculated locally in your browser and are not transmitted by this page.
