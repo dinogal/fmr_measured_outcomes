@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" href="print.css" media="print">
-
 <title>Lower Extremity Functional Scale (LEFS)</title>
+
 <style>
+  * { box-sizing: border-box; }
+
   :root{
     --bg:#f7f7f7;
     --card:#fff;
@@ -16,22 +17,34 @@
     --orange:#d46a00;
     --red:#c53030;
   }
+
   html,body{
-    height:100%;
+    min-height:100%;
     margin:0;
     padding:0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background:var(--bg);
     -webkit-overflow-scrolling:touch;
     color:#111;
   }
+
   .container{
     max-width:980px;
     margin:18px auto;
     padding:18px;
   }
-  h1{ margin:0 0 8px 0; color:var(--accent); font-size:1.4rem; }
-  p.lead { margin:6px 0 18px 0; color:var(--muted); }
+
+  h1{
+    margin:0 0 8px;
+    color:var(--accent);
+    font-size:1.5rem;
+  }
+
+  p.lead{
+    margin:6px 0 18px;
+    color:var(--muted);
+  }
+
   .card{
     background:var(--card);
     border-radius:8px;
@@ -39,59 +52,396 @@
     box-shadow:0 1px 6px rgba(0,0,0,0.06);
     margin-bottom:14px;
   }
-  label.field{ display:block; margin-bottom:10px; font-weight:700; }
-  input[type="text"], input[type="date"]{
-    width:100%; max-width:720px; padding:8px 10px; font-size:1rem;
-    border:1px solid #dcdce0; border-radius:6px; box-sizing:border-box;
+
+  .patient-info{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:14px;
   }
-  .question {
+
+  label.field{
+    display:block;
+    margin-bottom:0;
+    font-weight:700;
+  }
+
+  input[type="text"],
+  input[type="date"]{
+    width:100%;
+    padding:8px 10px;
+    margin-top:5px;
+    font-size:1rem;
+    border:1px solid #dcdce0;
+    border-radius:6px;
+  }
+
+  .question{
     background:#fff;
     border-radius:8px;
     padding:12px;
     margin-bottom:12px;
     box-shadow:0 1px 3px rgba(0,0,0,0.04);
   }
-  .qtitle { font-weight:700; margin-bottom:6px; }
-  .guide { font-size:0.92rem; color:var(--muted); margin-bottom:8px; }
-  .options { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-  label.choice {
-    display:flex; align-items:center; gap:8px; padding:6px 8px;
-    border-radius:6px; cursor:pointer; background:#fafafa;
+
+  .qtitle{
+    font-weight:700;
+    margin-bottom:6px;
+  }
+
+  .guide{
+    font-size:0.92rem;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+
+  .options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+  }
+
+  label.choice{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 8px;
+    border-radius:6px;
+    cursor:pointer;
+    background:#fafafa;
     border:1px solid transparent;
   }
-  label.choice input { transform:translateY(1px); }
-  .results {
-    margin-top:10px; padding:12px; border-radius:8px; background:#fff;
-    box-shadow:0 1px 3px rgba(0,0,0,0.04); font-weight:700;
+
+  label.choice input{
+    transform:translateY(1px);
   }
-  .note { font-size:0.95rem; color:var(--muted); margin-top:8px; }
-  .small { font-size:0.9rem; color:var(--muted); margin-top:6px; }
+
+  .results{
+    margin-top:10px;
+    padding:12px;
+    border-radius:8px;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+    font-weight:700;
+  }
+
+  .note{
+    font-size:0.95rem;
+    color:var(--muted);
+    margin-top:8px;
+    font-weight:normal;
+  }
+
+  .small{
+    font-size:0.9rem;
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  .green{ color:var(--green); }
+  .orange{ color:var(--orange); }
+  .red{ color:var(--red); }
+
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+    flex-wrap:wrap;
+  }
+
+  button{
+    border:0;
+    border-radius:5px;
+    padding:10px 16px;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+
+  .print-btn{
+    background:#003366;
+    color:#fff;
+  }
+
+  .clear-btn{
+    background:#e5e5e5;
+    color:#222;
+  }
+
+  .back-link{
+    text-align:center;
+    margin-top:22px;
+    margin-bottom:10px;
+  }
+
+  .back-link a{
+    display:inline-block;
+    padding:10px 18px;
+    background:#003366;
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    font-weight:bold;
+  }
+
+  .back-link a:hover{
+    background:#002244;
+  }
+
   @media (max-width:720px){
     .container{ padding:12px; }
+
+    .patient-info{
+      grid-template-columns:1fr;
+    }
+
+    .actions{
+      flex-direction:column-reverse;
+    }
+
+    button{
+      width:100%;
+    }
+  }
+
+  /* ONE-PAGE US LETTER PORTRAIT PRINT / PDF */
+  @media print{
+    @page{
+      size:Letter portrait;
+      margin:0.18in;
+    }
+
+    html,
+    body{
+      width:8.5in;
+      margin:0;
+      padding:0 !important;
+      background:#fff;
+      font-size:7pt;
+      line-height:1.01;
+    }
+
+    .container{
+      width:100%;
+      max-width:none;
+      margin:0;
+      padding:0;
+    }
+
+    h1{
+      color:#000;
+      font-size:14pt;
+      margin:0 0 3px;
+      line-height:1;
+    }
+
+    p.lead{
+      margin:0 0 4px;
+      font-size:7pt;
+      line-height:1.05;
+      color:#000;
+    }
+
+    .card{
+      box-shadow:none;
+      border-radius:0;
+      border:none;
+      padding:0;
+      margin:0 0 4px;
+      background:#fff;
+    }
+
+    .patient-info{
+      grid-template-columns:2fr 1fr 1fr;
+      gap:8px;
+    }
+
+    .patient-info label{
+      display:flex;
+      align-items:flex-end;
+      gap:4px;
+      margin:0;
+      white-space:nowrap;
+      font-size:6.8pt;
+    }
+
+    .patient-info input{
+      min-width:0;
+      height:15px;
+      margin:0;
+      padding:0 2px;
+      border:none;
+      border-bottom:1px solid #333;
+      border-radius:0;
+      background:transparent;
+      font-size:6.8pt;
+    }
+
+    .questions-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2px 5px;
+      align-items:start;
+    }
+
+    .question{
+      display:grid;
+      grid-template-columns:1fr 118px;
+      gap:4px;
+      align-items:center;
+      box-shadow:none;
+      border:1px solid #888;
+      border-radius:0;
+      padding:3px 4px;
+      margin:0;
+      background:#fff;
+      break-inside:avoid;
+      page-break-inside:avoid;
+      min-height:0;
+    }
+
+    .question-text{
+      min-width:0;
+    }
+
+    .qtitle{
+      margin:0;
+      font-size:6.55pt;
+      line-height:1.02;
+    }
+
+    .guide{
+      display:none;
+    }
+
+    .options{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:1px;
+      margin:0;
+    }
+
+    label.choice{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:1px;
+      padding:0;
+      margin:0;
+      border:0;
+      background:transparent;
+      font-size:6pt;
+      line-height:1;
+    }
+
+    label.choice input{
+      width:9px;
+      height:9px;
+      margin:0;
+      transform:none;
+    }
+
+    .print-guide{
+      display:block !important;
+      border:1px solid #777;
+      padding:3px 5px;
+      margin:0 0 3px;
+      text-align:center;
+      font-size:6.5pt;
+      line-height:1;
+    }
+
+    .results{
+      box-shadow:none;
+      border-radius:0;
+      border:1px solid #555;
+      margin:4px 0 0;
+      padding:4px 5px;
+      font-size:7.2pt;
+      line-height:1.02;
+      background:#fff;
+    }
+
+    .note{
+      font-size:6pt;
+      line-height:1.02;
+      margin-top:2px;
+      color:#000;
+    }
+
+    .small{
+      font-size:6pt;
+      line-height:1.02;
+      margin-top:2px;
+      color:#000;
+    }
+
+    .green,
+    .orange,
+    .red{
+      color:#000;
+    }
+
+    .actions,
+    .back-link{
+      display:none !important;
+    }
+
+    *{
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+  }
+
+  .print-guide{
+    display:none;
   }
 </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Lower Extremity Functional Scale (LEFS)</h1>
-    <p class="lead">Please indicate how much difficulty you have with each activity today because of your lower limb problem. Choose one box per item.</p>
+<div class="container">
 
-    <div class="card">
-      <label class="field">Name:
-        <input type="text" id="name" maxlength="80" placeholder="Enter full name (up to 80 characters)">
-     <label class="field">Date of Birth:
-  <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
-</label>
-<label class="field">Date of Service:
-  <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
-</label>
+  <h1>Lower Extremity Functional Scale (LEFS)</h1>
+
+  <p class="lead">
+    Please indicate how much difficulty you have with each activity today because of your lower limb problem.
+    Choose one box per item.
+  </p>
+
+  <div class="card">
+    <div class="patient-info">
+      <label class="field">
+        Patient Name:
+        <input type="text" id="name" maxlength="80">
+      </label>
+
+      <label class="field">
+        Date of Birth:
+        <input type="text" id="dob" maxlength="20" placeholder="Enter DOB">
+      </label>
+
+      <label class="field">
+        Date of Service:
+        <input type="text" id="dos" maxlength="20" placeholder="Enter DOS">
+      </label>
     </div>
+  </div>
 
-    <form id="lefs-form">
-      <!-- 20 questions -->
+  <div class="print-guide">
+    0 = Extreme difficulty or unable &nbsp;&nbsp; | &nbsp;&nbsp;
+    1 &nbsp;&nbsp; 2 &nbsp;&nbsp; 3 &nbsp;&nbsp; | &nbsp;&nbsp;
+    4 = No difficulty
+  </div>
+
+  <form id="lefs-form">
+    <div class="questions-grid">
+
       <div class="question">
-        <div class="qtitle">1. Any of your usual work, housework or school activities</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">1. Any of your usual work, housework or school activities</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q1" value="0">0</label>
           <label class="choice"><input type="radio" name="q1" value="1">1</label>
@@ -102,8 +452,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">2. Your usual hobbies, recreational or sporting activities</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">2. Your usual hobbies, recreational or sporting activities</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q2" value="0">0</label>
           <label class="choice"><input type="radio" name="q2" value="1">1</label>
@@ -114,8 +466,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">3. Getting into or out of the bath</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">3. Getting into or out of the bath</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q3" value="0">0</label>
           <label class="choice"><input type="radio" name="q3" value="1">1</label>
@@ -126,8 +480,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">4. Walking between rooms</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">4. Walking between rooms</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q4" value="0">0</label>
           <label class="choice"><input type="radio" name="q4" value="1">1</label>
@@ -138,8 +494,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">5. Putting on your shoes or socks</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">5. Putting on your shoes or socks</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q5" value="0">0</label>
           <label class="choice"><input type="radio" name="q5" value="1">1</label>
@@ -150,8 +508,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">6. Squatting</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">6. Squatting</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q6" value="0">0</label>
           <label class="choice"><input type="radio" name="q6" value="1">1</label>
@@ -162,8 +522,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">7. Lifting an object, like a bag of groceries from the floor</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">7. Lifting an object, like a bag of groceries from the floor</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q7" value="0">0</label>
           <label class="choice"><input type="radio" name="q7" value="1">1</label>
@@ -174,8 +536,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">8. Performing light activities around your home</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">8. Performing light activities around your home</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q8" value="0">0</label>
           <label class="choice"><input type="radio" name="q8" value="1">1</label>
@@ -186,8 +550,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">9. Performing heavy activities around your home</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">9. Performing heavy activities around your home</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q9" value="0">0</label>
           <label class="choice"><input type="radio" name="q9" value="1">1</label>
@@ -198,8 +564,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">10. Getting into or out of a car</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">10. Getting into or out of a car</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q10" value="0">0</label>
           <label class="choice"><input type="radio" name="q10" value="1">1</label>
@@ -210,8 +578,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">11. Walking 2 blocks</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">11. Walking 2 blocks</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q11" value="0">0</label>
           <label class="choice"><input type="radio" name="q11" value="1">1</label>
@@ -222,8 +592,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">12. Walking a mile</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">12. Walking a mile</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q12" value="0">0</label>
           <label class="choice"><input type="radio" name="q12" value="1">1</label>
@@ -234,8 +606,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">13. Going up or down 10 stairs (about 1 flight of stairs)</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">13. Going up or down 10 stairs (about 1 flight of stairs)</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q13" value="0">0</label>
           <label class="choice"><input type="radio" name="q13" value="1">1</label>
@@ -246,8 +620,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">14. Standing for 1 hour</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">14. Standing for 1 hour</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q14" value="0">0</label>
           <label class="choice"><input type="radio" name="q14" value="1">1</label>
@@ -258,8 +634,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">15. Sitting for 1 hour</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">15. Sitting for 1 hour</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q15" value="0">0</label>
           <label class="choice"><input type="radio" name="q15" value="1">1</label>
@@ -270,8 +648,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">16. Running on even ground</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">16. Running on even ground</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q16" value="0">0</label>
           <label class="choice"><input type="radio" name="q16" value="1">1</label>
@@ -282,8 +662,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">17. Running on uneven ground</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">17. Running on uneven ground</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q17" value="0">0</label>
           <label class="choice"><input type="radio" name="q17" value="1">1</label>
@@ -294,8 +676,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">18. Making sharp turns while running fast</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">18. Making sharp turns while running fast</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q18" value="0">0</label>
           <label class="choice"><input type="radio" name="q18" value="1">1</label>
@@ -306,8 +690,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">19. Hopping</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">19. Hopping</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q19" value="0">0</label>
           <label class="choice"><input type="radio" name="q19" value="1">1</label>
@@ -318,8 +704,10 @@
       </div>
 
       <div class="question">
-        <div class="qtitle">20. Rolling over in bed</div>
-        <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        <div class="question-text">
+          <div class="qtitle">20. Rolling over in bed</div>
+          <div class="guide">0 = Extreme difficulty or unable &nbsp; | &nbsp; 4 = No difficulty</div>
+        </div>
         <div class="options">
           <label class="choice"><input type="radio" name="q20" value="0">0</label>
           <label class="choice"><input type="radio" name="q20" value="1">1</label>
@@ -329,14 +717,28 @@
         </div>
       </div>
 
-      <div class="results" id="resultsBox">
-        Total Score: <span id="total">0</span> / 80<br>
-        % of maximal function: <span id="percent">0.0</span>%<br>
-        <div id="leinterp" class="small"></div>
-        <div class="note">Minimal detectable change (MDC) = 9 points. Minimal clinically important difference (MCID) = 9 points.</div>
+    </div>
+
+    <div class="results" id="resultsBox">
+      Total Score: <span id="total">0</span> / 80<br>
+      % of maximal function: <span id="percent">0.0</span>%
+      <div id="leinterp" class="small"></div>
+      <div class="note">
+        Minimal detectable change (MDC) = 9 points. Minimal clinically important difference (MCID) = 9 points.
       </div>
-    </form>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="clear-btn" id="clear-btn">Clear Form</button>
+      <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </form>
+
+  <div class="back-link">
+    <a href="index.html">← Return to Index</a>
   </div>
+
+</div>
 
 <script>
 (function(){
@@ -344,10 +746,12 @@
   const totalEl = document.getElementById('total');
   const pctEl = document.getElementById('percent');
   const interpEl = document.getElementById('leinterp');
+  const clearBtn = document.getElementById('clear-btn');
 
   function calc() {
     let sum = 0;
     let answered = 0;
+
     for (let i = 1; i <= 20; i++) {
       const sel = form.querySelector(`input[name="q${i}"]:checked`);
       if (sel) {
@@ -356,16 +760,15 @@
       }
     }
 
-    // denominator is always 80 (LEFS uses all 20 items; if unanswered we still show max 80 but also show answered note)
     const max = 80;
-    const pct = max > 0 ? (sum / max) * 100 : 0;
+    const pct = (sum / max) * 100;
 
     totalEl.textContent = sum;
     pctEl.textContent = pct.toFixed(1);
 
-    // interpretation guidance (higher percent = better function)
     let txt = "";
     let cls = "";
+
     if (pct >= 70) {
       txt = "Function: Mild to no disability (higher function).";
       cls = "green";
@@ -376,18 +779,32 @@
       txt = "Function: Severe disability — substantial functional limitation.";
       cls = "red";
     }
+
     interpEl.innerHTML = `<span class="${cls}">${txt}</span>`;
 
-    // Note: also show if there are unanswered items
     if (answered < 20) {
       const missing = 20 - answered;
-      interpEl.innerHTML += `<div class="small" style="margin-top:6px;color:var(--muted)">Note: ${missing} item(s) unanswered — total and percent calculated from answered items may be incomplete. Complete all items for an accurate score.</div>`;
+      interpEl.innerHTML +=
+        `<div class="small">Note: ${missing} item(s) unanswered — total and percent may be incomplete. Complete all items for an accurate score.</div>`;
     }
   }
 
   form.addEventListener('change', calc);
+
+  clearBtn.addEventListener('click', function(){
+    if (confirm('Clear all responses?')) {
+      form.reset();
+      document.getElementById('name').value = '';
+      document.getElementById('dob').value = '';
+      document.getElementById('dos').value = '';
+      calc();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
   calc();
 })();
 </script>
+
 </body>
 </html>
